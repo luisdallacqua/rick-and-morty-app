@@ -1,6 +1,7 @@
 import { FC } from 'react'
-import { Button, Grid, TextField, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { Grid, TextField, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
   gridWrapper: {
@@ -10,9 +11,6 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     padding: '1rem'
-  },
-  text: {
-    marginBottom: '1rem'
   }
 })
 
@@ -34,18 +32,18 @@ const SignIn: FC = () => {
         </Typography>
         <form className={classes.form}>
           <TextField
-            className={classes.text}
+            margin="normal"
             label="User"
             variant="outlined"
             type="text"
           />
           <TextField
-            className={classes.text}
+            margin="normal"
             label="Password"
             variant="outlined"
             type="password"
           />
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" sx={{ margin: '1' }}>
             Sign In
           </Button>
         </form>

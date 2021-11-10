@@ -3,8 +3,9 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import theme from '../styles/theme'
 
-import CssBaseline from '@material-ui/core/CssBaseline'
-import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider } from '@mui/styles'
+import Layout from '../components/Layout'
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
@@ -26,8 +27,10 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
+        <Layout>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </Layout>
       </ThemeProvider>
     </>
   )

@@ -1,6 +1,6 @@
 // styles/theme.ts
 
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles'
 
 // Create a theme instance.
 const theme = createTheme({
