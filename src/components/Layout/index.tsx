@@ -3,21 +3,25 @@ import React, { FC } from 'react'
 
 import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
 import {
+  AppBar,
   Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography
+  Toolbar,
+  Typography,
+  Avatar,
+  Stack
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
 const drawerWidth = 240
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
   return {
     page: {
-      background: '#f9f9f9',
+      background: '#eee',
       width: '100%',
       padding: '1rem'
     },
@@ -32,7 +36,12 @@ const useStyles = makeStyles(() => {
     },
     active: {
       background: '#f4f4f4'
-    }
+    },
+    appbar: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      backgroundColor: '#fafafa'
+    },
+    toolbar: theme.mixins.toolbar
   }
 })
 
@@ -56,6 +65,30 @@ const Layout: FC = ({ children }) => {
   return (
     <div className={classes.root}>
       {/* app bar */}
+      <AppBar className={classes.appbar} elevation={0}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Stack
+            sx={{
+              backgroundColor: '#ccc',
+              padding: '1rem',
+              borderRadius: '1rem'
+            }}
+            direction="row"
+            alignItems="center"
+            spacing={2}
+            mx={3}
+            py={2}
+          >
+            <Avatar
+              src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+              sx={{ width: 56, height: 56 }}
+            />
+            <Typography color="secondary">
+              Jose do patrocinio da silva sauro
+            </Typography>
+          </Stack>
+        </Toolbar>
+      </AppBar>
 
       {/* side drawer */}
 
@@ -68,7 +101,6 @@ const Layout: FC = ({ children }) => {
         <div>
           <Typography variant="h5">Rick and Morty App</Typography>
         </div>
-
         {/* list / links */}
         <List>
           {menuItems.map((item) => (
@@ -85,7 +117,10 @@ const Layout: FC = ({ children }) => {
         </List>
       </Drawer>
 
-      <div className={classes.page}>{children}</div>
+      <div className={classes.page}>
+        <div className={classes.toolbar}></div>
+        {children}
+      </div>
     </div>
   )
 }

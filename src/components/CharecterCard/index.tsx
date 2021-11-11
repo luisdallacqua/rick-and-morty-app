@@ -1,13 +1,6 @@
 import React, { FC } from 'react'
 
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography
-} from '@mui/material'
+import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 
