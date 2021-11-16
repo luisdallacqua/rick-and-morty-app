@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Meta } from '@storybook/react'
+import { Meta, Story } from '@storybook/react'
 
 import Layout from '.'
 
@@ -9,4 +9,8 @@ export default {
   title: 'Components/Layout'
 } as Meta
 
-export const LayoutSideBar: any = () => <Layout> QUALQUER COISA </Layout>
+export const LayoutSideBar: Story = (args) => <Layout {...args} />
+
+LayoutSideBar.args = {
+  children: 'alguma coisa'
+}

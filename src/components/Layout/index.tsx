@@ -43,7 +43,9 @@ const useStyles = makeStyles((theme: Theme) => {
       width: `calc(100% - ${drawerWidth}px)`,
       backgroundColor: '#fafafa'
     },
-    toolbar: theme.mixins?.toolbar
+    toolbar: {
+      minHeight: 64
+    }
   }
 })
 

@@ -12,11 +12,11 @@ export default {
 
 export const CharacterCard1: any = () => (
   <CharacterCard
-    name={CharacterMock.name}
-    status={CharacterMock.status}
-    species={CharacterMock.species}
-    image={CharacterMock.image}
-    location={CharacterMock.location}
-    origin={CharacterMock.origin}
+    name={CharacterMock[0].name}
+    status={CharacterMock[0].status}
+    species={CharacterMock[0].species}
+    image={CharacterMock[0].image}
+    location={CharacterMock[0].location}
+    origin={CharacterMock[0].origin}
   />
 )

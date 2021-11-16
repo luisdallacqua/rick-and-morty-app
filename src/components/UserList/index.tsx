@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
+import TableCell, { tableCellClasses } from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
@@ -10,22 +11,40 @@ import { Button, makeStyles } from '@mui/material'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
+import BasicModal from '../Modal/index'
+
+import { userMock } from '../../mocks/user'
+import CharacterCard, { CharacterProps } from '../CharecterCard'
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.grey[800],
+    color: theme.palette.common.white,
+    textTransform: 'uppercase',
+    fontWeight: 'bold'
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14
+  }
+}))
+
 function createData(
   name: string,
   email: string,
   roles: string,
   actions: React.ReactNode,
   moreInfo: React.ReactNode,
-  avatar?: string
+  avatar?: string,
+  favoriteCharacters?: CharacterProps[]
 ) {
-  return { name, email, roles, actions, moreInfo, avatar }
+  return { name, email, roles, actions, moreInfo, avatar, favoriteCharacters }
 }
 
 const rows = [
   createData(
-    'Jorge Ben',
-    'algum@mail.com',
-    'ADMIN',
+    userMock[0].name,
+    userMock[0].email,
+    userMock[0].role,
     <>
       <Button variant="outlined" size="small">
         <ModeEditIcon />
@@ -34,15 +53,25 @@ const rows = [
         <DeleteIcon />
       </Button>
     </>,
-    <Button variant="contained" size="small">
-      More Info
-    </Button>,
-    'https://rickandmortyapi.com/api/character/avatar/1.jpeg'
+    <BasicModal textButton="More info" textModalHeader={userMock[0].name}>
+      {userMock[0].favoriteCharacters.map((character) => (
+        <CharacterCard
+          key={character.name}
+          name={character.name}
+          status={character.status}
+          species={character.species}
+          image={character.image}
+          location={character.location}
+          origin={character.origin}
+        />
+      ))}
+    </BasicModal>,
+    userMock[0].avatar
   ),
   createData(
-    'Jorge Ben',
-    'algum@mail.com',
-    'ADMIN',
+    userMock[1].name,
+    userMock[1].email,
+    userMock[1].role,
     <>
       <Button variant="outlined" size="small">
         <ModeEditIcon />
@@ -51,9 +80,20 @@ const rows = [
         <DeleteIcon />
       </Button>
     </>,
-    <Button variant="contained" size="small">
-      More Info
-    </Button>
+    <BasicModal textButton="More info" textModalHeader={userMock[1].name}>
+      {userMock[1].favoriteCharacters.map((character) => (
+        <CharacterCard
+          key={character.name}
+          name={character.name}
+          status={character.status}
+          species={character.species}
+          image={character.image}
+          location={character.location}
+          origin={character.origin}
+        />
+      ))}
+    </BasicModal>,
+    userMock[1].avatar
   )
 ]
 
@@ -63,12 +103,12 @@ export default function BasicTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead sx={{ backgroundColor: '#ccc' }}>
           <TableRow hover={true}>
-            <TableCell>Usuário</TableCell>
-            <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Avatar</TableCell>
-            <TableCell align="left">Permissão</TableCell>
-            <TableCell align="left">Ações (U,D)</TableCell>
-            <TableCell align="left">Mais Info</TableCell>
+            <StyledTableCell>Usuário</StyledTableCell>
+            <StyledTableCell align="left">Email</StyledTableCell>
+            <StyledTableCell align="left">Avatar</StyledTableCell>
+            <StyledTableCell align="left">Permissão</StyledTableCell>
+            <StyledTableCell align="left">Ações (U,D)</StyledTableCell>
+            <StyledTableCell align="left">Mais Info</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
