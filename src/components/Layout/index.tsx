@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
 import {
   AppBar,
+  Box,
   Drawer,
   List,
   ListItem,
@@ -12,13 +13,14 @@ import {
   Toolbar,
   Typography,
   Avatar,
-  Stack
+  Stack,
+  Theme
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
 const drawerWidth = 240
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((theme: Theme) => {
   return {
     page: {
       background: '#eee',
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => {
       width: `calc(100% - ${drawerWidth}px)`,
       backgroundColor: '#fafafa'
     },
-    toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins?.toolbar
   }
 })
 
@@ -66,26 +68,36 @@ const Layout: FC = ({ children }) => {
     <div className={classes.root}>
       {/* app bar */}
       <AppBar className={classes.appbar} elevation={0}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            backgroundColor: '#fafafa'
+          }}
+        >
           <Stack
             sx={{
-              backgroundColor: '#ccc',
               padding: '1rem',
-              borderRadius: '1rem'
+              borderRadius: '1rem',
+              cursor: 'pointer'
             }}
             direction="row"
             alignItems="center"
             spacing={2}
             mx={3}
             py={2}
+            onClick={() => {
+              console.log('clicked')
+            }}
           >
             <Avatar
               src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
               sx={{ width: 56, height: 56 }}
             />
-            <Typography color="secondary">
-              Jose do patrocinio da silva sauro
-            </Typography>
+            <Box>
+              <Typography color="black">Jorge Ben Jor</Typography>
+              <Typography color="gray">ADMIN</Typography>
+            </Box>
           </Stack>
         </Toolbar>
       </AppBar>
@@ -107,8 +119,8 @@ const Layout: FC = ({ children }) => {
             <ListItem
               button
               key={item.text}
-              onClick={() => router.push(item.path)}
-              className={router.pathname == item.path ? classes.active : ''}
+              // onClick={() => router.push(item.path)}
+              // className={router.pathname == item.path ? classes.active : ''}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText>{item.text}</ListItemText>

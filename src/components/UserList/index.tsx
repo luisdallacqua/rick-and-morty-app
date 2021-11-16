@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { Button } from '@mui/material'
+import { Button, makeStyles } from '@mui/material'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
@@ -15,9 +15,10 @@ function createData(
   email: string,
   roles: string,
   actions: React.ReactNode,
-  moreInfo: React.ReactNode
+  moreInfo: React.ReactNode,
+  avatar?: string
 ) {
-  return { name, email, roles, actions, moreInfo }
+  return { name, email, roles, actions, moreInfo, avatar }
 }
 
 const rows = [
@@ -26,42 +27,33 @@ const rows = [
     'algum@mail.com',
     'ADMIN',
     <>
-      <Button>
-        <DeleteIcon />
-      </Button>
-      <Button sx={{ height: '24px' }} onClick={() => console.log('é o que?')}>
+      <Button variant="outlined" size="small">
         <ModeEditIcon />
       </Button>
+      <Button variant="outlined" size="small" color="error">
+        <DeleteIcon />
+      </Button>
     </>,
-    <Button variant="outlined">More Info</Button>
+    <Button variant="contained" size="small">
+      More Info
+    </Button>,
+    'https://rickandmortyapi.com/api/character/avatar/1.jpeg'
   ),
   createData(
     'Jorge Ben',
     'algum@mail.com',
     'ADMIN',
     <>
-      <Button>
-        <DeleteIcon />
-      </Button>
-      <Button sx={{ height: '24px' }} onClick={() => console.log('é o que?')}>
+      <Button variant="outlined" size="small">
         <ModeEditIcon />
       </Button>
-    </>,
-    <Button variant="outlined">More Info</Button>
-  ),
-  createData(
-    'Jorge Ben',
-    'algum@mail.com',
-    'ADMIN',
-    <>
-      <Button>
+      <Button variant="outlined" size="small" color="error">
         <DeleteIcon />
       </Button>
-      <Button sx={{ height: '24px' }} onClick={() => console.log('é o que?')}>
-        <ModeEditIcon />
-      </Button>
     </>,
-    <Button variant="outlined">More Info</Button>
+    <Button variant="contained" size="small">
+      More Info
+    </Button>
   )
 ]
 
@@ -73,6 +65,7 @@ export default function BasicTable() {
           <TableRow hover={true}>
             <TableCell>Usuário</TableCell>
             <TableCell align="left">Email</TableCell>
+            <TableCell align="left">Avatar</TableCell>
             <TableCell align="left">Permissão</TableCell>
             <TableCell align="left">Ações (U,D)</TableCell>
             <TableCell align="left">Mais Info</TableCell>
@@ -91,6 +84,20 @@ export default function BasicTable() {
                 {row.name}
               </TableCell>
               <TableCell align="left">{row.email}</TableCell>
+              <TableCell align="left">
+                {row.avatar ? (
+                  <img
+                    src={row.avatar}
+                    style={{
+                      maxWidth: '60px',
+                      maxHeight: '60px',
+                      borderRadius: '50%'
+                    }}
+                  />
+                ) : (
+                  'No image'
+                )}
+              </TableCell>
               <TableCell align="left">{row.roles}</TableCell>
               <TableCell align="left">{row.actions}</TableCell>
               <TableCell align="left">{row.moreInfo}</TableCell>
