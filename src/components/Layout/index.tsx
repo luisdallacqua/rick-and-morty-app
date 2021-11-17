@@ -16,7 +16,9 @@ import {
   Stack,
   Theme
 } from '@mui/material'
+import { pink } from '@mui/material/colors'
 import { makeStyles } from '@mui/styles'
+import UserDropdown from '../UserDropdown'
 
 const drawerWidth = 240
 
@@ -31,13 +33,19 @@ const useStyles = makeStyles((theme: Theme) => {
       width: drawerWidth
     },
     drawerPaper: {
-      width: drawerWidth
+      width: drawerWidth,
+      backgroundColor: '#121415',
+      color: '#fafafa',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
     },
     root: {
       display: 'flex'
     },
     active: {
-      background: '#f4f4f4'
+      background: '#fafafa',
+      color: '#1db954'
     },
     appbar: {
       width: `calc(100% - ${drawerWidth}px)`,
@@ -56,12 +64,12 @@ const Layout: FC = ({ children }) => {
   const menuItems = [
     {
       text: 'My characters',
-      icon: <SubjectOutlined color="secondary" />,
+      icon: <SubjectOutlined sx={{ color: '#1db954' }} />,
       path: '/'
     },
     {
       text: 'Create User',
-      icon: <AddCircleOutlined color="secondary" />,
+      icon: <AddCircleOutlined sx={{ color: '#1db954' }} />,
       path: '/char'
     }
   ]
@@ -92,14 +100,10 @@ const Layout: FC = ({ children }) => {
               console.log('clicked')
             }}
           >
-            <Avatar
-              src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-              sx={{ width: 56, height: 56 }}
+            <UserDropdown
+              username="Luis Dallacqua"
+              image="https://avatars.githubusercontent.com/u/65989058?v=4"
             />
-            <Box>
-              <Typography color="black">Jorge Ben Jor</Typography>
-              <Typography color="gray">ADMIN</Typography>
-            </Box>
           </Stack>
         </Toolbar>
       </AppBar>
@@ -113,7 +117,7 @@ const Layout: FC = ({ children }) => {
         classes={{ paper: classes.drawerPaper }}
       >
         <div>
-          <Typography variant="h5">Rick and Morty App</Typography>
+          <Typography variant="h5">LOGO</Typography>
         </div>
         {/* list / links */}
         <List>
@@ -121,14 +125,19 @@ const Layout: FC = ({ children }) => {
             <ListItem
               button
               key={item.text}
-              // onClick={() => router.push(item.path)}
-              // className={router.pathname == item.path ? classes.active : ''}
+              onClick={() => router.push(item.path)}
+              className={router.pathname == item.path ? classes.active : ''}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText>{item.text}</ListItemText>
             </ListItem>
           ))}
         </List>
+        <div>
+          <Typography variant="body2" align="center">
+            Develop by luisdallacqua with &#9829;
+          </Typography>
+        </div>
       </Drawer>
 
       <div className={classes.page}>

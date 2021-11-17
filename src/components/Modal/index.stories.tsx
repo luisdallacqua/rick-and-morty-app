@@ -15,7 +15,7 @@ export default {
 export const SimpleModal: Story<ModalProps> = (args) => <BasicModal {...args} />
 
 SimpleModal.args = {
-  textButton: 'Salve zé pretinh',
+  textButton: 'Click here',
   textModalHeader: 'Salve simpatia',
   children: (
     <CharacterCard

@@ -20,13 +20,13 @@ const SignIn: FC = () => {
   return (
     <Grid
       xs={10}
-      md={6}
+      md={8}
       container
       spacing={2}
       justifyContent="center"
       className={classes.gridWrapper}
     >
-      <Grid item xs={8} md={6}>
+      <Grid item xs={10} md={8}>
         <Typography variant="h4" align="center">
           Sign In
         </Typography>

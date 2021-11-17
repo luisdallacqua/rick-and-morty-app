@@ -1,8 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import { pink } from '@mui/material/colors'
 
 export type CharacterProps = {
   name: string
@@ -13,6 +15,13 @@ export type CharacterProps = {
   origin: { name: string }
 }
 
+const cardStyle = {
+  maxWidth: 600,
+  display: 'flex',
+  backgroundColor: 'rgb(60, 62, 68)',
+  color: '#fafafa'
+}
+
 const CharacterCard: FC<CharacterProps> = ({
   name,
   status,
@@ -21,15 +30,10 @@ const CharacterCard: FC<CharacterProps> = ({
   location,
   origin
 }: CharacterProps) => {
+  const [isFavorite, setIsFavorite] = useState(false)
+
   return (
-    <Card
-      sx={{
-        maxWidth: 600,
-        display: 'flex',
-        backgroundColor: 'rgb(60, 62, 68)',
-        color: '#fafafa'
-      }}
-    >
+    <Card sx={cardStyle}>
       <CardMedia
         component="img"
         image={image}
@@ -69,7 +73,13 @@ const CharacterCard: FC<CharacterProps> = ({
               <Typography variant="subtitle2">Last Seen:</Typography>
               <Typography variant="body1"> {location?.name}</Typography>
             </Box>
-            <FavoriteBorderIcon onClick={() => console.log('click')} />
+            <Box onClick={() => setIsFavorite(!isFavorite)}>
+              {isFavorite ? (
+                <FavoriteIcon sx={{ color: pink[500] }} />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
+            </Box>
           </Box>
         </CardContent>
       </Box>
