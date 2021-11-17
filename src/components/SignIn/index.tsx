@@ -19,8 +19,6 @@ const SignIn: FC = () => {
 
   return (
     <Grid
-      xs={10}
-      md={8}
       container
       spacing={2}
       justifyContent="center"

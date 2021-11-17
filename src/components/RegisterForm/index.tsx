@@ -25,7 +25,12 @@ const RegisterForm = () => {
           <TextField fullWidth label="Usuário" />
         </Stack>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <TextField fullWidth label="CPF" />
+          <TextField
+            fullWidth
+            label="CPF"
+            error={true}
+            helperText={age === '' ? 'Empty field!' : ' '}
+          />
           <TextField fullWidth label="Email" />
         </Stack>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>

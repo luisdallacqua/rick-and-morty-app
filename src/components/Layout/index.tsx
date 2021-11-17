@@ -2,9 +2,10 @@ import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 
 import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
+import GroupIcon from '@mui/icons-material/Group'
+
 import {
   AppBar,
-  Box,
   Drawer,
   List,
   ListItem,
@@ -12,30 +13,31 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  Avatar,
   Stack,
   Theme
 } from '@mui/material'
-import { pink } from '@mui/material/colors'
 import { makeStyles } from '@mui/styles'
 import UserDropdown from '../UserDropdown'
+import { grey } from '@mui/material/colors'
+import { Box } from '@mui/system'
 
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
     page: {
-      background: '#eee',
+      background: grey[200],
       width: '100%',
-      padding: '1rem'
+      padding: '1rem',
+      height: '100vh'
     },
     drawer: {
       width: drawerWidth
     },
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: '#121415',
-      color: '#fafafa',
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between'
@@ -44,16 +46,15 @@ const useStyles = makeStyles((theme: Theme) => {
       display: 'flex'
     },
     active: {
-      background: '#fafafa',
-      color: '#1db954'
+      background: theme.palette.common.white,
+      color: theme.palette.secondary.main,
+      borderLeft: `.5rem solid ${theme.palette.secondary.main}`
     },
     appbar: {
       width: `calc(100% - ${drawerWidth}px)`,
-      backgroundColor: '#fafafa'
+      backgroundColor: theme.palette.common.white
     },
-    toolbar: {
-      minHeight: 64
-    }
+    toolbar: theme.mixins.toolbar
   }
 })
 
@@ -64,13 +65,18 @@ const Layout: FC = ({ children }) => {
   const menuItems = [
     {
       text: 'My characters',
-      icon: <SubjectOutlined sx={{ color: '#1db954' }} />,
+      icon: <SubjectOutlined color="secondary" />,
       path: '/'
     },
     {
       text: 'Create User',
-      icon: <AddCircleOutlined sx={{ color: '#1db954' }} />,
-      path: '/char'
+      icon: <AddCircleOutlined color="secondary" />,
+      path: '/user/register'
+    },
+    {
+      text: 'List of User',
+      icon: <GroupIcon color="secondary" />,
+      path: '/user/list'
     }
   ]
 
@@ -82,12 +88,11 @@ const Layout: FC = ({ children }) => {
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            backgroundColor: '#fafafa'
+            backgroundColor: 'common.white'
           }}
         >
           <Stack
             sx={{
-              padding: '1rem',
               borderRadius: '1rem',
               cursor: 'pointer'
             }}
@@ -95,10 +100,7 @@ const Layout: FC = ({ children }) => {
             alignItems="center"
             spacing={2}
             mx={3}
-            py={2}
-            onClick={() => {
-              console.log('clicked')
-            }}
+            p={2}
           >
             <UserDropdown
               username="Luis Dallacqua"
@@ -133,11 +135,11 @@ const Layout: FC = ({ children }) => {
             </ListItem>
           ))}
         </List>
-        <div>
+        <Box>
           <Typography variant="body2" align="center">
             Develop by luisdallacqua with &#9829;
           </Typography>
-        </div>
+        </Box>
       </Drawer>
 
       <div className={classes.page}>

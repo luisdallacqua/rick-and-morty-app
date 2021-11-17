@@ -44,12 +44,6 @@ const UserDropdown = ({ username, image }: UserDropdownProps) => (
           <span>My profile</span>
         </S.Link>
       </Link>
-      <Link href="/wishlist" passHref>
-        <S.Link title="Wishlist">
-          <StarsIcon />
-          <span>Favorite Characters</span>
-        </S.Link>
-      </Link>
 
       <Link href="/logout" passHref>
         <S.Link title="Sign out">

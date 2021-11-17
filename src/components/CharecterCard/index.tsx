@@ -2,9 +2,10 @@ import React, { FC, useState } from 'react'
 
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { pink } from '@mui/material/colors'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
-import { pink } from '@mui/material/colors'
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 
 export type CharacterProps = {
   name: string
@@ -16,7 +17,7 @@ export type CharacterProps = {
 }
 
 const cardStyle = {
-  maxWidth: 600,
+  maxWidth: 500,
   display: 'flex',
   backgroundColor: 'rgb(60, 62, 68)',
   color: '#fafafa'
@@ -55,23 +56,32 @@ const CharacterCard: FC<CharacterProps> = ({
           }}
         >
           <Typography variant="h5">{name}</Typography>
-          <Typography variant="subtitle1" component="div">
-            {status} - {species}
-          </Typography>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <FiberManualRecordIcon
+              sx={{
+                fontSize: 10,
+                color: status === 'Alive' ? 'secondary.main' : 'error.main'
+              }}
+            />
+
+            <Typography variant="subtitle1" component="div">
+              {status} - {species}
+            </Typography>
+          </div>
           <Box>
             <Typography variant="subtitle2">First Seen:</Typography>
-            <Typography variant="body1"> {origin?.name}</Typography>
+            <Typography variant="body2"> {origin?.name}</Typography>
           </Box>
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'center'
+              alignItems: 'flex-end'
             }}
           >
             <Box>
               <Typography variant="subtitle2">Last Seen:</Typography>
-              <Typography variant="body1"> {location?.name}</Typography>
+              <Typography variant="body2"> {location?.name}</Typography>
             </Box>
             <Box onClick={() => setIsFavorite(!isFavorite)}>
               {isFavorite ? (

@@ -1,10 +1,11 @@
 import Head from 'next/head'
+import Char from './char'
 
 type Props = {
   title: string
 }
 
-export default function Home({ title = 'React Avançado!' }: Props) {
+export default function Home({ title = 'Rick and Morty App' }: Props) {
   return (
     <div className="container">
       <Head>
@@ -15,7 +16,9 @@ export default function Home({ title = 'React Avançado!' }: Props) {
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
       </Head>
-      <h1>Index</h1>
+      <div style={{ marginTop: '1rem' }}>
+        <Char />
+      </div>
     </div>
   )
 }
