@@ -9,17 +9,26 @@ import {
   TextField
 } from '@mui/material'
 import React, { useState } from 'react'
+import UploadFile from '../UploadFile'
 
 const RegisterForm = () => {
   const [age, setAge] = useState('')
+  const [image, setImage] = useState('')
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value as string)
   }
 
   return (
-    <form>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        console.log(image)
+      }}
+    >
       <Stack spacing={3}>
+        <UploadFile src={image} onChange={(e) => setImage(e)} />
+
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <TextField fullWidth label="Name" />
           <TextField fullWidth label="Usuário" />
@@ -52,7 +61,9 @@ const RegisterForm = () => {
             </Select>
           </FormControl>
         </Stack>
-        <Button variant="contained">REGISTER</Button>
+        <Button variant="contained" color="secondary" type="submit">
+          REGISTER
+        </Button>
       </Stack>
     </form>
   )

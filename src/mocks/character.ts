@@ -10,7 +10,7 @@ export const CharacterMock = [
   {
     name: 'Morty Smith',
     status: 'Dead',
-    species: 'Human',
+    species: 'Almost Human',
     image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
     location: { name: 'Citadel of Ricks' },
     origin: { name: 'unknown' }

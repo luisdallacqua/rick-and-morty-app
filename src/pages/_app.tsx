@@ -25,6 +25,7 @@ export default function MyApp(props: MyAppProps) {
       jssStyles?.parentElement?.removeChild(jssStyles)
     }
   }, [])
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>

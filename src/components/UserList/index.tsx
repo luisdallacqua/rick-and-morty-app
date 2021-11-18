@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Image from 'next/image'
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -11,10 +12,13 @@ import { Button, makeStyles } from '@mui/material'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
+import imageDefault from '../../../public/grayUserImage.svg'
+
 import BasicModal from '../Modal/index'
 
 import { userMock } from '../../mocks/user'
 import CharacterCard, { CharacterProps } from '../CharecterCard'
+import CharacterList from '../CharacterList'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,18 +57,11 @@ const rows = [
         <DeleteIcon />
       </Button>
     </>,
-    <BasicModal textButton="More info" textModalHeader={userMock[0].name}>
-      {userMock[0].favoriteCharacters.map((character) => (
-        <CharacterCard
-          key={character.name}
-          name={character.name}
-          status={character.status}
-          species={character.species}
-          image={character.image}
-          location={character.location}
-          origin={character.origin}
-        />
-      ))}
+    <BasicModal
+      textButton="Lista de Personagens"
+      textModalHeader={userMock[0].name}
+    >
+      <CharacterList />
     </BasicModal>,
     userMock[0].avatar
   ),
@@ -80,20 +77,33 @@ const rows = [
         <DeleteIcon />
       </Button>
     </>,
-    <BasicModal textButton="More info" textModalHeader={userMock[1].name}>
-      {userMock[1].favoriteCharacters.map((character) => (
-        <CharacterCard
-          key={character.name}
-          name={character.name}
-          status={character.status}
-          species={character.species}
-          image={character.image}
-          location={character.location}
-          origin={character.origin}
-        />
-      ))}
+    <BasicModal
+      textButton="Lista de Personagens"
+      textModalHeader={userMock[1].name}
+    >
+      <CharacterList />
     </BasicModal>,
     userMock[1].avatar
+  ),
+  createData(
+    userMock[2].name,
+    userMock[2].email,
+    userMock[2].role,
+    <>
+      <Button variant="outlined" size="small">
+        <ModeEditIcon />
+      </Button>
+      <Button variant="outlined" size="small" color="error">
+        <DeleteIcon />
+      </Button>
+    </>,
+    <BasicModal
+      textButton="Lista de Personagens"
+      textModalHeader={userMock[2].name}
+    >
+      <CharacterList />
+    </BasicModal>,
+    userMock[2].avatar
   )
 ]
 
@@ -108,7 +118,9 @@ export default function BasicTable() {
             <StyledTableCell align="left">Avatar</StyledTableCell>
             <StyledTableCell align="left">Permissão</StyledTableCell>
             <StyledTableCell align="left">Ações (U,D)</StyledTableCell>
-            <StyledTableCell align="left">Mais Info</StyledTableCell>
+            <StyledTableCell align="left">
+              Personagens Favoritos
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -135,7 +147,7 @@ export default function BasicTable() {
                     }}
                   />
                 ) : (
-                  'No image'
+                  <Image src={imageDefault} width={60} height={60} />
                 )}
               </TableCell>
               <TableCell align="left">{row.roles}</TableCell>

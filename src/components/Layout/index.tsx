@@ -1,5 +1,7 @@
-import { useRouter } from 'next/router'
 import React, { FC } from 'react'
+import { useRouter } from 'next/router'
+import Image from 'next/image'
+import rickAndMorty from '../../../public/RickAndMorty.png'
 
 import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
 import GroupIcon from '@mui/icons-material/Group'
@@ -118,9 +120,13 @@ const Layout: FC = ({ children }) => {
         anchor="left"
         classes={{ paper: classes.drawerPaper }}
       >
-        <div>
-          <Typography variant="h5">LOGO</Typography>
-        </div>
+        <Image
+          alt="Rick and morty logo"
+          src={rickAndMorty}
+          width={300}
+          height={100}
+        />
+
         {/* list / links */}
         <List>
           {menuItems.map((item) => (

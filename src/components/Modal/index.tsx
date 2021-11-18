@@ -11,20 +11,9 @@ export type ModalProps = {
   children: React.ReactNode
 }
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '50%',
-  height: '50%',
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4
-}
 const useStyles = makeStyles({
   modal: {
-    overflow: 'scroll'
+    overflowY: 'scroll'
   }
 })
 
@@ -40,7 +29,7 @@ const BasicModal: FC<ModalProps> = ({
 
   return (
     <div>
-      <Button onClick={handleOpen} size="small" variant="contained">
+      <Button onClick={handleOpen} variant="contained">
         {textButton}
       </Button>
       <Modal
@@ -49,7 +38,20 @@ const BasicModal: FC<ModalProps> = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className={classes.modal}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '30%',
+            height: '50%',
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4
+          }}
+          className={classes.modal}
+        >
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Personagens favoritos do {textModalHeader}:
           </Typography>
