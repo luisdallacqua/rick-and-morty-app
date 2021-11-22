@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { Button, makeStyles } from '@mui/material'
+import { Button } from '@mui/material'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
@@ -16,9 +16,10 @@ import imageDefault from '../../../public/grayUserImage.svg'
 
 import BasicModal from '../Modal/index'
 
-import { userMock } from '../../mocks/user'
-import CharacterCard, { CharacterProps } from '../CharecterCard'
+import { CharacterProps } from '../CharecterCard'
 import CharacterList from '../CharacterList'
+import axios from 'axios'
+import { IUser } from '../RegisterForm'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -44,70 +45,47 @@ function createData(
   return { name, email, roles, actions, moreInfo, avatar, favoriteCharacters }
 }
 
-const rows = [
-  createData(
-    userMock[0].name,
-    userMock[0].email,
-    userMock[0].role,
-    <>
-      <Button variant="outlined" size="small">
-        <ModeEditIcon />
-      </Button>
-      <Button variant="outlined" size="small" color="error">
-        <DeleteIcon />
-      </Button>
-    </>,
-    <BasicModal
-      textButton="Lista de Personagens"
-      textModalHeader={userMock[0].name}
-    >
-      <CharacterList />
-    </BasicModal>,
-    userMock[0].avatar
-  ),
-  createData(
-    userMock[1].name,
-    userMock[1].email,
-    userMock[1].role,
-    <>
-      <Button variant="outlined" size="small">
-        <ModeEditIcon />
-      </Button>
-      <Button variant="outlined" size="small" color="error">
-        <DeleteIcon />
-      </Button>
-    </>,
-    <BasicModal
-      textButton="Lista de Personagens"
-      textModalHeader={userMock[1].name}
-    >
-      <CharacterList />
-    </BasicModal>,
-    userMock[1].avatar
-  ),
-  createData(
-    userMock[2].name,
-    userMock[2].email,
-    userMock[2].role,
-    <>
-      <Button variant="outlined" size="small">
-        <ModeEditIcon />
-      </Button>
-      <Button variant="outlined" size="small" color="error">
-        <DeleteIcon />
-      </Button>
-    </>,
-    <BasicModal
-      textButton="Lista de Personagens"
-      textModalHeader={userMock[2].name}
-    >
-      <CharacterList />
-    </BasicModal>,
-    userMock[2].avatar
-  )
-]
-
 export default function BasicTable() {
+  const [users, setUsers] = React.useState<IUser[] | []>([])
+
+  React.useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await axios.get('http://localhost:3001/users')
+      const data = await response.data
+      setUsers(data)
+    }
+    fetchUsers()
+  }, [])
+
+  const rows = users.map((user) => {
+    return createData(
+      user.name,
+      user.email,
+      user.role,
+      <>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={() => console.log(`Edit ${user.id}`)}
+        >
+          <ModeEditIcon />
+        </Button>
+        <Button
+          variant="outlined"
+          size="small"
+          color="error"
+          onClick={() => console.log(`Delete ${user.id}`)}
+        >
+          <DeleteIcon />
+        </Button>
+      </>,
+      <BasicModal textButton="Lista de Personagens" textModalHeader={user.name}>
+        <CharacterList />
+      </BasicModal>,
+      user.image
+    )
+  })
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -142,15 +120,14 @@ export default function BasicTable() {
                     src={row.avatar}
                     style={{
                       maxWidth: '60px',
-                      maxHeight: '60px',
-                      borderRadius: '50%'
+                      maxHeight: '60px'
                     }}
                   />
                 ) : (
                   <Image src={imageDefault} width={60} height={60} />
                 )}
               </TableCell>
-              <TableCell align="left">{row.roles}</TableCell>
+              <TableCell align="left">{row.roles.toUpperCase()}</TableCell>
               <TableCell align="left">{row.actions}</TableCell>
               <TableCell align="left">{row.moreInfo}</TableCell>
             </TableRow>

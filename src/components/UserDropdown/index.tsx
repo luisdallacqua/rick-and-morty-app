@@ -38,14 +38,14 @@ const UserDropdown = ({ username, image }: UserDropdownProps) => (
     }
   >
     <S.Nav>
-      <Link href="/profile/me" passHref>
+      <Link href="/" passHref>
         <S.Link>
           <PersonIcon fontSize="small" />
           <span>My profile</span>
         </S.Link>
       </Link>
 
-      <Link href="/logout" passHref>
+      <Link href="/" passHref>
         <S.Link title="Sign out">
           <ExitToAppIcon />
           <span>Sign out</span>

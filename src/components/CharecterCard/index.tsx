@@ -8,6 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 
 export type CharacterProps = {
+  id: number
   name: string
   status: string
   species: string
@@ -24,6 +25,7 @@ const cardStyle = {
 }
 
 const CharacterCard: FC<CharacterProps> = ({
+  id,
   name,
   status,
   species,
@@ -83,7 +85,12 @@ const CharacterCard: FC<CharacterProps> = ({
               <Typography variant="subtitle2">Last Seen:</Typography>
               <Typography variant="body2"> {location?.name}</Typography>
             </Box>
-            <Box onClick={() => setIsFavorite(!isFavorite)}>
+            <Box
+              onClick={() => {
+                console.log(`O id é ${id}`)
+                setIsFavorite(!isFavorite)
+              }}
+            >
               {isFavorite ? (
                 <FavoriteIcon sx={{ color: pink[500] }} />
               ) : (

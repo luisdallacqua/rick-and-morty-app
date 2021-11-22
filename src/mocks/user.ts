@@ -19,7 +19,6 @@ export const userMock = [
     name: 'Usuário sem Foto',
     email: 'semfoto@mail.com',
     avatar: '',
-    role: 'USER',
-    favoriteCharacters: [CharacterMock[1], CharacterMock[2]]
+    role: 'USER'
   }
 ]
