@@ -1,5 +1,12 @@
 import * as React from 'react'
 import Image from 'next/image'
+import { api } from '../../services/createApi'
+import BasicModal from '../Modal/index'
+import CharacterList from '../CharacterList'
+import { IUser } from '../RegisterForm'
+import imageDefault from '../../../public/grayUserImage.svg'
+import { createData } from '../../utils/data/createDataForTable'
+
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -8,18 +15,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { Button } from '@mui/material'
-import ModeEditIcon from '@mui/icons-material/ModeEdit'
-import DeleteIcon from '@mui/icons-material/Delete'
-
-import imageDefault from '../../../public/grayUserImage.svg'
-
-import BasicModal from '../Modal/index'
-
-import { CharacterProps } from '../CharecterCard'
-import CharacterList from '../CharacterList'
-import axios from 'axios'
-import { IUser } from '../RegisterForm'
+import { ActionsSection } from '../../utils/data/createDataForTable'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,24 +29,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }
 }))
 
-function createData(
-  name: string,
-  email: string,
-  roles: string,
-  actions: React.ReactNode,
-  moreInfo: React.ReactNode,
-  avatar?: string,
-  favoriteCharacters?: CharacterProps[]
-) {
-  return { name, email, roles, actions, moreInfo, avatar, favoriteCharacters }
-}
+const sizeOfName = 30
 
 export default function BasicTable() {
   const [users, setUsers] = React.useState<IUser[] | []>([])
 
   React.useEffect(() => {
     const fetchUsers = async () => {
-      const response = await axios.get('http://localhost:3001/users')
+      const response = await api.get('/users')
       const data = await response.data
       setUsers(data)
     }
@@ -62,23 +48,7 @@ export default function BasicTable() {
       user.name,
       user.email,
       user.role,
-      <>
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={() => console.log(`Edit ${user.id}`)}
-        >
-          <ModeEditIcon />
-        </Button>
-        <Button
-          variant="outlined"
-          size="small"
-          color="error"
-          onClick={() => console.log(`Delete ${user.id}`)}
-        >
-          <DeleteIcon />
-        </Button>
-      </>,
+      ActionsSection(user),
       <BasicModal textButton="Lista de Personagens" textModalHeader={user.name}>
         <CharacterList />
       </BasicModal>,
@@ -124,7 +94,9 @@ export default function BasicTable() {
                 )}
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.name.length > sizeOfName
+                  ? `${row.name.slice(0, sizeOfName)}...`
+                  : row.name}
               </TableCell>
               <TableCell align="left">{row.email}</TableCell>
               <TableCell align="left">{row.roles.toUpperCase()}</TableCell>

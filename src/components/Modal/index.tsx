@@ -4,13 +4,13 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import { makeStyles } from '@mui/styles'
-import { styled } from '@mui/system'
-import { Theme } from '@mui/material'
 
 export type ModalProps = {
-  textButton: string
-  textModalHeader: string
+  textButton: React.ReactNode
+  textModalHeader?: string
   children: React.ReactNode
+  variant?: string
+  isDeleteOption?: boolean
 }
 
 const useStyles = makeStyles({
@@ -22,7 +22,9 @@ const useStyles = makeStyles({
 const BasicModal: FC<ModalProps> = ({
   textButton,
   textModalHeader,
-  children
+  children,
+  variant = 'contained',
+  isDeleteOption = false
 }) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
@@ -31,7 +33,7 @@ const BasicModal: FC<ModalProps> = ({
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="contained">
+      <Button onClick={handleOpen} variant={variant}>
         {textButton}
       </Button>
       <Modal
@@ -54,9 +56,14 @@ const BasicModal: FC<ModalProps> = ({
           }}
           className={classes.modal}
         >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Personagens favoritos do {textModalHeader}:
-          </Typography>
+          {isDeleteOption ? (
+            ''
+          ) : (
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Personagens favoritos do {textModalHeader}:
+            </Typography>
+          )}
+
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {children}
           </Typography>

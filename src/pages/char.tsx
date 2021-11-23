@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { api } from '../services/createApi'
 import { Grid } from '@mui/material'
 import CharacterCard from '../components/CharecterCard'
 import { CharacterProps } from '../components/CharecterCard/index'
@@ -9,7 +9,7 @@ const Char = () => {
 
   useEffect(() => {
     const fetchCharacters = async () => {
-      const response = await axios.get(
+      const response = await api.get(
         'https://rickandmortyapi.com/api/character/[1,2,3,4,5,6,7,8,9]'
       )
       const data = await response.data
@@ -21,9 +21,9 @@ const Char = () => {
   return (
     <Grid
       container
-      mt={4}
+      mt={5}
       spacing={{ xs: 2, md: 3 }}
-      // columns={{ xs: 4, sm: 8, md: 12 }}
+      columns={{ xs: 12, sm: 12, md: 12 }}
     >
       {characters.map((character) => {
         return (

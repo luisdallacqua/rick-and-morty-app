@@ -1,20 +1,14 @@
 import React, { FC, useState } from 'react'
 
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography
-} from '@mui/material'
+import { Card, CardContent, CardMedia, Theme, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { pink } from '@mui/material/colors'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+import { makeStyles } from '@mui/styles'
 
-export type CharacterProps = {
+export interface CharacterProps {
   id: number
   name: string
   status: string
@@ -24,6 +18,49 @@ export type CharacterProps = {
   location: { name: string; link?: string }
   origin: { name: string }
 }
+
+interface IStatus {
+  //this is necessary to makeStyles accept status without any kind of error
+  status: string
+}
+
+const useStyles = makeStyles<Theme, IStatus>((theme) => {
+  return {
+    card: {
+      maxWidth: 345,
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white
+    },
+    media: {
+      height: '100%'
+    },
+    icon: {
+      fontSize: 10,
+      color: ({ status }) => {
+        if (status === 'Alive') {
+          return theme.palette.secondary.main
+        }
+        if (status === 'Dead') {
+          return theme.palette.error.main
+        } else {
+          return theme.palette.grey[500]
+        }
+      }
+    },
+    favoriteIcon: {
+      fontSize: 30,
+      color: pink[500],
+      cursor: 'pointer',
+      marginRight: '0.5rem'
+    },
+    wrapperFavIcon: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      marginTop: '1rem'
+    }
+  }
+})
 
 const CharacterCard: FC<CharacterProps> = ({
   id,
@@ -36,32 +73,15 @@ const CharacterCard: FC<CharacterProps> = ({
   origin
 }: CharacterProps) => {
   const [isFavorite, setIsFavorite] = useState(false)
+  const classes = useStyles({ status })
 
   return (
-    <Card
-      sx={{
-        maxWidth: 345,
-        backgroundColor: 'common.black',
-        color: 'common.white'
-      }}
-    >
-      <CardMedia
-        component="img"
-        image={image}
-        height="100%"
-        alt="Live from space album cover"
-      />
-
+    <Card className={classes.card}>
+      <CardMedia className={classes.media} image={image} component="img" />
       <CardContent>
-        <Typography variant="h5">{name}</Typography>
-
+        <Typography variant="h6">{name}</Typography>
         <Typography variant="subtitle1" component="div">
-          <FiberManualRecordIcon
-            sx={{
-              fontSize: 10,
-              color: status === 'Alive' ? 'secondary.main' : 'error.main'
-            }}
-          />
+          <FiberManualRecordIcon className={classes.icon} />
           {status} - {species}
         </Typography>
 
@@ -71,30 +91,22 @@ const CharacterCard: FC<CharacterProps> = ({
         <Typography variant="subtitle2" mt={1}>
           First Seen: {origin?.name}
         </Typography>
+        <Typography variant="subtitle2" mt={1}>
+          Last Seen: {location?.name}
+        </Typography>
 
         <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
+          className={classes.wrapperFavIcon}
+          onClick={() => {
+            setIsFavorite(!isFavorite)
+            console.log(`Favorite ${id}`)
           }}
         >
-          <Typography variant="subtitle2">
-            Last Seen: {location?.name}
-          </Typography>
-          <Box
-            onClick={() => {
-              setIsFavorite(!isFavorite)
-              console.log(`Favorite ${id}`)
-            }}
-            mr={1}
-          >
-            {isFavorite ? (
-              <FavoriteIcon sx={{ color: pink[500] }} />
-            ) : (
-              <FavoriteBorderIcon sx={{ color: pink[500] }} />
-            )}
-          </Box>
+          {isFavorite ? (
+            <FavoriteIcon className={classes.favoriteIcon} />
+          ) : (
+            <FavoriteBorderIcon className={classes.favoriteIcon} />
+          )}
         </Box>
       </CardContent>
     </Card>

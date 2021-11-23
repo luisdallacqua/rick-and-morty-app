@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Char from './char'
+import SignIn from '../components/SignIn'
 
 type Props = {
   title: string
@@ -17,7 +17,7 @@ export default function Home({ title = 'Rick and Morty App' }: Props) {
         />
       </Head>
       <div style={{ marginTop: '1rem' }}>
-        <Char />
+        <SignIn />
       </div>
     </div>
   )

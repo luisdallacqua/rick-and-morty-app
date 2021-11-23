@@ -1,3 +1,9 @@
+import React, { useState } from 'react'
+import UploadFile from '../UploadFile'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { userSchema } from '../../utils/validation/userValidation'
+import { api } from '../../services/createApi'
 import {
   Button,
   FormControl,
@@ -8,12 +14,6 @@ import {
   Stack,
   TextField
 } from '@mui/material'
-import React, { useState } from 'react'
-import axios from 'axios'
-import UploadFile from '../UploadFile'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { userSchema } from '../../utils/validation/userValidation'
 
 export interface IUser {
   id: number
@@ -41,7 +41,7 @@ const RegisterForm = () => {
   }
 
   const createUser = async (user: IUser) => {
-    const response = await axios.post('http://localhost:3001/users', user)
+    const response = await api.post('http://localhost:3001/users', user)
     return response.data
   }
 

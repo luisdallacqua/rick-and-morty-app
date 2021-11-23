@@ -54,7 +54,8 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     appbar: {
       width: `calc(100% - ${drawerWidth}px)`,
-      backgroundColor: theme.palette.common.white
+      backgroundColor: theme.palette.common.white,
+      opacity: '0.95'
     },
     toolbar: theme.mixins.toolbar
   }
@@ -68,7 +69,7 @@ const Layout: FC = ({ children }) => {
     {
       text: 'My characters',
       icon: <SubjectOutlined color="secondary" />,
-      path: '/'
+      path: '/char'
     },
     {
       text: 'Create User',
