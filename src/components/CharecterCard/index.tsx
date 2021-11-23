@@ -1,6 +1,13 @@
 import React, { FC, useState } from 'react'
 
-import { Card, CardContent, CardMedia, Typography } from '@mui/material'
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography
+} from '@mui/material'
 import { Box } from '@mui/system'
 import { pink } from '@mui/material/colors'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
@@ -12,16 +19,10 @@ export type CharacterProps = {
   name: string
   status: string
   species: string
+  gender: string
   image: string
   location: { name: string; link?: string }
   origin: { name: string }
-}
-
-const cardStyle = {
-  maxWidth: 500,
-  display: 'flex',
-  backgroundColor: 'rgb(60, 62, 68)',
-  color: '#fafafa'
 }
 
 const CharacterCard: FC<CharacterProps> = ({
@@ -29,6 +30,7 @@ const CharacterCard: FC<CharacterProps> = ({
   name,
   status,
   species,
+  gender,
   image,
   location,
   origin
@@ -36,70 +38,65 @@ const CharacterCard: FC<CharacterProps> = ({
   const [isFavorite, setIsFavorite] = useState(false)
 
   return (
-    <Card sx={cardStyle}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        backgroundColor: 'common.black',
+        color: 'common.white'
+      }}
+    >
       <CardMedia
         component="img"
         image={image}
+        height="100%"
         alt="Live from space album cover"
-        sx={{ width: '40%' }}
       />
-      <Box
-        sx={{
-          display: 'flex',
-          flex: '3 1 0%'
-        }}
-      >
-        <CardContent
+
+      <CardContent>
+        <Typography variant="h5">{name}</Typography>
+
+        <Typography variant="subtitle1" component="div">
+          <FiberManualRecordIcon
+            sx={{
+              fontSize: 10,
+              color: status === 'Alive' ? 'secondary.main' : 'error.main'
+            }}
+          />
+          {status} - {species}
+        </Typography>
+
+        <Typography variant="subtitle2" mt={1}>
+          Gender: {gender}
+        </Typography>
+        <Typography variant="subtitle2" mt={1}>
+          First Seen: {origin?.name}
+        </Typography>
+
+        <Box
           sx={{
-            flex: '1 0 auto',
             display: 'flex',
-            flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'space-between'
           }}
         >
-          <Typography variant="h5">{name}</Typography>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <FiberManualRecordIcon
-              sx={{
-                fontSize: 10,
-                color: status === 'Alive' ? 'secondary.main' : 'error.main'
-              }}
-            />
-
-            <Typography variant="subtitle1" component="div">
-              {status} - {species}
-            </Typography>
-          </div>
-          <Box>
-            <Typography variant="subtitle2">First Seen:</Typography>
-            <Typography variant="body2"> {origin?.name}</Typography>
-          </Box>
+          <Typography variant="subtitle2">
+            Last Seen: {location?.name}
+          </Typography>
           <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end'
+            onClick={() => {
+              setIsFavorite(!isFavorite)
+              console.log(`Favorite ${id}`)
             }}
+            mr={1}
           >
-            <Box>
-              <Typography variant="subtitle2">Last Seen:</Typography>
-              <Typography variant="body2"> {location?.name}</Typography>
-            </Box>
-            <Box
-              onClick={() => {
-                console.log(`O id é ${id}`)
-                setIsFavorite(!isFavorite)
-              }}
-            >
-              {isFavorite ? (
-                <FavoriteIcon sx={{ color: pink[500] }} />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
-            </Box>
+            {isFavorite ? (
+              <FavoriteIcon sx={{ color: pink[500] }} />
+            ) : (
+              <FavoriteBorderIcon sx={{ color: pink[500] }} />
+            )}
           </Box>
-        </CardContent>
-      </Box>
+        </Box>
+      </CardContent>
     </Card>
   )
 }

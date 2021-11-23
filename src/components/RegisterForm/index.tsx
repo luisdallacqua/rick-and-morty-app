@@ -1,7 +1,6 @@
 import {
   Button,
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -12,7 +11,7 @@ import {
 import React, { useState } from 'react'
 import axios from 'axios'
 import UploadFile from '../UploadFile'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { userSchema } from '../../utils/validation/userValidation'
 

@@ -4,6 +4,8 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import { makeStyles } from '@mui/styles'
+import { styled } from '@mui/system'
+import { Theme } from '@mui/material'
 
 export type ModalProps = {
   textButton: string

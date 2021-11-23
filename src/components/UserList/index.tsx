@@ -91,9 +91,9 @@ export default function BasicTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead sx={{ backgroundColor: '#ccc' }}>
           <TableRow hover={true}>
+            <StyledTableCell align="center">Avatar</StyledTableCell>
             <StyledTableCell>Usuário</StyledTableCell>
             <StyledTableCell align="left">Email</StyledTableCell>
-            <StyledTableCell align="left">Avatar</StyledTableCell>
             <StyledTableCell align="left">Permissão</StyledTableCell>
             <StyledTableCell align="left">Ações (U,D)</StyledTableCell>
             <StyledTableCell align="left">
@@ -110,11 +110,7 @@ export default function BasicTable() {
                 '&:nth-child(even)': { backgroundColor: '#eee' }
               }}
             >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="left">{row.email}</TableCell>
-              <TableCell align="left">
+              <TableCell align="center">
                 {row.avatar ? (
                   <img
                     src={row.avatar}
@@ -127,6 +123,10 @@ export default function BasicTable() {
                   <Image src={imageDefault} width={60} height={60} />
                 )}
               </TableCell>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="left">{row.email}</TableCell>
               <TableCell align="left">{row.roles.toUpperCase()}</TableCell>
               <TableCell align="left">{row.actions}</TableCell>
               <TableCell align="left">{row.moreInfo}</TableCell>

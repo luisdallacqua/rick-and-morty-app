@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) => {
       background: grey[200],
       width: '100%',
       padding: '1rem',
-      height: '100vh'
+      minHeight: '100vh'
     },
     drawer: {
       width: drawerWidth
