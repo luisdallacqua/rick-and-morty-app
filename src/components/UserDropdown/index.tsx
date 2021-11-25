@@ -4,7 +4,6 @@ import Dropdown from '../Dropdown'
 import { Avatar } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import StarsIcon from '@mui/icons-material/Stars'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
 import * as S from './styles'
@@ -38,7 +37,7 @@ const UserDropdown = ({ username, image }: UserDropdownProps) => (
     }
   >
     <S.Nav>
-      <Link href="/" passHref>
+      <Link href="/user/list" passHref>
         <S.Link>
           <PersonIcon fontSize="small" />
           <span>My profile</span>

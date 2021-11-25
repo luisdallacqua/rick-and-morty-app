@@ -3,6 +3,7 @@ import { Grid, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import { makeStyles } from '@mui/styles'
 import axios from 'axios'
+import { IUser } from '../RegisterForm'
 
 const useStyles = makeStyles({
   gridWrapper: {
@@ -25,7 +26,7 @@ const SignIn: FC = () => {
     try {
       const response = await axios.get('http://localhost:3001/users')
       const users = response.data
-      const findUser = users.find((user: any) => user.name === logIn)
+      const findUser = users.find((user: IUser) => user.name === logIn)
       const result = findUser ? findUser : 'não foi possível achar o usuário'
       setResult(result ? result.name : 'Não rolou')
       return result

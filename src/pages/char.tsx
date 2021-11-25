@@ -1,22 +1,16 @@
-import { useEffect, useState } from 'react'
-import { api } from '../services/createApi'
 import { Grid } from '@mui/material'
 import CharacterCard from '../components/CharecterCard'
 import { CharacterProps } from '../components/CharecterCard/index'
+import { useRemoteService } from '../hooks/useRemoteService'
 
 const Char = () => {
-  const [characters, setCharacters] = useState<CharacterProps[] | []>([])
+  // const [characters, setCharacters] = useState<CharacterProps[] | []>([])
+  const { data, loading, error } = useRemoteService(
+    'https://rickandmortyapi.com/api/character/[1,2,3,4,5,6,7,8,9]'
+  )
 
-  useEffect(() => {
-    const fetchCharacters = async () => {
-      const response = await api.get(
-        'https://rickandmortyapi.com/api/character/[1,2,3,4,5,6,7,8,9]'
-      )
-      const data = await response.data
-      setCharacters(data)
-    }
-    fetchCharacters()
-  }, [])
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error</p>
 
   return (
     <Grid
@@ -25,7 +19,7 @@ const Char = () => {
       spacing={{ xs: 2, md: 3 }}
       columns={{ xs: 12, sm: 12, md: 12 }}
     >
-      {characters.map((character) => {
+      {data?.map((character: any) => {
         return (
           <Grid item xs={12} sm={6} md={3} key={character.name}>
             <CharacterCard
