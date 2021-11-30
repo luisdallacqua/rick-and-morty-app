@@ -1,11 +1,10 @@
 import React, { FC } from 'react'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
+import UserDropdown from '../UserDropdown'
+import { useAuth } from '../../hooks/useAuth'
 import rickAndMorty from '../../../public/RickAndMorty.png'
 
-import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
-import GroupIcon from '@mui/icons-material/Group'
-
+import Image from 'next/image'
 import {
   AppBar,
   Drawer,
@@ -18,16 +17,17 @@ import {
   Stack,
   Theme
 } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import UserDropdown from '../UserDropdown'
-import { grey } from '@mui/material/colors'
+import { createStyles, makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
-import { useAuth } from '../../hooks/useAuth'
+import { grey } from '@mui/material/colors'
+
+import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
+import GroupIcon from '@mui/icons-material/Group'
 
 const drawerWidth = 240
 
-const useStyles = makeStyles((theme: Theme) => {
-  return {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
     page: {
       background: grey[200],
       width: '100%',
@@ -59,8 +59,14 @@ const useStyles = makeStyles((theme: Theme) => {
       opacity: '0.95'
     },
     toolbar: theme.mixins.toolbar
-  }
-})
+  })
+)
+
+const toolbarStyles = {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  backgroundColor: 'common.white'
+}
 
 const Layout: FC = ({ children }) => {
   const classes = useStyles()
@@ -89,13 +95,7 @@ const Layout: FC = ({ children }) => {
     <div className={classes.root}>
       {/* app bar */}
       <AppBar className={classes.appbar} elevation={0}>
-        <Toolbar
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            backgroundColor: 'common.white'
-          }}
-        >
+        <Toolbar sx={toolbarStyles}>
           <Stack
             sx={{
               borderRadius: '1rem',

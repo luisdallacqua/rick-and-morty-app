@@ -6,6 +6,7 @@ import CharacterList from '../CharacterList'
 import { IUser } from '../RegisterForm'
 import imageDefault from '../../../public/grayUserImage.svg'
 import { createData } from '../../utils/data/createDataForTable'
+import { ActionsSection } from '../../utils/data/createDataForTable'
 
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
@@ -15,7 +16,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { ActionsSection } from '../../utils/data/createDataForTable'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

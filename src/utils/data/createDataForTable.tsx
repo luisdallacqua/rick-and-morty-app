@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { CharacterProps } from '../../components/CharecterCard/index'
+import { CharacterProps } from '../../components/CharecterCard/types'
 import BasicModal from '../../components/Modal'
 import { IUser } from '../../components/RegisterForm'
 

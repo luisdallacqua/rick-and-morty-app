@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
-import { Grid, TextField, Typography } from '@mui/material'
+import { Avatar, Container, Grid, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import { makeStyles } from '@mui/styles'
 import { IUser } from '../RegisterForm'
 import { useAuth } from '../../hooks/useAuth'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+import { Box } from '@mui/system'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 
 const useStyles = makeStyles({
-  gridWrapper: {
-    margin: '0 auto'
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '1rem'
+  link: {
+    textDecoration: 'none',
+    color: '#000',
+    paddingTop: '1rem'
   }
 })
 
@@ -21,6 +21,7 @@ const SignIn = () => {
   const classes = useStyles()
 
   const auth = useAuth()
+  const router = useRouter()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,6 +30,7 @@ const SignIn = () => {
     try {
       await auth.authenticate(values.email, values.password)
 
+      router.push('/')
       console.log(values.email, values.password)
     } catch (error) {
       console.log(error)
@@ -36,18 +38,28 @@ const SignIn = () => {
   }
 
   return (
-    <Grid
-      container
-      spacing={2}
-      justifyContent="center"
-      className={classes.gridWrapper}
-    >
-      <Grid item xs={10} md={8}>
-        <Typography variant="h4" align="center">
-          Sign In
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
         </Typography>
-        <form className={classes.form}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={() => onSubmit({ email, password })}
+        >
           <TextField
+            fullWidth
             margin="normal"
             label="User"
             variant="outlined"
@@ -56,6 +68,7 @@ const SignIn = () => {
             onChange={(e: any) => setEmail(e.target.value)}
           />
           <TextField
+            fullWidth
             margin="normal"
             label="Password"
             variant="outlined"
@@ -64,22 +77,23 @@ const SignIn = () => {
             onChange={(e: any) => setPassword(e.target.value)}
           />
           <Button
+            fullWidth
             variant="contained"
             color="primary"
-            sx={{ margin: '1' }}
             onClick={() => onSubmit({ email, password })}
           >
             Sign In
           </Button>
-          {auth.email && (
-            <span>
-              {auth.email} e o id é {auth.id}
-            </span>
-          )}
-          <span>algum@mail.com</span>
-        </form>
-      </Grid>
-    </Grid>
+          <Grid container>
+            <Grid item>
+              <Link href="/user/register">
+                <a className={classes.link}>{'Não possue conta? Crie uma.'}</a>
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+    </Container>
   )
 }
 

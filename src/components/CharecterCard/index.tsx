@@ -8,18 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { makeStyles } from '@mui/styles'
 import { useAuth } from '../../hooks/useAuth'
-import axios from 'axios'
-
-export interface CharacterProps {
-  id: number
-  name: string
-  status: string
-  species: string
-  gender: string
-  image: string
-  location: { name: string; link?: string }
-  origin: { name: string }
-}
+import { CharacterProps } from './types'
 
 interface IStatus {
   //this is necessary to makeStyles accept status without any kind of error
@@ -73,11 +62,19 @@ const CharacterCard: FC<CharacterProps> = ({
   image,
   location,
   origin
-}: CharacterProps) => {
+}) => {
   const [isFavorite, setIsFavorite] = useState(false)
   const classes = useStyles({ status })
 
   const auth = useAuth()
+
+  useEffect(() => {
+    async function isAlreadyFavorite(id: number) {
+      const result = auth?.favoriteCharacters?.includes(id)
+      result && setIsFavorite(true)
+    }
+    isAlreadyFavorite(id)
+  }, [])
 
   return (
     <Card className={classes.card}>

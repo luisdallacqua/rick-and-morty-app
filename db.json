@@ -1,6 +1,6 @@
 {
   "users": [
-     {
+    {
       "id": 123479812378123,
       "name": "Luis Artur",
       "email": "algum@mail.com",
@@ -9,18 +9,30 @@
       "birthDate": "23-10-1993",
       "role": "ADMIN",
       "image": "https://avatars.githubusercontent.com/u/65989058?v=4",
-      "favoriteCharacters": [1, 3, 5, 6]
-    }
-,
+      "favoriteCharacters": [
+        1,
+        3,
+        5,
+        6
+      ]
+    },
     {
       "id": 1234,
       "name": "Thiago Dallacqua",
+      "email": "Thiago@gmail.com",
       "password": "123456",
       "cpf": "1234567890123",
-      "email": "Thiago@gmail.com",
       "birthDate": "28/10;123",
       "role": "USER",
-      "image": "https://avatars.githubusercontent.com/u/15908506?v=4"
+      "image": "https://avatars.githubusercontent.com/u/15908506?v=4",
+      "favoriteCharacters": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        8
+      ]
     },
     {
       "id": 123123121231231320000,
@@ -30,7 +42,25 @@
       "email": "Thiago@gmasdail.com",
       "birthDate": "28/10;;123",
       "role": "USER",
-      "image": "https://avatars.githubusercontent.com/u/15908506?v=4"
+      "image": "https://avatars.githubusercontent.com/u/15908506?v=4",
+      "favoriteCharacters": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        8
+      ]
+    },
+    {
+      "name": "Jorge da Capadócia",
+      "password": "jorge231",
+      "email": "jorge@capadocia.com",
+      "cpf": "08901283",
+      "birthDate": "28/10/1994",
+      "role": "admin",
+      "image": "",
+      "id": 16.870925541853367
     }
   ]
 }
