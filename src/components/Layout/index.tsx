@@ -22,6 +22,7 @@ import { makeStyles } from '@mui/styles'
 import UserDropdown from '../UserDropdown'
 import { grey } from '@mui/material/colors'
 import { Box } from '@mui/system'
+import { useAuth } from '../../hooks/useAuth'
 
 const drawerWidth = 240
 
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme: Theme) => {
 const Layout: FC = ({ children }) => {
   const classes = useStyles()
   const router = useRouter()
+  const auth = useAuth()
 
   const menuItems = [
     {
@@ -106,8 +108,9 @@ const Layout: FC = ({ children }) => {
             p={2}
           >
             <UserDropdown
-              username="Luis Dallacqua"
-              image="https://avatars.githubusercontent.com/u/65989058?v=4"
+              username={auth.name ?? 'Guest'}
+              image={auth.image}
+              role={auth.role}
             />
           </Stack>
         </Toolbar>

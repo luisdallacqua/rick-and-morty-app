@@ -1,6 +1,5 @@
-import { Grid } from '@mui/material'
+import { Alert, AlertTitle, CircularProgress, Grid } from '@mui/material'
 import CharacterCard from '../components/CharecterCard'
-import { CharacterProps } from '../components/CharecterCard/index'
 import { useRemoteService } from '../hooks/useRemoteService'
 
 const Char = () => {
@@ -9,8 +8,14 @@ const Char = () => {
     'https://rickandmortyapi.com/api/character/[1,2,3,4,5,6,7,8,9]'
   )
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error</p>
+  if (loading) return <CircularProgress />
+  if (error)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        Something went wrong with server. try again later.
+      </Alert>
+    )
 
   return (
     <Grid

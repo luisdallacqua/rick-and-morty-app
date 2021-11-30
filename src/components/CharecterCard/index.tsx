@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { Card, CardContent, CardMedia, Theme, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -7,6 +7,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { makeStyles } from '@mui/styles'
+import { useAuth } from '../../hooks/useAuth'
+import axios from 'axios'
 
 export interface CharacterProps {
   id: number
@@ -75,6 +77,8 @@ const CharacterCard: FC<CharacterProps> = ({
   const [isFavorite, setIsFavorite] = useState(false)
   const classes = useStyles({ status })
 
+  const auth = useAuth()
+
   return (
     <Card className={classes.card}>
       <CardMedia className={classes.media} image={image} component="img" />
@@ -98,8 +102,8 @@ const CharacterCard: FC<CharacterProps> = ({
         <Box
           className={classes.wrapperFavIcon}
           onClick={() => {
+            console.log(id)
             setIsFavorite(!isFavorite)
-            console.log(`Favorite ${id}`)
           }}
         >
           {isFavorite ? (

@@ -1,9 +1,10 @@
-import { FC, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Grid, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import { makeStyles } from '@mui/styles'
-import axios from 'axios'
 import { IUser } from '../RegisterForm'
+import { useAuth } from '../../hooks/useAuth'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles({
   gridWrapper: {
@@ -16,22 +17,21 @@ const useStyles = makeStyles({
   }
 })
 
-const SignIn: FC = () => {
+const SignIn = () => {
   const classes = useStyles()
 
-  const [user, setUser] = useState('')
-  const [result, setResult] = useState('')
+  const auth = useAuth()
 
-  const logIn = async (logIn: string) => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  async function onSubmit(values: { email: string; password: string }) {
     try {
-      const response = await axios.get('http://localhost:3001/users')
-      const users = response.data
-      const findUser = users.find((user: IUser) => user.name === logIn)
-      const result = findUser ? findUser : 'não foi possível achar o usuário'
-      setResult(result ? result.name : 'Não rolou')
-      return result
-    } catch (e) {
-      console.log(e)
+      await auth.authenticate(values.email, values.password)
+
+      console.log(values.email, values.password)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -52,26 +52,31 @@ const SignIn: FC = () => {
             label="User"
             variant="outlined"
             type="text"
-            value={user}
-            onChange={(e: any) => setUser(e.target.value)}
+            value={email}
+            onChange={(e: any) => setEmail(e.target.value)}
           />
           <TextField
             margin="normal"
             label="Password"
             variant="outlined"
             type="password"
+            value={password}
+            onChange={(e: any) => setPassword(e.target.value)}
           />
           <Button
             variant="contained"
             color="primary"
             sx={{ margin: '1' }}
-            onClick={() => {
-              logIn(user)
-            }}
+            onClick={() => onSubmit({ email, password })}
           >
             Sign In
           </Button>
-          {result && <span>{result}</span>}
+          {auth.email && (
+            <span>
+              {auth.email} e o id é {auth.id}
+            </span>
+          )}
+          <span>algum@mail.com</span>
         </form>
       </Grid>
     </Grid>
