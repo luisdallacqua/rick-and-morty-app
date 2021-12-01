@@ -9,6 +9,10 @@ export const Title = styled.div`
   align-items: center;
   padding-right: 2.4rem;
   z-index: 50;
+
+  @media (max-width: 600px) {
+    padding-right: 0.5rem;
+  }
 `
 
 export const Content = styled.div`

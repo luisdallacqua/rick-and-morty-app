@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { useRouter } from 'next/router'
 import UserDropdown from '../UserDropdown'
 import { useAuth } from '../../hooks/useAuth'
@@ -15,26 +15,38 @@ import {
   Toolbar,
   Typography,
   Stack,
-  Theme
+  Theme,
+  Container,
+  IconButton,
+  useMediaQuery
 } from '@mui/material'
 import { createStyles, makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
-import { grey } from '@mui/material/colors'
 
 import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
+import MenuIcon from '@mui/icons-material/Menu'
 import GroupIcon from '@mui/icons-material/Group'
 
 const drawerWidth = 240
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
+    root: {
+      display: 'flex'
+    },
+    appbar: {
+      [theme.breakpoints.down('md')]: {
+        width: '100vw'
+      },
+      width: `calc(100% - ${drawerWidth}px)`,
+      backgroundColor: theme.palette.common.white
+    },
     page: {
-      background: grey[200],
       width: '100%',
-      padding: '1rem',
       minHeight: '100vh'
     },
     drawer: {
+      flexShrink: 0,
       width: drawerWidth
     },
     drawerPaper: {
@@ -45,20 +57,24 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       justifyContent: 'space-between'
     },
-    root: {
-      display: 'flex'
-    },
     active: {
       background: theme.palette.common.white,
       color: theme.palette.secondary.main,
       borderLeft: `.5rem solid ${theme.palette.secondary.main}`
     },
-    appbar: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      backgroundColor: theme.palette.common.white,
-      opacity: '0.95'
+    toolbar: {
+      ...theme.mixins.toolbar,
+      [theme.breakpoints.down('sm')]: {
+        display: 'none'
+      }
     },
-    toolbar: theme.mixins.toolbar
+    menuButton: {
+      color: '#000',
+      marginRight: theme.spacing(2),
+      [theme.breakpoints.up('md')]: {
+        display: 'none'
+      }
+    }
   })
 )
 
@@ -69,9 +85,16 @@ const toolbarStyles = {
 }
 
 const Layout: FC = ({ children }) => {
+  const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
   const classes = useStyles()
   const router = useRouter()
   const auth = useAuth()
+
+  const [open, setOpen] = useState(false)
+
+  const handleDrawerOpen = () => {
+    setOpen(!open)
+  }
 
   const menuItems = [
     {
@@ -91,22 +114,51 @@ const Layout: FC = ({ children }) => {
     }
   ]
 
+  const drawer = (
+    <List>
+      {menuItems.map((item) => (
+        <ListItem
+          button
+          key={item.text}
+          onClick={() => router.push(item.path)}
+          className={router.pathname == item.path ? classes.active : ''}
+        >
+          <ListItemIcon>{item.icon}</ListItemIcon>
+          <ListItemText>{item.text}</ListItemText>
+        </ListItem>
+      ))}
+    </List>
+  )
+
   return (
     <div className={classes.root}>
       {/* app bar */}
-      <AppBar className={classes.appbar} elevation={0}>
+      <AppBar className={classes.appbar} elevation={0} position="fixed">
         <Toolbar sx={toolbarStyles}>
           <Stack
-            sx={{
-              borderRadius: '1rem',
-              cursor: 'pointer'
-            }}
+            width="100%"
             direction="row"
+            // justifyContent="space-between"
             alignItems="center"
             spacing={2}
-            mx={3}
-            p={2}
+            sx={{
+              borderRadius: '1rem',
+              padding: { md: '0', lg: '1rem' },
+              justifyContent: { xs: 'space-between', md: 'flex-end' }
+            }}
           >
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              edge="start"
+              sx={{
+                cursor: 'pointer'
+              }}
+              onClick={handleDrawerOpen}
+              className={classes.menuButton}
+            >
+              <MenuIcon fontSize="large" />
+            </IconButton>
             <UserDropdown
               username={auth.name ?? 'Guest'}
               image={auth.image}
@@ -120,9 +172,12 @@ const Layout: FC = ({ children }) => {
 
       <Drawer
         className={classes.drawer}
-        variant="permanent"
+        variant={isMdUp ? 'permanent' : 'temporary'}
         anchor="left"
+        open={open}
+        onClose={handleDrawerOpen}
         classes={{ paper: classes.drawerPaper }}
+        // sx={{ display: { xs: 'none', md: 'block' } }}
       >
         <Image
           alt="Rick and morty logo"
@@ -130,31 +185,16 @@ const Layout: FC = ({ children }) => {
           width={300}
           height={100}
         />
-
         {/* list / links */}
-        <List>
-          {menuItems.map((item) => (
-            <ListItem
-              button
-              key={item.text}
-              onClick={() => router.push(item.path)}
-              className={router.pathname == item.path ? classes.active : ''}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText>{item.text}</ListItemText>
-            </ListItem>
-          ))}
-        </List>
+        {drawer}
         <Box>
-          <Typography variant="body2" align="center">
-            Develop by luisdallacqua with &#9829;
-          </Typography>
+          <Typography variant="h6">Projeto e etc</Typography>
         </Box>
       </Drawer>
 
       <div className={classes.page}>
-        <div className={classes.toolbar}></div>
-        {children}
+        <Box className={classes.toolbar}></Box>
+        {<Container>{children}</Container>}
       </div>
     </div>
   )

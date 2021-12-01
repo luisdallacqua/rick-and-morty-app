@@ -21,12 +21,13 @@ const Char = () => {
     <Grid
       container
       mt={5}
+      justifyContent="center"
       spacing={{ xs: 2, md: 3 }}
       columns={{ xs: 12, sm: 12, md: 12 }}
     >
       {data?.map((character: any) => {
         return (
-          <Grid item xs={12} sm={6} md={3} key={character.name}>
+          <Grid item xs={12} sm={6} md={4} key={character.name}>
             <CharacterCard
               id={character.id}
               name={character.name}
