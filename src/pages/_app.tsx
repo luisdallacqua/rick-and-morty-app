@@ -29,7 +29,6 @@ export default function MyApp(props: MyAppProps) {
   React.useEffect(() => {
     async function getUser() {
       const user = await getUserLocalStorage()
-      console.log(user)
       setUser(user)
     }
     getUser()

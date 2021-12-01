@@ -18,7 +18,7 @@ const Register = () => {
 
   return (
     <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={10} md={8} className={classes.grid}>
+      <Grid item xs={11} md={10} className={classes.grid}>
         <Typography align="center" variant="h5" my={2}>
           Criar usuário
         </Typography>

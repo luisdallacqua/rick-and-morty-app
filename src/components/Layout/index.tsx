@@ -35,11 +35,12 @@ const useStyles = makeStyles<Theme>((theme) =>
       display: 'flex'
     },
     appbar: {
+      backgroundColor: theme.palette.grey[300],
+      opacity: '0.8',
+      width: `calc(100% - ${drawerWidth}px)`,
       [theme.breakpoints.down('md')]: {
         width: '100vw'
-      },
-      width: `calc(100% - ${drawerWidth}px)`,
-      backgroundColor: theme.palette.common.white
+      }
     },
     page: {
       width: '100%',
@@ -63,10 +64,7 @@ const useStyles = makeStyles<Theme>((theme) =>
       borderLeft: `.5rem solid ${theme.palette.secondary.main}`
     },
     toolbar: {
-      ...theme.mixins.toolbar,
-      [theme.breakpoints.down('sm')]: {
-        display: 'none'
-      }
+      ...theme.mixins.toolbar
     },
     menuButton: {
       color: '#000',
@@ -80,8 +78,7 @@ const useStyles = makeStyles<Theme>((theme) =>
 
 const toolbarStyles = {
   display: 'flex',
-  justifyContent: 'flex-end',
-  backgroundColor: 'common.white'
+  justifyContent: 'flex-end'
 }
 
 const Layout: FC = ({ children }) => {
@@ -138,12 +135,10 @@ const Layout: FC = ({ children }) => {
           <Stack
             width="100%"
             direction="row"
-            // justifyContent="space-between"
             alignItems="center"
             spacing={2}
             sx={{
               borderRadius: '1rem',
-              padding: { md: '0', lg: '1rem' },
               justifyContent: { xs: 'space-between', md: 'flex-end' }
             }}
           >
@@ -177,7 +172,6 @@ const Layout: FC = ({ children }) => {
         open={open}
         onClose={handleDrawerOpen}
         classes={{ paper: classes.drawerPaper }}
-        // sx={{ display: { xs: 'none', md: 'block' } }}
       >
         <Image
           alt="Rick and morty logo"
@@ -193,8 +187,8 @@ const Layout: FC = ({ children }) => {
       </Drawer>
 
       <div className={classes.page}>
-        <Box className={classes.toolbar}></Box>
-        {<Container>{children}</Container>}
+        <div className={classes.toolbar}></div>
+        <Container>{children}</Container>
       </div>
     </div>
   )

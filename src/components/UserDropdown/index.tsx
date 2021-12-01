@@ -34,7 +34,7 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
               src={image}
               alt={username}
               variant="rounded"
-              sx={{ maxHeight: 50 }}
+              sx={{ maxHeight: 60 }}
             />
           ) : (
             <PersonIcon sx={{ fontSize: 50 }} />
@@ -47,7 +47,7 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
             }}
           >
             <S.Username>{username}</S.Username>
-            <span style={{ fontSize: '16px', marginLeft: '0.6rem' }}>
+            <span style={{ fontSize: '12px', marginLeft: '0.6rem' }}>
               {role?.toUpperCase() || 'USER'}
             </span>
           </div>

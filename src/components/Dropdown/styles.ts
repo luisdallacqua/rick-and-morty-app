@@ -7,7 +7,7 @@ export const Title = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  padding-right: 2.4rem;
+  padding-right: 1rem;
   z-index: 50;
 
   @media (max-width: 600px) {
@@ -37,7 +37,7 @@ export const Content = styled.div`
 `
 export const Overlay = styled.div`
   ${() => css`
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     position: fixed;
     top: 0;
     bottom: 0;

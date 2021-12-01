@@ -9,6 +9,8 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { makeStyles } from '@mui/styles'
 import { useAuth } from '../../hooks/useAuth'
 import { CharacterProps } from './types'
+import { formatStringToFillInSpace } from '../../utils/data/formatData'
+import { updateFavoriteChars } from '../../utils/data/reqCharacters'
 
 interface IStatus {
   //this is necessary to makeStyles accept status without any kind of error
@@ -18,7 +20,7 @@ interface IStatus {
 const useStyles = makeStyles<Theme, IStatus>((theme) => {
   return {
     card: {
-      maxWidth: 345,
+      maxWidth: 245,
       backgroundColor: theme.palette.common.black,
       color: theme.palette.common.white
     },
@@ -39,7 +41,7 @@ const useStyles = makeStyles<Theme, IStatus>((theme) => {
       }
     },
     favoriteIcon: {
-      fontSize: 30,
+      fontSize: 20,
       color: pink[500],
       cursor: 'pointer',
       marginRight: '0.5rem'
@@ -68,6 +70,24 @@ const CharacterCard: FC<CharacterProps> = ({
 
   const auth = useAuth()
 
+  function excludeFromFavorites(id: number) {
+    const filteredCharacters = auth?.favoriteCharacters?.filter((i) => id !== i)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    updateFavoriteChars(auth, filteredCharacters!)
+    //here are the problem that state of auth is not the real one, how get
+    //the real state up to date with the aplication?
+  }
+
+  function includeInFavorites(id: number) {
+    const favoriteCharacters = auth.favoriteCharacters
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    favoriteCharacters!.push(id)
+    const orderedCharacters = favoriteCharacters?.sort((a, b) => a - b)
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    updateFavoriteChars(auth, orderedCharacters!)
+  }
+
   useEffect(() => {
     async function isAlreadyFavorite(id: number) {
       const result = auth?.favoriteCharacters?.includes(id)
@@ -80,8 +100,10 @@ const CharacterCard: FC<CharacterProps> = ({
     <Card className={classes.card}>
       <CardMedia className={classes.media} image={image} component="img" />
       <CardContent>
-        <Typography variant="h6">{name}</Typography>
-        <Typography variant="subtitle1" component="div">
+        <Typography variant="h6">
+          {formatStringToFillInSpace(name, 16)}
+        </Typography>
+        <Typography variant="subtitle2" component="div">
           <FiberManualRecordIcon className={classes.icon} />
           {status} - {species}
         </Typography>
@@ -90,16 +112,19 @@ const CharacterCard: FC<CharacterProps> = ({
           Gender: {gender}
         </Typography>
         <Typography variant="subtitle2" mt={1}>
-          First Seen: {origin?.name}
+          First Seen: {formatStringToFillInSpace(origin?.name, 16)}
         </Typography>
         <Typography variant="subtitle2" mt={1}>
-          Last Seen: {location?.name}
+          Last Seen:{formatStringToFillInSpace(location?.name, 16)}
         </Typography>
 
         <Box
           className={classes.wrapperFavIcon}
           onClick={() => {
             console.log(id)
+            {
+              isFavorite ? excludeFromFavorites(id) : includeInFavorites(id)
+            }
             setIsFavorite(!isFavorite)
           }}
         >

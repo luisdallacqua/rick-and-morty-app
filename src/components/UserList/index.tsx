@@ -1,12 +1,9 @@
 import * as React from 'react'
 import Image from 'next/image'
 import { api } from '../../services/createApi'
-import BasicModal from '../Modal/index'
-import CharacterList from '../CharacterList'
 import { IUser } from '../RegisterForm'
 import imageDefault from '../../../public/grayUserImage.svg'
-import { createData } from '../../utils/data/createDataForTable'
-import { ActionsSection } from '../../utils/data/createDataForTable'
+import { rows } from './userData'
 
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
@@ -16,6 +13,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
+import { formatStringToFillInSpace } from '../../utils/data/formatData'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -43,22 +41,14 @@ export default function BasicTable() {
     fetchUsers()
   }, [])
 
-  const rows = users.map((user) => {
-    return createData(
-      user.name,
-      user.email,
-      user.role,
-      ActionsSection(user),
-      <BasicModal textButton="Lista de Personagens" textModalHeader={user.name}>
-        <CharacterList />
-      </BasicModal>,
-      user.image
-    )
-  })
+  const rowsData = rows(users)
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer
+      component={Paper}
+      sx={{ maxWidth: '90vw', overflow: 'auto' }}
+    >
+      <Table aria-label="simple table">
         <TableHead sx={{ backgroundColor: '#ccc' }}>
           <TableRow hover={true}>
             <StyledTableCell align="center">Avatar</StyledTableCell>
@@ -72,7 +62,7 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rowsData.map((row) => (
             <TableRow
               key={row.name}
               sx={{
@@ -94,9 +84,7 @@ export default function BasicTable() {
                 )}
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.name.length > sizeOfName
-                  ? `${row.name.slice(0, sizeOfName)}...`
-                  : row.name}
+                {formatStringToFillInSpace(row.name, sizeOfName)}
               </TableCell>
               <TableCell align="left">{row.email}</TableCell>
               <TableCell align="left">{row.roles.toUpperCase()}</TableCell>

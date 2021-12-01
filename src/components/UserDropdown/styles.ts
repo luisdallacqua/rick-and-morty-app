@@ -13,6 +13,7 @@ export const Nav = styled.nav`
 `
 export const Username = styled.span`
   ${() => css`
+    font-size: 20px;
     padding: 0 0.5rem;
   `}
 `
