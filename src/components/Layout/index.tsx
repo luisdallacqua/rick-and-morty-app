@@ -36,7 +36,6 @@ const useStyles = makeStyles<Theme>((theme) =>
     },
     appbar: {
       backgroundColor: theme.palette.grey[300],
-      opacity: '0.8',
       width: `calc(100% - ${drawerWidth}px)`,
       [theme.breakpoints.down('md')]: {
         width: '100vw'

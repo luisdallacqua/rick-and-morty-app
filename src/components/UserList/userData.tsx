@@ -1,20 +1,18 @@
-import { ActionsSection, createData } from '../../utils/data/createDataForTable'
+import {
+  ActionsSection,
+  createData,
+  MoreInfoSection
+} from '../../utils/data/createDataForTable'
 import { IUser } from '../RegisterForm'
 
-import BasicModal from '../Modal/index'
-
-import CharacterList from '../CharacterList'
-
-export const rows = (users: IUser[]) =>
+export const rowsFormatter = (users: IUser[]) =>
   users.map((user) => {
     return createData(
       user.name,
       user.email,
       user.role,
       ActionsSection(user),
-      <BasicModal textButton="Lista de Personagens" textModalHeader={user.name}>
-        <CharacterList />
-      </BasicModal>,
+      MoreInfoSection(user),
       user.image
     )
   })

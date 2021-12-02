@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Avatar, Container, Grid, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import { makeStyles } from '@mui/styles'
-import { IUser } from '../RegisterForm'
 import { useAuth } from '../../hooks/useAuth'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -30,7 +29,7 @@ const SignIn = () => {
     try {
       await auth.authenticate(values.email, values.password)
 
-      router.push('/')
+      router.push('/char')
       console.log(values.email, values.password)
     } catch (error) {
       console.log(error)
@@ -65,7 +64,9 @@ const SignIn = () => {
             variant="outlined"
             type="text"
             value={email}
-            onChange={(e: any) => setEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
           />
           <TextField
             fullWidth
@@ -74,7 +75,9 @@ const SignIn = () => {
             variant="outlined"
             type="password"
             value={password}
-            onChange={(e: any) => setPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
           />
           <Button
             fullWidth

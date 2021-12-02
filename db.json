@@ -11,12 +11,11 @@
       "image": "https://avatars.githubusercontent.com/u/65989058?v=4",
       "favoriteCharacters": [
         1,
-        2,
-        4,
+        3,
         5,
         6,
-        7,
-        12
+        10,
+        10
       ]
     },
     {
@@ -63,7 +62,15 @@
       "birthDate": "28/10/1994",
       "role": "admin",
       "image": "",
-      "id": 16.870925541853367
+      "id": 16.870925541853367,
+      "favoriteCharacters": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        8
+      ]
     }
   ]
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Button } from '@mui/material'
 import { CharacterProps } from '../../components/CharecterCard/types'
 import BasicModal from '../../components/Modal'
@@ -6,6 +7,8 @@ import { IUser } from '../../components/RegisterForm'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { api } from '../../services/createApi'
+import { UserLogin } from '../../context/types'
+import CharacterList from '../../components/CharacterList'
 
 export const createData = (
   name: string,
@@ -13,10 +16,9 @@ export const createData = (
   roles: string,
   actions: React.ReactNode,
   moreInfo: React.ReactNode,
-  avatar?: string,
-  favoriteCharacters?: CharacterProps[]
+  avatar?: string
 ) => {
-  return { name, email, roles, actions, moreInfo, avatar, favoriteCharacters }
+  return { name, email, roles, actions, moreInfo, avatar }
 }
 
 const handleDelete = async (id: number) => {
@@ -34,14 +36,18 @@ export const ActionsSection = (params: IUser) => {
       >
         <ModeEditIcon />
       </Button>
-      <BasicModal
-        isDeleteOption
-        variant="outlined"
-        textButton={<DeleteIcon color="error" />}
-      >
+      <BasicModal isDeleteOption textButton={<DeleteIcon color="error" />}>
         Você está prestes a deletar um usuário, deseja prosseguir?
         <button onClick={() => handleDelete(params.id)}>SIM</button>
       </BasicModal>
     </div>
+  )
+}
+
+export const MoreInfoSection = (params: UserLogin) => {
+  return (
+    <BasicModal textButton="Lista de Personagens" textModalHeader={params.name}>
+      <CharacterList {...params} />
+    </BasicModal>
   )
 }

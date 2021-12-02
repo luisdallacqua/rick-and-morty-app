@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { api } from '../../services/createApi'
 import { IUser } from '../RegisterForm'
 import imageDefault from '../../../public/grayUserImage.svg'
-import { rows } from './userData'
+import { rowsFormatter } from './userData'
 
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
@@ -41,7 +41,7 @@ export default function BasicTable() {
     fetchUsers()
   }, [])
 
-  const rowsData = rows(users)
+  const rowsData = rowsFormatter(users)
 
   return (
     <TableContainer

@@ -9,7 +9,6 @@ export type ModalProps = {
   textButton: React.ReactNode
   textModalHeader?: string
   children: React.ReactNode
-  variant?: string
   isDeleteOption?: boolean
 }
 
@@ -23,7 +22,6 @@ const BasicModal: FC<ModalProps> = ({
   textButton,
   textModalHeader,
   children,
-  variant = 'contained',
   isDeleteOption = false
 }) => {
   const classes = useStyles()
@@ -33,9 +31,7 @@ const BasicModal: FC<ModalProps> = ({
 
   return (
     <div>
-      <Button onClick={handleOpen} variant={variant}>
-        {textButton}
-      </Button>
+      <Button onClick={handleOpen}>{textButton}</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -48,7 +44,7 @@ const BasicModal: FC<ModalProps> = ({
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '30%',
+            width: '40%',
             height: '50%',
             bgcolor: 'background.paper',
             boxShadow: 24,

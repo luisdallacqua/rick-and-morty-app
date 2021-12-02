@@ -16,6 +16,19 @@ export function getUserLocalStorage() {
   return null
 }
 
+export function upDateUserLocalStorage(user: UserLogin | null) {
+  if (typeof window !== 'undefined') {
+    const json = localStorage.getItem('user')
+    if (!json) return null
+    const userLocal = JSON.parse(json)
+    const userUpdate = {
+      ...userLocal,
+      ...user
+    }
+    localStorage.setItem('user', JSON.stringify(userUpdate))
+  }
+}
+
 export async function LoginRequest(email: string, password: string) {
   try {
     const params = { email, password }

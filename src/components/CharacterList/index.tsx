@@ -7,84 +7,73 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 
-import { CharacterMock as mock } from '../../mocks/character'
+import { CharacterProps } from '../CharecterCard/types'
+import { useRemoteService } from '../../hooks/useRemoteService'
+import { Alert, AlertTitle, CircularProgress } from '@mui/material'
 
-const CharacterList = () => {
+const CharacterList = ({ favoriteCharacters }: any) => {
+  const { data, loading, error } = useRemoteService(
+    `https://rickandmortyapi.com/api/character/${favoriteCharacters}`
+  )
+  if (loading) return <CircularProgress />
+  if (error)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        Something went wrong with server. try again later.
+      </Alert>
+    )
+
+  console.log(data)
+
   return (
-    <List sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
-      <ListItem
-        alignItems="flex-start"
-        sx={{ backgroundColor: '#cacaca', marginBottom: '.3rem' }}
-      >
-        <ListItemAvatar>
-          <Avatar
-            alt={`image of ${mock[0].name}`}
-            src={mock[0].image}
-            sx={{ width: 60, height: 60, marginRight: '.5rem' }}
-          />
-        </ListItemAvatar>
-        <ListItemText
-          primary={`${mock[0].name} - ${mock[0].species}`}
-          secondary={
-            <React.Fragment>
-              <Typography
-                sx={{ display: 'inline' }}
-                component="span"
-                variant="body2"
-                color="common.black"
-              >
-                <FiberManualRecordIcon
-                  sx={{
-                    fontSize: 10,
-                    color:
-                      mock[0].status === 'Alive'
-                        ? 'secondary.main'
-                        : 'error.main'
-                  }}
+    <>
+      {data.map((character: CharacterProps) => {
+        return (
+          <List
+            sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}
+            key={character.id}
+          >
+            <ListItem
+              alignItems="flex-start"
+              sx={{ backgroundColor: '#cacaca', marginBottom: '.3rem' }}
+            >
+              <ListItemAvatar>
+                <Avatar
+                  alt={`image of ${character.name}`}
+                  src={character.image}
+                  sx={{ width: 60, height: 60, marginRight: '.5rem' }}
                 />
-                {mock[0].status}
-              </Typography>
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      <ListItem
-        alignItems="flex-start"
-        sx={{ backgroundColor: '#cacaca', marginBottom: '.3rem' }}
-      >
-        <ListItemAvatar sx={{ height: '100%' }}>
-          <Avatar
-            alt={`image of ${mock[1].name}`}
-            src={mock[1].image}
-            sx={{ width: 56, height: 56, marginRight: '.5rem' }}
-          />
-        </ListItemAvatar>
-        <ListItemText
-          primary={`${mock[1].name} - ${mock[1].species}`}
-          secondary={
-            <React.Fragment>
-              <Typography
-                sx={{ display: 'inline' }}
-                component="span"
-                variant="body2"
-                color="common.black"
-              >
-                <FiberManualRecordIcon
-                  sx={{
-                    fontSize: 10,
-                    color:
-                      mock[1].status === 'Alive'
-                        ? 'secondary.main'
-                        : 'error.main'
-                  }}
-                />
-                {mock[1].status}
-              </Typography>
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-    </List>
+              </ListItemAvatar>
+              <ListItemText
+                primary={`${character.name} - ${character.species}`}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      sx={{ display: 'inline' }}
+                      component="span"
+                      variant="body2"
+                      color="common.black"
+                    >
+                      <FiberManualRecordIcon
+                        sx={{
+                          fontSize: 10,
+                          color:
+                            character.status === 'Alive'
+                              ? 'secondary.main'
+                              : 'error.main'
+                        }}
+                      />
+                      {character.status}
+                    </Typography>
+                  </React.Fragment>
+                }
+              />
+            </ListItem>
+          </List>
+        )
+      })}
+    </>
   )
 }
 

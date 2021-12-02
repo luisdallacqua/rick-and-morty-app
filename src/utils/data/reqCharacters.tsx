@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { UserLogin } from '../../context/types'
+import { upDateUserLocalStorage } from '../auth'
 
 export const updateFavoriteChars = async (
   user: UserLogin,
@@ -9,6 +10,8 @@ export const updateFavoriteChars = async (
     ...user,
     favoriteCharacters: [...newCharacters]
   })
+  upDateUserLocalStorage(response.data)
 
+  console.log(response)
   return response
 }

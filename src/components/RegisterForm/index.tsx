@@ -24,6 +24,7 @@ export interface IUser {
   birthDate: string
   role: string
   image: string
+  favoriteCharacters: number[]
 }
 
 const RegisterForm = () => {
