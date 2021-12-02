@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Button } from '@mui/material'
-import { CharacterProps } from '../../components/CharecterCard/types'
 import BasicModal from '../../components/Modal'
-import { IUser } from '../../components/RegisterForm'
+import { IUser } from '../../components/RegisterForm/types'
 
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { api } from '../../services/createApi'
-import { UserLogin } from '../../context/types'
 import CharacterList from '../../components/CharacterList'
 
 export const createData = (
@@ -44,10 +42,14 @@ export const ActionsSection = (params: IUser) => {
   )
 }
 
-export const MoreInfoSection = (params: UserLogin) => {
+export const MoreInfoSection = (params: IUser) => {
   return (
     <BasicModal textButton="Lista de Personagens" textModalHeader={params.name}>
-      <CharacterList {...params} />
+      {params.favoriteCharacters.length > 0 ? (
+        <CharacterList {...params} />
+      ) : (
+        <p>TU NÃO TEM PERSONAGEM FAVORITO NÃO MERMAO</p>
+      )}
     </BasicModal>
   )
 }

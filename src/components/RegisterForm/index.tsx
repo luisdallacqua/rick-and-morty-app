@@ -14,24 +14,14 @@ import {
   Stack,
   TextField
 } from '@mui/material'
-
-export interface IUser {
-  id: number
-  name: string
-  password: string
-  cpf: string
-  email: string
-  birthDate: string
-  role: string
-  image: string
-  favoriteCharacters: number[]
-}
+import { IUser } from './types'
 
 const RegisterForm = () => {
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    reset
   } = useForm<IUser>({ resolver: yupResolver(userSchema) })
 
   const [role, setRole] = useState('user')
@@ -46,9 +36,16 @@ const RegisterForm = () => {
     return response.data
   }
 
-  const onSubmit = (data: IUser) =>
-    createUser({ ...data, role, image, id: Math.random() * 100 })
-
+  const onSubmit = (data: IUser) => {
+    createUser({
+      ...data,
+      role,
+      image,
+      id: Math.random() * 100,
+      favoriteCharacters: []
+    })
+    reset()
+  }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>

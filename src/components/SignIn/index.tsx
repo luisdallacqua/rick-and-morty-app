@@ -7,6 +7,10 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Box } from '@mui/system'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import { useForm } from 'react-hook-form'
+import { IUser } from '../RegisterForm/types'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { loginSchema } from '../../utils/validation/userValidation'
 
 const useStyles = makeStyles({
   link: {
@@ -17,23 +21,30 @@ const useStyles = makeStyles({
 })
 
 const SignIn = () => {
-  const classes = useStyles()
-
-  const auth = useAuth()
   const router = useRouter()
+  const classes = useStyles()
+  const auth = useAuth()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const {
+    register,
+    formState: { errors },
+    handleSubmit
+  } = useForm<Pick<IUser, 'email' | 'password'>>({
+    resolver: yupResolver(loginSchema)
+  })
 
-  async function onSubmit(values: { email: string; password: string }) {
+  async function authUser(values: { email: string; password: string }) {
     try {
       await auth.authenticate(values.email, values.password)
-
       router.push('/char')
-      console.log(values.email, values.password)
     } catch (error) {
+      console.log('3')
       console.log(error)
     }
+  }
+
+  function onSubmit(values: { email: string; password: string }) {
+    authUser(values)
   }
 
   return (
@@ -52,21 +63,16 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box
-          component="form"
-          noValidate
-          onSubmit={() => onSubmit({ email, password })}
-        >
+        <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
           <TextField
             fullWidth
             margin="normal"
-            label="User"
+            label="Email"
             variant="outlined"
             type="text"
-            value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
+            error={Boolean(errors.email?.message)}
+            helperText={errors.email?.message}
+            {...register('email')}
           />
           <TextField
             fullWidth
@@ -74,17 +80,11 @@ const SignIn = () => {
             label="Password"
             variant="outlined"
             type="password"
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
+            error={Boolean(errors.password?.message)}
+            helperText={errors.password?.message}
+            {...register('password')}
           />
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={() => onSubmit({ email, password })}
-          >
+          <Button fullWidth variant="contained" color="primary" type="submit">
             Sign In
           </Button>
           <Grid container>

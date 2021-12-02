@@ -4,18 +4,20 @@
       "id": 123479812378123,
       "name": "Luis Artur",
       "email": "algum@mail.com",
-      "password": "1234",
+      "password": "123456",
       "cpf": "9123819238912",
       "birthDate": "23-10-1993",
       "role": "ADMIN",
       "image": "https://avatars.githubusercontent.com/u/65989058?v=4",
       "favoriteCharacters": [
-        1,
+        2,
         3,
-        5,
+        4,
         6,
+        7,
+        8,
         10,
-        10
+        11
       ]
     },
     {
@@ -71,6 +73,28 @@
         6,
         8
       ]
+    },
+    {
+      "name": "Tentativa de criar gente",
+      "password": "umagente",
+      "email": "gente@gente.com",
+      "cpf": "umagente123",
+      "birthDate": "2819201gente",
+      "role": "user",
+      "image": "",
+      "id": 54.256436131756104,
+      "favoriteCharacters": []
+    },
+    {
+      "name": "Um jovem na segunda página",
+      "password": "jovemseungdapagina",
+      "email": "laojs@mnasjk",
+      "cpf": "1234t9812 m,",
+      "birthDate": "jklasddkljkl",
+      "role": "user",
+      "image": "",
+      "id": 81.1799459746871,
+      "favoriteCharacters": []
     }
   ]
 }

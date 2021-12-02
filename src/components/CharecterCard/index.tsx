@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { FC, useEffect, useState } from 'react'
 
 import { Card, CardContent, CardMedia, Theme, Typography } from '@mui/material'
@@ -72,19 +73,16 @@ const CharacterCard: FC<CharacterProps> = ({
 
   function excludeFromFavorites(id: number) {
     const filteredCharacters = auth?.favoriteCharacters?.filter((i) => id !== i)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     updateFavoriteChars(auth, filteredCharacters!)
     //here are the problem that state of auth is not the real one, how get
     //the real state up to date with the aplication?
   }
 
   function includeInFavorites(id: number) {
-    const favoriteCharacters = auth.favoriteCharacters
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    favoriteCharacters!.push(id)
-    const orderedCharacters = favoriteCharacters?.sort((a, b) => a - b)
+    const favoriteCharacters = auth.favoriteCharacters!.concat(id)
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const orderedCharacters = favoriteCharacters?.sort((a, b) => a - b)
     updateFavoriteChars(auth, orderedCharacters!)
   }
 

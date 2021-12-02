@@ -3,7 +3,7 @@ import {
   createData,
   MoreInfoSection
 } from '../../utils/data/createDataForTable'
-import { IUser } from '../RegisterForm'
+import { IUser } from '../RegisterForm/types'
 
 export const rowsFormatter = (users: IUser[]) =>
   users.map((user) => {

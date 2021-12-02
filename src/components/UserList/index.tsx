@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Image from 'next/image'
 import { api } from '../../services/createApi'
-import { IUser } from '../RegisterForm'
+import { IUser } from '../RegisterForm/types'
 import imageDefault from '../../../public/grayUserImage.svg'
 import { rowsFormatter } from './userData'
 
@@ -44,56 +44,58 @@ export default function BasicTable() {
   const rowsData = rowsFormatter(users)
 
   return (
-    <TableContainer
-      component={Paper}
-      sx={{ maxWidth: '90vw', overflow: 'auto' }}
-    >
-      <Table aria-label="simple table">
-        <TableHead sx={{ backgroundColor: '#ccc' }}>
-          <TableRow hover={true}>
-            <StyledTableCell align="center">Avatar</StyledTableCell>
-            <StyledTableCell>Usuário</StyledTableCell>
-            <StyledTableCell align="left">Email</StyledTableCell>
-            <StyledTableCell align="left">Permissão</StyledTableCell>
-            <StyledTableCell align="left">Ações (U,D)</StyledTableCell>
-            <StyledTableCell align="left">
-              Personagens Favoritos
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rowsData.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{
-                '&:last-child td, &:last-child th': { border: 0 },
-                '&:nth-child(even)': { backgroundColor: '#eee' }
-              }}
-            >
-              <TableCell align="center">
-                {row.avatar ? (
-                  <img
-                    src={row.avatar}
-                    style={{
-                      maxWidth: '60px',
-                      maxHeight: '60px'
-                    }}
-                  />
-                ) : (
-                  <Image src={imageDefault} width={60} height={60} />
-                )}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {formatStringToFillInSpace(row.name, sizeOfName)}
-              </TableCell>
-              <TableCell align="left">{row.email}</TableCell>
-              <TableCell align="left">{row.roles.toUpperCase()}</TableCell>
-              <TableCell align="left">{row.actions}</TableCell>
-              <TableCell align="left">{row.moreInfo}</TableCell>
+    <Paper sx={{ width: '100%' }}>
+      <TableContainer
+        component={Paper}
+        sx={{ maxWidth: '90vw', overflow: 'auto' }}
+      >
+        <Table aria-label="simple table">
+          <TableHead sx={{ backgroundColor: '#ccc' }}>
+            <TableRow hover={true}>
+              <StyledTableCell align="center">Avatar</StyledTableCell>
+              <StyledTableCell>Usuário</StyledTableCell>
+              <StyledTableCell align="left">Email</StyledTableCell>
+              <StyledTableCell align="left">Permissão</StyledTableCell>
+              <StyledTableCell align="left">Ações (U,D)</StyledTableCell>
+              <StyledTableCell align="left">
+                Personagens Favoritos
+              </StyledTableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {rowsData.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                  '&:nth-child(even)': { backgroundColor: '#eee' }
+                }}
+              >
+                <TableCell align="center">
+                  {row.avatar ? (
+                    <img
+                      src={row.avatar}
+                      style={{
+                        maxWidth: '60px',
+                        maxHeight: '60px'
+                      }}
+                    />
+                  ) : (
+                    <Image src={imageDefault} width={60} height={60} />
+                  )}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {formatStringToFillInSpace(row.name, sizeOfName)}
+                </TableCell>
+                <TableCell align="left">{row.email}</TableCell>
+                <TableCell align="left">{row.roles.toUpperCase()}</TableCell>
+                <TableCell align="left">{row.actions}</TableCell>
+                <TableCell align="left">{row.moreInfo}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   )
 }

@@ -10,7 +10,7 @@ import Layout from '../components/Layout'
 import { AuthProvider } from '../context/AuthProvider'
 import { useRouter } from 'next/router'
 import { getUserLocalStorage } from '../utils/auth'
-import { IUser } from '../components/RegisterForm'
+import { IUser } from '../components/RegisterForm/types'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
