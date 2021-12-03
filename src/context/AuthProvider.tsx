@@ -1,17 +1,18 @@
 import axios from 'axios'
 import { createContext, useEffect, useState } from 'react'
+import { IUser } from '../components/RegisterForm/types'
 import { getUserLocalStorage, setUserLocalStorage } from '../utils/auth/index'
-import { IAuthProvider, IContext, UserLogin } from './types'
+import { IAuthProvider, IContext } from './types'
 
 export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider = ({ children }: IAuthProvider) => {
-  const [user, setUser] = useState<UserLogin | null>()
+  const [user, setUser] = useState<IUser>({} as IUser)
 
   useEffect(() => {
     const user = getUserLocalStorage()
 
-    if (user) setUser(user)
+    if (Object.keys(user).length) setUser(user)
   }, [])
 
   async function authenticate(email: string, password: string) {
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
     const response = await axios.get('http://localhost:3001/users', { params })
 
-    const payload: UserLogin = {
+    const payload: IUser = {
       id: response.data[0].id,
       name: response.data[0].name,
       email: response.data[0].email,
@@ -36,8 +37,8 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
   }
 
   async function logout() {
-    setUser(null)
-    setUserLocalStorage(null)
+    setUser({} as IUser)
+    setUserLocalStorage({} as IUser)
   }
 
   return (

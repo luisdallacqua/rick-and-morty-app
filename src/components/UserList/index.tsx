@@ -30,7 +30,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const sizeOfName = 30
 
 export default function BasicTable() {
-  const [users, setUsers] = React.useState<IUser[] | []>([])
+  const [users, setUsers] = React.useState<IUser[]>([])
 
   React.useEffect(() => {
     const fetchUsers = async () => {

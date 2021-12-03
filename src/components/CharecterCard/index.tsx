@@ -72,27 +72,25 @@ const CharacterCard: FC<CharacterProps> = ({
   const auth = useAuth()
 
   function excludeFromFavorites(id: number) {
-    const filteredCharacters = auth?.favoriteCharacters?.filter((i) => id !== i)
-
-    updateFavoriteChars(auth, filteredCharacters!)
+    const filteredCharacters = auth.favoriteCharacters.filter((i) => id !== i)
+    updateFavoriteChars(auth, filteredCharacters)
     //here are the problem that state of auth is not the real one, how get
     //the real state up to date with the aplication?
   }
 
   function includeInFavorites(id: number) {
-    const favoriteCharacters = auth.favoriteCharacters!.concat(id)
+    const favoriteCharacters = auth.favoriteCharacters.concat(id)
 
     const orderedCharacters = favoriteCharacters?.sort((a, b) => a - b)
-    updateFavoriteChars(auth, orderedCharacters!)
+    updateFavoriteChars(auth, orderedCharacters)
   }
 
   useEffect(() => {
-    async function isAlreadyFavorite(id: number) {
-      const result = auth?.favoriteCharacters?.includes(id)
-      result && setIsFavorite(true)
-    }
-    isAlreadyFavorite(id)
-  }, [])
+    ;(function isAlreadyFavorite(id: number) {
+      const result = auth.favoriteCharacters?.includes(id)
+      setIsFavorite(result)
+    })(id)
+  }, [id, auth])
 
   return (
     <Card className={classes.card}>

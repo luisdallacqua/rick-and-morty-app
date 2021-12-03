@@ -1,17 +1,15 @@
 import axios from 'axios'
-import { UserLogin } from '../../context/types'
-import { upDateUserLocalStorage } from '../auth'
+import { IUser } from '../../components/RegisterForm/types'
+import { setUserLocalStorage } from '../auth'
 
 export const updateFavoriteChars = async (
-  user: UserLogin,
+  user: IUser,
   newCharacters: number[]
 ) => {
-  const response = await axios.put(`http://localhost:3001/users/${user.id}`, {
-    ...user,
+  const response = await axios.patch(`http://localhost:3001/users/${user.id}`, {
     favoriteCharacters: [...newCharacters]
   })
-  upDateUserLocalStorage(response.data)
+  setUserLocalStorage(response.data)
 
-  console.log(response)
   return response
 }

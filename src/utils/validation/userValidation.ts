@@ -13,6 +13,7 @@ export const userSchema = yup.object().shape({
     .min(4, 'Tem que haver 11 digítios'),
   birthDate: yup.string().required('Data de nascimento é um campo obrigatórios')
 })
+
 export const loginSchema = yup.object().shape({
   email: yup.string().required('o email é obrigatório'),
   password: yup
