@@ -10,6 +10,7 @@ export type ModalProps = {
   textModalHeader?: string
   children: React.ReactNode
   isDeleteOption?: boolean
+  disabled?: boolean
 }
 
 const useStyles = makeStyles({
@@ -22,7 +23,8 @@ const BasicModal: FC<ModalProps> = ({
   textButton,
   textModalHeader,
   children,
-  isDeleteOption = false
+  isDeleteOption = false,
+  disabled = false
 }) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
@@ -31,7 +33,9 @@ const BasicModal: FC<ModalProps> = ({
 
   return (
     <div>
-      <Button onClick={handleOpen}>{textButton}</Button>
+      <Button disabled={disabled} onClick={handleOpen}>
+        {textButton}
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}

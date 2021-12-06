@@ -1,18 +1,36 @@
 import axios from 'axios'
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useReducer, useState } from 'react'
 import { IUser } from '../components/RegisterForm/types'
 import { getUserLocalStorage, setUserLocalStorage } from '../utils/auth/index'
 import { IAuthProvider, IContext } from './types'
 
 export const AuthContext = createContext<IContext>({} as IContext)
 
+const initialState = {} as IUser
+
+export type Action = {
+  type: string
+  payload?: IUser
+}
+
+function reducer(state: IUser, action: Action): IUser {
+  switch (action.type) {
+    case 'update':
+      return { ...state, ...action.payload }
+    case 'logout':
+      return {} as IUser
+    default:
+      return state
+  }
+}
+
 export const AuthProvider = ({ children }: IAuthProvider) => {
-  const [user, setUser] = useState<IUser>({} as IUser)
+  const [user, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     const user = getUserLocalStorage()
 
-    if (Object.keys(user).length) setUser(user)
+    if (Object.keys(user).length) dispatch({ type: 'update', payload: user })
   }, [])
 
   async function authenticate(email: string, password: string) {
@@ -32,17 +50,17 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
       favoriteCharacters: response.data[0].favoriteCharacters
     }
 
-    setUser(payload)
+    dispatch({ type: 'update', payload })
     setUserLocalStorage(payload)
   }
 
   async function logout() {
-    setUser({} as IUser)
+    dispatch({ type: 'logout' })
     setUserLocalStorage({} as IUser)
   }
 
   return (
-    <AuthContext.Provider value={{ authenticate, logout, ...user }}>
+    <AuthContext.Provider value={{ dispatch, logout, authenticate, ...user }}>
       {children}
     </AuthContext.Provider>
   )

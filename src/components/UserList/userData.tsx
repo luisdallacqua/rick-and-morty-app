@@ -1,18 +1,26 @@
 import {
   ActionsSection,
-  createData,
   MoreInfoSection
 } from '../../utils/data/createDataForTable'
 import { IUser } from '../RegisterForm/types'
 
 export const rowsFormatter = (users: IUser[]) =>
   users.map((user) => {
-    return createData(
-      user.name,
-      user.email,
-      user.role,
-      ActionsSection(user),
-      MoreInfoSection(user),
-      user.image
-    )
+    return {
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      actions: ActionsSection(user),
+      moreInfo: MoreInfoSection(user),
+      avatar: user.image
+    }
   })
+
+export const headerColumns = [
+  'Avatar',
+  'Usuário',
+  'Email',
+  'Permissão',
+  'Ações',
+  'Personagens Favoritos'
+]
