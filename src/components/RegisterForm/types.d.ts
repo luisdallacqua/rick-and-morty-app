@@ -6,6 +6,6 @@ export interface IUser {
   cpf: string
   birthDate: string
   role: string
-  image?: string
+  avatar?: string
   favoriteCharacters: number[]
 }

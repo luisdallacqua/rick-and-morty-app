@@ -37,7 +37,7 @@ export default function BasicTable() {
 
   React.useEffect(() => {
     const fetchUsers = async () => {
-      const response = await api.get('/users')
+      const response = await api.get('/user')
       const data = await response.data
       setUsers(data)
     }

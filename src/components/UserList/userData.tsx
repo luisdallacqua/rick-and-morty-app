@@ -12,7 +12,7 @@ export const rowsFormatter = (users: IUser[]) =>
       role: user.role,
       actions: ActionsSection(user),
       moreInfo: MoreInfoSection(user),
-      avatar: user.image
+      avatar: user.avatar
     }
   })
 
