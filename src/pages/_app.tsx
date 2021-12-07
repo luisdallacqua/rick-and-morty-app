@@ -11,6 +11,7 @@ import { AuthProvider } from '../context/AuthProvider'
 import { useRouter } from 'next/router'
 import { getUserLocalStorage } from '../utils/auth'
 import { IUser } from '../components/RegisterForm/types'
+import { api } from '../services/createApi'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -21,18 +22,6 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
-  const [user, setUser] = React.useState<IUser>({} as IUser)
-
-  const router = useRouter()
-  const notAuthenticationNeeded = ['/login', '/user/register']
-
-  React.useEffect(() => {
-    async function getUser() {
-      const user = await getUserLocalStorage()
-      setUser(user)
-    }
-    getUser()
-  }, [])
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -41,9 +30,6 @@ export default function MyApp(props: MyAppProps) {
       jssStyles?.parentElement?.removeChild(jssStyles)
     }
   }, [])
-
-  if (!notAuthenticationNeeded.includes(router.pathname) && user === null)
-    router.push('/login')
 
   return (
     <CacheProvider value={emotionCache}>
@@ -55,14 +41,9 @@ export default function MyApp(props: MyAppProps) {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          {notAuthenticationNeeded.includes(router.pathname) &&
-          user === null ? (
+          <Layout>
             <Component {...pageProps} />
-          ) : (
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          )}
+          </Layout>
         </ThemeProvider>
       </AuthProvider>
     </CacheProvider>

@@ -84,7 +84,6 @@ const Layout: FC = ({ children }) => {
   const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
   const classes = useStyles()
   const router = useRouter()
-  const auth = useAuth()
 
   const [open, setOpen] = useState(false)
 
@@ -154,9 +153,9 @@ const Layout: FC = ({ children }) => {
               <MenuIcon fontSize="large" />
             </IconButton>
             <UserDropdown
-              username={auth.name ?? 'Guest'}
-              image={auth.image}
-              role={auth.role}
+              username="Luis Artur"
+              image="https://avatars.githubusercontent.com/u/65989058?v=4"
+              role="Admin"
             />
           </Stack>
         </Toolbar>

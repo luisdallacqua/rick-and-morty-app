@@ -4,6 +4,7 @@ import { api } from '../../services/createApi'
 import { IUser } from '../RegisterForm/types'
 import imageDefault from '../../../public/grayUserImage.svg'
 import { headerColumns, rowsFormatter } from './userData'
+import { CircularProgress } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
@@ -34,12 +35,15 @@ export default function BasicTable() {
   const [users, setUsers] = React.useState<IUser[]>([])
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
+    setLoading(true)
     const fetchUsers = async () => {
       const response = await api.get('/user')
       const data = await response.data
       setUsers(data)
+      setLoading(false)
     }
     fetchUsers()
   }, [])
@@ -71,39 +75,44 @@ export default function BasicTable() {
               ))}
             </TableRow>
           </TableHead>
+
           <TableBody>
-            {rowsData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{
-                    '&:last-child td, &:last-child th': { border: 0 },
-                    '&:nth-child(even)': { backgroundColor: '#eee' }
-                  }}
-                >
-                  <TableCell align="center">
-                    {row.avatar ? (
-                      <img
-                        src={row.avatar}
-                        style={{
-                          maxWidth: '60px',
-                          maxHeight: '60px'
-                        }}
-                      />
-                    ) : (
-                      <Image src={imageDefault} width={60} height={60} />
-                    )}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {formatStringToFillInSpace(row.name, sizeOfName)}
-                  </TableCell>
-                  <TableCell align="left">{row.email}</TableCell>
-                  <TableCell align="left">{row.role.toUpperCase()}</TableCell>
-                  <TableCell align="left">{row.actions}</TableCell>
-                  <TableCell align="left">{row.moreInfo}</TableCell>
-                </TableRow>
-              ))}
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              rowsData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => (
+                  <TableRow
+                    key={row._id}
+                    sx={{
+                      '&:last-child td, &:last-child th': { border: 0 },
+                      '&:nth-child(even)': { backgroundColor: '#eee' }
+                    }}
+                  >
+                    <TableCell align="center">
+                      {row.avatar ? (
+                        <img
+                          src={row.avatar}
+                          style={{
+                            maxWidth: '60px',
+                            maxHeight: '60px'
+                          }}
+                        />
+                      ) : (
+                        <Image src={imageDefault} width={60} height={60} />
+                      )}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {formatStringToFillInSpace(row.name, sizeOfName)}
+                    </TableCell>
+                    <TableCell align="left">{row.email}</TableCell>
+                    <TableCell align="left">{row.role.toUpperCase()}</TableCell>
+                    <TableCell align="left">{row.actions}</TableCell>
+                    <TableCell align="left">{row.moreInfo}</TableCell>
+                  </TableRow>
+                ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

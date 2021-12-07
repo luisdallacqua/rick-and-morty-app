@@ -20,8 +20,7 @@ const RegisterForm = () => {
   const {
     register,
     formState: { errors },
-    handleSubmit,
-    reset
+    handleSubmit
   } = useForm<IUser>({ resolver: yupResolver(userSchema) })
 
   const [role, setRole] = useState('user')
@@ -32,7 +31,8 @@ const RegisterForm = () => {
   }
 
   const createUser = async (user: IUser) => {
-    const response = await api.post('http://localhost:3001/users', user)
+    const response = await api.post('/user', user)
+    console.log('response', response)
     return response.data
   }
 
@@ -40,11 +40,8 @@ const RegisterForm = () => {
     createUser({
       ...data,
       role,
-      image,
-      id: Math.random() * 100,
-      favoriteCharacters: []
+      avatar: image
     })
-    reset()
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

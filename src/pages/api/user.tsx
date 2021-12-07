@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { users } from '../../../db.json'
 import { connectToDatabase } from '../../utils/mongodb'
+import { IUser } from '../../components/RegisterForm/types'
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,10 +15,25 @@ export default async function handler(
   }
 
   if (method === 'POST') {
-    const { body } = req
-    const { name, cpf, email, birthDate, role, password } = body
-    const newUser = { name, cpf, email, birthDate, role, password }
-    await db.collection('users').insertOne(newUser)
-    res.status(200).json(newUser)
+    const { name, email, password, cpf, birthDate, role, avatar }: IUser =
+      req.body
+
+    const newUser = { name, cpf, email, birthDate, role, password, avatar }
+
+    if (!name || !cpf || !email || !birthDate || !role || !password) {
+      res.status(400).json({ error: 'Is missing required fields' })
+      return
+    }
+
+    const { db } = await connectToDatabase()
+
+    const response = await db
+      .collection('users')
+      .insertOne({ ...newUser, avatar: avatar || '', favoriteCharacters: [] })
+
+    res.status(201).json({
+      success: `The user ${newUser.name} was created sucessfully`,
+      response
+    })
   }
 }

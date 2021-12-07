@@ -6,10 +6,12 @@ export const updateFavoriteChars = async (
   user: IUser,
   newCharacters: number[]
 ) => {
-  const response = await axios.patch(`http://localhost:3001/users/${user.id}`, {
-    favoriteCharacters: [...newCharacters]
-  })
-  setUserLocalStorage(response.data)
+  const response = await axios.patch(
+    `http://localhost:3001/users/${user._id}`,
+    {
+      favoriteCharacters: [...newCharacters]
+    }
+  )
 
   return response
 }
