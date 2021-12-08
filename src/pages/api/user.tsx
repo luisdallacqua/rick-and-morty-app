@@ -71,7 +71,7 @@ export default async function handler(
 
     const newUser = { name, cpf, email, birthDate, role, password, avatar }
 
-    if (!name || !cpf || !email || !birthDate || !role || !password) {
+    if (!name || !email || !role || !password) {
       res.status(400).json({ error: 'Is missing required fields' })
       return
     }

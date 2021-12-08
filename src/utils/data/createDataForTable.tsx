@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Button } from '@mui/material'
+import { Alert, Button } from '@mui/material'
 import BasicModal from '../../components/Modal'
 import { IUser } from '../../components/RegisterForm/types'
 
@@ -33,11 +33,13 @@ export const ActionsSection = (params: IUser) => {
 
 export const MoreInfoSection = (params: IUser) => {
   return (
-    <BasicModal textButton="Lista de Personagens" textModalHeader={params.name}>
+    <BasicModal textButton="Favorite characters" textModalHeader={params.name}>
       {params.favoriteCharacters.length > 0 ? (
         <CharacterList {...params} />
       ) : (
-        <p>TU NÃO TEM PERSONAGEM FAVORITO NÃO MERMAO</p>
+        <Alert severity="warning">
+          Do not have any favorite character yet.
+        </Alert>
       )}
     </BasicModal>
   )

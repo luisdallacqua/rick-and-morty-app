@@ -60,7 +60,7 @@ const BasicModal: FC<ModalProps> = ({
             ''
           ) : (
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Personagens favoritos do {textModalHeader}:
+              Favorite characters of {textModalHeader}:
             </Typography>
           )}
 

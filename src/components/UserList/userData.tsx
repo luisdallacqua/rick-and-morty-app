@@ -19,9 +19,9 @@ export const rowsFormatter = (users: IUser[]) =>
 
 export const headerColumns = [
   'Avatar',
-  'Usuário',
+  'User',
   'Email',
-  'Permissão',
-  'Ações',
-  'Personagens Favoritos'
+  'Permission',
+  'Actions',
+  'Favorite Characters'
 ]

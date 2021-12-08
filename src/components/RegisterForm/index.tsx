@@ -51,7 +51,7 @@ const RegisterForm = () => {
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <TextField
             fullWidth
-            label="Nome"
+            label="Name"
             error={Boolean(errors.name?.message)}
             helperText={errors.name?.message}
             {...register('name')}
@@ -59,7 +59,7 @@ const RegisterForm = () => {
           <TextField
             fullWidth
             type="password"
-            label="Senha"
+            label="Password"
             error={Boolean(errors.password?.message)}
             helperText={errors.password?.message}
             {...register('password')}
@@ -84,18 +84,16 @@ const RegisterForm = () => {
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <TextField
             fullWidth
-            label="Data de Nascimento"
+            label="Birth Date"
             error={Boolean(errors.birthDate?.message)}
             helperText={errors.birthDate?.message}
             {...register('birthDate')}
           />
 
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">
-              Permissão do usuário
-            </InputLabel>
+            <InputLabel id="demo-simple-select-label">Role</InputLabel>
             <Select
-              label=" Permissão do usuário"
+              label=" Role"
               defaultValue="user"
               value={role}
               onChange={handleChange}
