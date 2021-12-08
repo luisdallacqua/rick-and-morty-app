@@ -19,10 +19,11 @@ import { CharacterProps } from '../components/CharecterCard/types'
 // import { useRemoteService } from '../hooks/useRemoteService'
 import { api } from '../services/createApi'
 
-const baseURL = 'https://rickandmortyapi.com/api/character'
+const baseURL = 'https://rickandmortyapi.com/api/character/'
 
 const Char = () => {
-  const [URL, setURL] = useState(`${baseURL}`)
+  const [numberOfPages, setNumberOfPages] = useState(1)
+  const [URL, setURL] = useState(`${baseURL}?page=${numberOfPages}`)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -43,7 +44,7 @@ const Char = () => {
       }
     }
     fetchData()
-  }, [URL])
+  }, [URL, numberOfPages])
 
   if (loading) return <CircularProgress />
   if (error)
@@ -118,7 +119,15 @@ const Char = () => {
         })}
       </Grid>
       <Stack my={3} mx="auto">
-        <Pagination count={10} sx={{ margin: '0 auto' }} color="secondary" />
+        <Pagination
+          count={10}
+          sx={{ margin: '0 auto' }}
+          color="secondary"
+          onClick={() => {
+            setNumberOfPages(numberOfPages + 1)
+            console.log(numberOfPages)
+          }}
+        />
       </Stack>
     </>
   )

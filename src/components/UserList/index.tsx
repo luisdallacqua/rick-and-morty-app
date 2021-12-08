@@ -78,7 +78,9 @@ export default function BasicTable() {
 
           <TableBody>
             {loading ? (
-              <CircularProgress />
+              <TableCell align="center">
+                <CircularProgress />
+              </TableCell>
             ) : (
               rowsData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

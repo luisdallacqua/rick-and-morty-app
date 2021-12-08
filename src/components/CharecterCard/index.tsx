@@ -8,10 +8,10 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { makeStyles } from '@mui/styles'
-import { useAuth } from '../../hooks/useAuth'
 import { CharacterProps } from './types'
 import { formatStringToFillInSpace } from '../../utils/data/formatData'
 import { updateFavoriteChars } from '../../utils/data/reqCharacters'
+import { api } from '../../services/createApi'
 
 interface IStatus {
   //this is necessary to makeStyles accept status without any kind of error
@@ -69,28 +69,22 @@ const CharacterCard: FC<CharacterProps> = ({
   const [isFavorite, setIsFavorite] = useState(false)
   const classes = useStyles({ status })
 
-  const auth = useAuth()
-
-  function excludeFromFavorites(id: number) {
-    const filteredCharacters = auth.favoriteCharacters.filter((i) => id !== i)
-    updateFavoriteChars(auth, filteredCharacters)
-    //here are the problem that state of auth is not the real one, how get
-    //the real state up to date with the aplication?
-  }
-
-  function includeInFavorites(id: number) {
-    const favoriteCharacters = auth.favoriteCharacters.concat(id)
-
-    const orderedCharacters = favoriteCharacters?.sort((a, b) => a - b)
-    updateFavoriteChars(auth, orderedCharacters)
-  }
-
   useEffect(() => {
-    ;(function isAlreadyFavorite(id: number) {
-      const result = auth.favoriteCharacters?.includes(id)
-      setIsFavorite(result)
-    })(id)
-  }, [id, auth])
+    async function getUser() {
+      const response = await api.get('/user')
+      const user = await response.data[0].favoriteCharacters.includes(id)
+      setIsFavorite(user)
+    }
+    getUser()
+  }, [id])
+
+  async function includeInFavorites(id: number) {
+    await updateFavoriteChars('add', '61af55241855d497c3e504ff', id)
+  }
+
+  async function excludeFromFavorites(id: number) {
+    await updateFavoriteChars('delete', '61af55241855d497c3e504ff', id)
+  }
 
   return (
     <Card className={classes.card}>
