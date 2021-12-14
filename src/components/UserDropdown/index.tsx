@@ -57,7 +57,7 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
       }
     >
       <S.Nav>
-        <Link href="/user/list" passHref>
+        <Link href="/user/profile" passHref>
           <S.Link>
             <PersonIcon fontSize="small" />
             <span>My profile</span>

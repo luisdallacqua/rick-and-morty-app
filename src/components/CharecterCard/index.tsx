@@ -21,7 +21,7 @@ interface IStatus {
 const useStyles = makeStyles<Theme, IStatus>((theme) => {
   return {
     card: {
-      maxWidth: 245,
+      maxWidth: '100%',
       backgroundColor: theme.palette.common.black,
       color: theme.palette.common.white
     },

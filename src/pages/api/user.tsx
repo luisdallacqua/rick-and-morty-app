@@ -9,9 +9,15 @@ export default async function handler(
 ) {
   const { method } = req
   const { db } = await connectToDatabase()
-  const data = await db.collection('users').find({}).toArray()
 
   if (method === 'GET') {
+    if (req.body) {
+      const { email } = req.body
+      const user = await db.collection('users').findOne({ email })
+      res.status(200).json(user)
+    }
+
+    const data = await db.collection('users').find({}).toArray()
     res.status(200).json(data)
   }
 

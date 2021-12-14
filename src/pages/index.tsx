@@ -1,14 +1,26 @@
-import Head from 'next/head'
-import SignIn from '../components/SignIn'
+import { useSession, signIn, signOut } from 'next-auth/react'
 
-type Props = {
-  title: string
-}
+export default function Home() {
+  const { data: session } = useSession()
 
-export default function Home({ title = 'Rick and Morty App' }: Props) {
+  if (session) {
+    return (
+      <>
+        Signed in as {session.user?.email} <br />
+        <button
+          onClick={() => {
+            signOut()
+          }}
+        >
+          Sign out
+        </button>
+      </>
+    )
+  }
   return (
-    <div className="container">
-      <h1> Home do {title} </h1>
-    </div>
+    <>
+      Not signed in <br />
+      <button onClick={() => signIn()}>Sign in</button>
+    </>
   )
 }
