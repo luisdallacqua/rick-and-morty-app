@@ -29,16 +29,7 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
     <Dropdown
       title={
         <>
-          {image ? (
-            <Avatar
-              src={image}
-              alt={username}
-              variant="rounded"
-              sx={{ maxHeight: 60 }}
-            />
-          ) : (
-            <PersonIcon sx={{ fontSize: 50 }} />
-          )}
+          <KeyboardArrowDownIcon />
           <div
             style={{
               display: 'flex',
@@ -51,12 +42,22 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
               {role?.toUpperCase() || 'USER'}
             </span>
           </div>
-          <KeyboardArrowDownIcon />
+
+          {image ? (
+            <Avatar
+              src={image}
+              alt={username}
+              variant="rounded"
+              sx={{ maxHeight: 60 }}
+            />
+          ) : (
+            <PersonIcon sx={{ fontSize: 50 }} />
+          )}
         </>
       }
     >
       <S.Nav>
-        <Link href="/user/list" passHref>
+        <Link href="/user/profile" passHref>
           <S.Link>
             <PersonIcon fontSize="small" />
             <span>My profile</span>

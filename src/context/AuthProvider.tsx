@@ -1,7 +1,6 @@
-import axios from 'axios'
 import { createContext, useEffect, useReducer, useState } from 'react'
 import { IUser } from '../components/RegisterForm/types'
-import { getUserLocalStorage, setUserLocalStorage } from '../utils/auth/index'
+import { getUserLocalStorage, LoginRequest } from '../utils/auth/index'
 import { IAuthProvider, IContext } from './types'
 
 export const AuthContext = createContext<IContext>({} as IContext)
@@ -33,30 +32,26 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     if (Object.keys(user).length) dispatch({ type: 'update', payload: user })
   }, [])
 
-  async function authenticate(email: string, password: string) {
-    const params = { email, password }
-
-    const response = await axios.get('http://localhost:3001/users', { params })
+  async function authenticate(email: string) {
+    const response = await LoginRequest(email)
 
     const payload: IUser = {
-      id: response.data[0].id,
-      name: response.data[0].name,
-      email: response.data[0].email,
-      password: response.data[0].password,
-      cpf: response.data[0].cpf,
-      birthDate: response.data[0].birthDate,
-      role: response.data[0].role,
-      image: response.data[0].image,
-      favoriteCharacters: response.data[0].favoriteCharacters
+      _id: response._id,
+      name: response.name,
+      email: response.email,
+      password: response.password,
+      cpf: response.cpf,
+      birthDate: response.birthDate,
+      role: response.role,
+      avatar: response.image,
+      favoriteCharacters: response.favoriteCharacters
     }
 
     dispatch({ type: 'update', payload })
-    setUserLocalStorage(payload)
   }
 
   async function logout() {
     dispatch({ type: 'logout' })
-    setUserLocalStorage({} as IUser)
   }
 
   return (

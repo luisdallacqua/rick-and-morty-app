@@ -8,9 +8,7 @@ import theme from '../styles/theme'
 import createEmotionCache from '../createEmotionCache'
 import Layout from '../components/Layout'
 import { AuthProvider } from '../context/AuthProvider'
-import { useRouter } from 'next/router'
-import { getUserLocalStorage } from '../utils/auth'
-import { IUser } from '../components/RegisterForm/types'
+import { SessionProvider } from 'next-auth/react'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -21,18 +19,6 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
-  const [user, setUser] = React.useState<IUser>({} as IUser)
-
-  const router = useRouter()
-  const notAuthenticationNeeded = ['/login', '/user/register']
-
-  React.useEffect(() => {
-    async function getUser() {
-      const user = await getUserLocalStorage()
-      setUser(user)
-    }
-    getUser()
-  }, [])
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -42,29 +28,23 @@ export default function MyApp(props: MyAppProps) {
     }
   }, [])
 
-  if (!notAuthenticationNeeded.includes(router.pathname) && user === null)
-    router.push('/login')
-
   return (
     <CacheProvider value={emotionCache}>
       <Head>
         <title>Rick and Morty app</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <AuthProvider>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          {notAuthenticationNeeded.includes(router.pathname) &&
-          user === null ? (
-            <Component {...pageProps} />
-          ) : (
+      <SessionProvider session={pageProps.session}>
+        <AuthProvider>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
             <Layout>
               <Component {...pageProps} />
             </Layout>
-          )}
-        </ThemeProvider>
-      </AuthProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </SessionProvider>
     </CacheProvider>
   )
 }

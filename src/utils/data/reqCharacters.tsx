@@ -1,15 +1,16 @@
-import axios from 'axios'
-import { IUser } from '../../components/RegisterForm/types'
-import { setUserLocalStorage } from '../auth'
+import { api } from '../../services/createApi'
 
 export const updateFavoriteChars = async (
-  user: IUser,
-  newCharacters: number[]
+  action: string,
+  id: string,
+  newCharacter: number
 ) => {
-  const response = await axios.patch(`http://localhost:3001/users/${user.id}`, {
-    favoriteCharacters: [...newCharacters]
+  const response = await api.patch(`http://localhost:3000/api/user`, {
+    action,
+    _id: id,
+    favoriteCharacters: newCharacter
   })
-  setUserLocalStorage(response.data)
+  console.log('response', response)
 
   return response
 }

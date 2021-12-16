@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Button } from '@mui/material'
+import { Alert, Button } from '@mui/material'
 import BasicModal from '../../components/Modal'
 import { IUser } from '../../components/RegisterForm/types'
 
@@ -7,35 +7,25 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { api } from '../../services/createApi'
 import CharacterList from '../../components/CharacterList'
-import { getUserLocalStorage } from '../auth'
 
-const handleDelete = async (id: number) => {
+const handleDelete = async (id: string) => {
   const filteredCharacter = await api.delete(`/users/${id}`)
   return filteredCharacter.data
 }
 
 export const ActionsSection = (params: IUser) => {
-  const loggedUser = getUserLocalStorage()
-
-  const isAdmin = loggedUser.role.toLowerCase() === 'admin'
-
   return (
     <div style={{ display: 'flex' }}>
       <Button
-        disabled={!isAdmin}
         variant="outlined"
         size="small"
-        onClick={() => console.log(`Edit ${params.id}`)}
+        onClick={() => console.log(`Edit ${params._id}`)}
       >
         <ModeEditIcon />
       </Button>
-      <BasicModal
-        disabled={!isAdmin}
-        isDeleteOption
-        textButton={<DeleteIcon color={isAdmin ? 'error' : 'disabled'} />}
-      >
+      <BasicModal isDeleteOption textButton={<DeleteIcon color="error" />}>
         Você está prestes a deletar um usuário, deseja prosseguir?
-        <button onClick={() => handleDelete(params.id)}>SIM</button>
+        <button onClick={() => handleDelete(params._id)}>SIM</button>
       </BasicModal>
     </div>
   )
@@ -43,11 +33,13 @@ export const ActionsSection = (params: IUser) => {
 
 export const MoreInfoSection = (params: IUser) => {
   return (
-    <BasicModal textButton="Lista de Personagens" textModalHeader={params.name}>
+    <BasicModal textButton="Favorite characters" textModalHeader={params.name}>
       {params.favoriteCharacters.length > 0 ? (
         <CharacterList {...params} />
       ) : (
-        <p>TU NÃO TEM PERSONAGEM FAVORITO NÃO MERMAO</p>
+        <Alert severity="warning">
+          Do not have any favorite character yet.
+        </Alert>
       )}
     </BasicModal>
   )

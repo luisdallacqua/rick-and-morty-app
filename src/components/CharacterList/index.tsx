@@ -24,8 +24,6 @@ const CharacterList = ({ favoriteCharacters }: any) => {
       </Alert>
     )
 
-  console.log(data)
-
   return (
     <>
       {data.map((character: CharacterProps) => {

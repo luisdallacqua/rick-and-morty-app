@@ -16,11 +16,13 @@ export function getUserLocalStorage() {
   return {} as IUser
 }
 
-export async function LoginRequest(email: string, password: string) {
+export async function LoginRequest(email: string) {
   try {
-    const params = { email, password }
+    const params = { email }
 
-    const request = await axios.post('http://localhost:3001/users', { params })
+    const request = await axios.get('http://localhost:3000/api/user', {
+      params
+    })
 
     return request ? request.data : ({} as IUser)
   } catch (error) {

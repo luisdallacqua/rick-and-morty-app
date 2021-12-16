@@ -7,11 +7,8 @@ export const userSchema = yup.object().shape({
     .string()
     .required('A senha tem que ter ao menos 6 caracteres')
     .min(6, 'A senha tem que ter ao menos 6 caracteres'),
-  cpf: yup
-    .string()
-    .required('é obrigatório fornecer o cpf')
-    .min(4, 'Tem que haver 11 digítios'),
-  birthDate: yup.string().required('Data de nascimento é um campo obrigatórios')
+  cpf: yup.string(),
+  birthDate: yup.string()
 })
 
 export const loginSchema = yup.object().shape({
