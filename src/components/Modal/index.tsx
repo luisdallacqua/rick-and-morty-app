@@ -48,7 +48,7 @@ const BasicModal: FC<ModalProps> = ({
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '40%',
+            width: '60%',
             height: '50%',
             bgcolor: 'background.paper',
             boxShadow: 24,

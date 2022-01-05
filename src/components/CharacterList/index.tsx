@@ -29,7 +29,7 @@ const CharacterList = ({ favoriteCharacters }: any) => {
       {data.map((character: CharacterProps) => {
         return (
           <List
-            sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}
+            sx={{ width: '100%', bgcolor: 'background.paper' }}
             key={character.id}
           >
             <ListItem

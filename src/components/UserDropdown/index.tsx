@@ -7,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
 import * as S from './styles'
-import { useAuth } from '../../hooks/useAuth'
+
 import { useRouter } from 'next/router'
 
 export type UserDropdownProps = {
@@ -17,11 +17,9 @@ export type UserDropdownProps = {
 }
 
 const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
-  const auth = useAuth()
   const router = useRouter()
 
   async function logoutAndRedirect() {
-    await auth.logout()
     router.push('/login')
   }
 

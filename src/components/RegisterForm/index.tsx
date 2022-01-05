@@ -5,7 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { userSchema } from '../../utils/validation/userValidation'
 import { api } from '../../services/createApi'
 import {
+  Alert,
   Button,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -20,8 +22,13 @@ const RegisterForm = () => {
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    reset
   } = useForm<IUser>({ resolver: yupResolver(userSchema) })
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [isSucess, setIsSucess] = useState(false)
 
   const [role, setRole] = useState('user')
   const [image, setImage] = useState('')
@@ -32,16 +39,25 @@ const RegisterForm = () => {
 
   const createUser = async (user: IUser) => {
     const response = await api.post('/user', user)
-    console.log('response', response)
     return response.data
   }
 
-  const onSubmit = (data: IUser) => {
-    createUser({
-      ...data,
-      role,
-      avatar: image
-    })
+  const onSubmit = async (data: IUser) => {
+    setIsLoading(true)
+    setIsSucess(false)
+    setError(false)
+    try {
+      await createUser({
+        ...data,
+        role,
+        avatar: image
+      })
+      setIsSucess(true)
+      reset()
+    } catch (error) {
+      setError(true)
+    }
+    setIsLoading(false)
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -103,9 +119,27 @@ const RegisterForm = () => {
             </Select>
           </FormControl>
         </Stack>
-        <Button variant="contained" color="secondary" type="submit">
-          REGISTER
+        <Button
+          variant="contained"
+          color="secondary"
+          type="submit"
+          disabled={isLoading}
+        >
+          {!isLoading ? (
+            'REGISTER'
+          ) : (
+            <CircularProgress sx={{ color: '#fafafa' }} />
+          )}
         </Button>
+        {isSucess && (
+          <Alert severity="success">The user was creted sucessfully</Alert>
+        )}
+
+        {error && (
+          <Alert severity="error">
+            Something went wrong with our server— Try again later!
+          </Alert>
+        )}
       </Stack>
     </form>
   )

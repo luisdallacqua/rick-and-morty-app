@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react'
 import { useRouter } from 'next/router'
 import UserDropdown from '../UserDropdown'
-import { useAuth } from '../../hooks/useAuth'
 import rickAndMorty from '../../../public/RickAndMorty.png'
 
 import Image from 'next/image'
