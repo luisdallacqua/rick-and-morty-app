@@ -99,7 +99,7 @@ const Layout: FC = ({ children }) => {
     {
       text: 'Create User',
       icon: <AddCircleOutlined color="secondary" />,
-      path: '/user/register'
+      path: '/signup'
     },
     {
       text: 'List of User',

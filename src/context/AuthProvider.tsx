@@ -40,8 +40,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
       name: response.name,
       email: response.email,
       password: response.password,
-      cpf: response.cpf,
-      birthDate: response.birthDate,
       role: response.role,
       avatar: response.image,
       favoriteCharacters: response.favoriteCharacters

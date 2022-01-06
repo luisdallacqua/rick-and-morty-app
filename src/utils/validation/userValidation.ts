@@ -6,9 +6,7 @@ export const userSchema = yup.object().shape({
   password: yup
     .string()
     .required('A senha tem que ter ao menos 6 caracteres')
-    .min(6, 'A senha tem que ter ao menos 6 caracteres'),
-  cpf: yup.string(),
-  birthDate: yup.string()
+    .min(6, 'A senha tem que ter ao menos 6 caracteres')
 })
 
 export const loginSchema = yup.object().shape({

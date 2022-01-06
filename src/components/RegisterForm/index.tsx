@@ -38,7 +38,7 @@ const RegisterForm = () => {
   }
 
   const createUser = async (user: IUser) => {
-    const response = await api.post('/user', user)
+    const response = await api.post('/signup', user)
     return response.data
   }
 
@@ -89,23 +89,6 @@ const RegisterForm = () => {
             helperText={errors.email?.message}
             {...register('email')}
           />
-          <TextField
-            fullWidth
-            label="CPF"
-            error={Boolean(errors.cpf?.message)}
-            helperText={errors.cpf?.message}
-            {...register('cpf')}
-          />
-        </Stack>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <TextField
-            fullWidth
-            label="Birth Date"
-            error={Boolean(errors.birthDate?.message)}
-            helperText={errors.birthDate?.message}
-            {...register('birthDate')}
-          />
-
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Role</InputLabel>
             <Select
@@ -119,6 +102,7 @@ const RegisterForm = () => {
             </Select>
           </FormControl>
         </Stack>
+
         <Button
           variant="contained"
           color="secondary"

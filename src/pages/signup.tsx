@@ -1,7 +1,7 @@
 import { Grid, Theme, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React from 'react'
-import RegisterForm from '../../components/RegisterForm'
+import RegisterForm from '../components/RegisterForm'
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => {
   }
 })
 
-const Register = () => {
+const Signup = () => {
   const classes = useStyles()
 
   return (
@@ -28,4 +28,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Signup

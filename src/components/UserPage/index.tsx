@@ -16,8 +16,6 @@ const UserPage = (user: IUser) => {
         <Typography variant="h2">{user.name}</Typography>
         <Typography variant="h6">Email: {user.email}</Typography>
         <Typography variant="h6">Role: {user.role}</Typography>
-        <Typography variant="h6">Birth Date:{user.birthDate}</Typography>
-        <Typography variant="h6">CPF: {user.cpf}</Typography>
       </Stack>
     </Stack>
   )

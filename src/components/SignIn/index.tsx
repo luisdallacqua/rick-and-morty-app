@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form'
 import { IUser } from '../RegisterForm/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from '../../utils/validation/userValidation'
+import axios from 'axios'
+import { useState } from 'react'
 
 const useStyles = makeStyles({
   link: {
@@ -22,7 +24,8 @@ const useStyles = makeStyles({
 const SignIn = () => {
   const router = useRouter()
   const classes = useStyles()
-  const auth = useAuth()
+
+  const [message, setMessage] = useState<any>(null)
 
   const {
     register,
@@ -32,18 +35,17 @@ const SignIn = () => {
     resolver: yupResolver(loginSchema)
   })
 
-  async function authUser(values: { email: string; password: string }) {
-    try {
-      await auth.authenticate(values.email, values.password)
-      router.push('/char')
-    } catch (error) {
-      console.log('3')
-      console.log(error)
-    }
-  }
-
-  function onSubmit(values: { email: string; password: string }) {
-    authUser(values)
+  async function onSubmit(values: { email: string; password: string }) {
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:3000/api/login',
+      data: {
+        email: values.email,
+        password: values.password
+      }
+    })
+    setMessage(response.data)
+    console.log(response)
   }
 
   return (
@@ -62,6 +64,7 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {message?.message && message.message}
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
           <TextField
             fullWidth
