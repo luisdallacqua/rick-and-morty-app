@@ -9,7 +9,6 @@ export default async function handler(
 ) {
   const { method } = req
   const { db } = await connectToDatabase()
-
   if (method === 'GET') {
     if (req.body) {
       const { email } = req.body

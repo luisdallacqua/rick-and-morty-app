@@ -3,24 +3,15 @@ import { createContext, useEffect, useReducer, useState } from 'react'
 import { string } from 'yup/lib/locale'
 import { IUser } from '../components/RegisterForm/types'
 import { getUserLocalStorage, LoginRequest } from '../utils/auth/index'
-import { IAuthProvider, IContext } from './types'
+import { IAuthProvider, IContext, UserProps } from './types'
 
 export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider = ({ children }: IAuthProvider) => {
-  const [user, setUser] = useState<IUser>({} as IUser)
+  const [user, setUser] = useState<UserProps>({} as UserProps)
 
-  const signIn = async (email: string, password: string) => {
-    const response = await axios({
-      method: 'post',
-      url: 'http://localhost:3000/api/login',
-      data: {
-        email: email,
-        password: password
-      }
-    })
-
-    console.log(response.data)
+  const signIn = async (user: UserProps) => {
+    setUser(user)
   }
 
   const signOut = () => {

@@ -62,7 +62,12 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <UploadFile src={image} onChange={(e) => setImage(e)} />
+        <TextField
+          fullWidth
+          label="Link to Image"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+        />
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <TextField

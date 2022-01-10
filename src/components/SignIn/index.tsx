@@ -27,7 +27,7 @@ const SignIn = () => {
   const router = useRouter()
   const classes = useStyles()
 
-  const [message, setMessage] = useState<any>(null)
+  const [message, setMessage] = useState<any>('')
 
   const {
     register,
@@ -47,16 +47,15 @@ const SignIn = () => {
     //   }
     // })
 
-    const response = signIn('credentials', {
+    const response = await signIn('credentials', {
       email: values.email,
-      password: values.password
+      password: values.password,
+      redirect: false
     })
 
-    console.log({ response })
+    if (response?.error) setMessage(response.error)
 
-    const session = await getSession()
-
-    console.log({ session })
+    if (!response?.error) router.replace(`/`)
   }
 
   return (
@@ -75,7 +74,7 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        {message?.message && message.message}
+        {message && <p>{message}</p>}
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
           <TextField
             fullWidth

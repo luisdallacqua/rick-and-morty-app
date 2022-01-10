@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import * as S from './styles'
 
 import { useRouter } from 'next/router'
+import { signOut } from 'next-auth/client'
 
 export type UserDropdownProps = {
   username: string
@@ -66,7 +67,12 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
         </Link>
 
         <Link href="/" passHref>
-          <S.Link title="Sign out" onClick={() => logoutAndRedirect()}>
+          <S.Link
+            title="Sign out"
+            onClick={() =>
+              signOut({ callbackUrl: 'http://localhost:3000/login' })
+            }
+          >
             <ExitToAppIcon />
             <span>Sign out</span>
           </S.Link>

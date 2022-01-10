@@ -20,9 +20,6 @@ export default NextAuth({
 
         const userFromDB = await api.post('/login', { email, password })
         const user = await userFromDB.data
-        if (!user) {
-          throw new Error('Something went wrong')
-        }
 
         if (user) {
           return user
@@ -33,9 +30,6 @@ export default NextAuth({
     })
   ],
   callbacks: {
-    async session(session: any, user: any) {
-      return session
-    },
     async jwt(token, user) {
       if (user && token) {
         token.picture = user.avatar as string
@@ -43,6 +37,12 @@ export default NextAuth({
         token.role = user.role
       }
       return token
+    },
+    async session(session, user) {
+      if (user) {
+        session.user = user
+      }
+      return session
     }
   }
 })
