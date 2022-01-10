@@ -179,7 +179,9 @@ const Layout: FC = ({ children }) => {
         {/* list / links */}
         {drawer}
         <Box>
-          <Typography variant="h6">Projeto e etc</Typography>
+          <Typography align="center" variant="body1">
+            Made with ❤️ by Luis Artur
+          </Typography>
         </Box>
       </Drawer>
 

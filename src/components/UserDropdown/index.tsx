@@ -18,9 +18,13 @@ export type UserDropdownProps = {
 }
 
 const UserWrapper = styled.div`
-  display: 'flex';
-  flexdirection: 'column';
-  alignitems: 'flex-start';
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+const UserRole = styled.span`
+  font-size: 0.8rem;
+  margin-left: 0.6rem;
 `
 
 const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
@@ -37,9 +41,7 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
           <KeyboardArrowDownIcon />
           <UserWrapper>
             <S.Username>{username}</S.Username>
-            <span style={{ fontSize: '12px', marginLeft: '0.6rem' }}>
-              {role?.toUpperCase() || 'USER'}
-            </span>
+            <UserRole>{role?.toUpperCase() || 'USER'}</UserRole>
           </UserWrapper>
 
           {image ? (

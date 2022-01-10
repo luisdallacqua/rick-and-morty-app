@@ -13,6 +13,8 @@ import { loginSchema } from '../../utils/validation/userValidation'
 import axios from 'axios'
 import { useState } from 'react'
 
+import { signIn, getSession } from 'next-auth/client'
+
 const useStyles = makeStyles({
   link: {
     textDecoration: 'none',
@@ -36,16 +38,25 @@ const SignIn = () => {
   })
 
   async function onSubmit(values: { email: string; password: string }) {
-    const response = await axios({
-      method: 'post',
-      url: 'http://localhost:3000/api/login',
-      data: {
-        email: values.email,
-        password: values.password
-      }
+    // const response = await axios({
+    //   method: 'post',
+    //   url: 'http://localhost:3000/api/login',
+    //   data: {
+    //     email: values.email,
+    //     password: values.password
+    //   }
+    // })
+
+    const response = signIn('credentials', {
+      email: values.email,
+      password: values.password
     })
-    setMessage(response.data)
-    console.log(response)
+
+    console.log({ response })
+
+    const session = await getSession()
+
+    console.log({ session })
   }
 
   return (

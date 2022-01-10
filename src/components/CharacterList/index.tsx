@@ -34,7 +34,12 @@ const CharacterList = ({ favoriteCharacters }: any) => {
           >
             <ListItem
               alignItems="flex-start"
-              sx={{ backgroundColor: '#cacaca', marginBottom: '.3rem' }}
+              sx={{
+                marginBottom: '.3rem',
+                border: '.1rem solid #1db954',
+                borderRadius: '.5rem',
+                backgroundColor: '#f5f5f5'
+              }}
             >
               <ListItemAvatar>
                 <Avatar

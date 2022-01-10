@@ -21,8 +21,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.grey[800],
     color: theme.palette.common.white,
-    textTransform: 'uppercase',
-    fontWeight: 'bold'
+    textTransform: 'uppercase'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14
@@ -62,13 +61,13 @@ export default function BasicTable() {
   const rowsData = rowsFormatter(users)
 
   return (
-    <Paper sx={{ width: '100%' }}>
+    <Paper>
       <TableContainer
         component={Paper}
         sx={{ maxWidth: '90vw', overflow: 'auto' }}
       >
         <Table aria-label="simple table">
-          <TableHead sx={{ backgroundColor: '#ccc' }}>
+          <TableHead>
             <TableRow hover={true}>
               {headerColumns.map((column) => (
                 <StyledTableCell key={column}>{column}</StyledTableCell>
@@ -78,7 +77,7 @@ export default function BasicTable() {
 
           <TableBody>
             {loading ? (
-              <TableCell align="center">
+              <TableCell>
                 <CircularProgress />
               </TableCell>
             ) : (

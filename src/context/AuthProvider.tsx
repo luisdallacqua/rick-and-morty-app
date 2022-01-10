@@ -1,59 +1,34 @@
+import axios from 'axios'
 import { createContext, useEffect, useReducer, useState } from 'react'
+import { string } from 'yup/lib/locale'
 import { IUser } from '../components/RegisterForm/types'
 import { getUserLocalStorage, LoginRequest } from '../utils/auth/index'
 import { IAuthProvider, IContext } from './types'
 
 export const AuthContext = createContext<IContext>({} as IContext)
 
-const initialState = {} as IUser
-
-export type Action = {
-  type: string
-  payload?: IUser
-}
-
-function reducer(state: IUser, action: Action): IUser {
-  switch (action.type) {
-    case 'update':
-      return { ...state, ...action.payload }
-    case 'logout':
-      return {} as IUser
-    default:
-      return state
-  }
-}
-
 export const AuthProvider = ({ children }: IAuthProvider) => {
-  const [user, dispatch] = useReducer(reducer, initialState)
+  const [user, setUser] = useState<IUser>({} as IUser)
 
-  useEffect(() => {
-    const user = getUserLocalStorage()
+  const signIn = async (email: string, password: string) => {
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:3000/api/login',
+      data: {
+        email: email,
+        password: password
+      }
+    })
 
-    if (Object.keys(user).length) dispatch({ type: 'update', payload: user })
-  }, [])
-
-  async function authenticate(email: string) {
-    const response = await LoginRequest(email)
-
-    const payload: IUser = {
-      _id: response._id,
-      name: response.name,
-      email: response.email,
-      password: response.password,
-      role: response.role,
-      avatar: response.image,
-      favoriteCharacters: response.favoriteCharacters
-    }
-
-    dispatch({ type: 'update', payload })
+    console.log(response.data)
   }
 
-  async function logout() {
-    dispatch({ type: 'logout' })
+  const signOut = () => {
+    console.log('signout')
   }
 
   return (
-    <AuthContext.Provider value={{ dispatch, logout, authenticate, ...user }}>
+    <AuthContext.Provider value={{ signIn, signOut, ...user }}>
       {children}
     </AuthContext.Provider>
   )
