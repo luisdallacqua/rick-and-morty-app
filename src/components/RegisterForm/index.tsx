@@ -8,6 +8,7 @@ import {
   Alert,
   Button,
   CircularProgress,
+  Container,
   FormControl,
   InputLabel,
   MenuItem,
@@ -60,77 +61,79 @@ const RegisterForm = () => {
     setIsLoading(false)
   }
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3}>
-        <TextField
-          fullWidth
-          label="Link to Image"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
+    <Container component="main" maxWidth="md">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={3}>
+          <TextField
+            fullWidth
+            label="Link to Image"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+          />
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <TextField
-            fullWidth
-            label="Name"
-            error={Boolean(errors.name?.message)}
-            helperText={errors.name?.message}
-            {...register('name')}
-          />
-          <TextField
-            fullWidth
-            type="password"
-            label="Password"
-            error={Boolean(errors.password?.message)}
-            helperText={errors.password?.message}
-            {...register('password')}
-          />
-        </Stack>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <TextField
-            fullWidth
-            label="Email"
-            error={Boolean(errors.email?.message)}
-            helperText={errors.email?.message}
-            {...register('email')}
-          />
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Role</InputLabel>
-            <Select
-              label=" Role"
-              defaultValue="user"
-              value={role}
-              onChange={handleChange}
-            >
-              <MenuItem value="admin">admin</MenuItem>
-              <MenuItem value="user">user</MenuItem>
-            </Select>
-          </FormControl>
-        </Stack>
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <TextField
+              fullWidth
+              label="Name"
+              error={Boolean(errors.name?.message)}
+              helperText={errors.name?.message}
+              {...register('name')}
+            />
+            <TextField
+              fullWidth
+              type="password"
+              label="Password"
+              error={Boolean(errors.password?.message)}
+              helperText={errors.password?.message}
+              {...register('password')}
+            />
+          </Stack>
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <TextField
+              fullWidth
+              label="Email"
+              error={Boolean(errors.email?.message)}
+              helperText={errors.email?.message}
+              {...register('email')}
+            />
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Role</InputLabel>
+              <Select
+                label=" Role"
+                defaultValue="user"
+                value={role}
+                onChange={handleChange}
+              >
+                <MenuItem value="admin">admin</MenuItem>
+                <MenuItem value="user">user</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
 
-        <Button
-          variant="contained"
-          color="secondary"
-          type="submit"
-          disabled={isLoading}
-        >
-          {!isLoading ? (
-            'REGISTER'
-          ) : (
-            <CircularProgress sx={{ color: '#fafafa' }} />
+          <Button
+            variant="contained"
+            color="secondary"
+            type="submit"
+            disabled={isLoading}
+          >
+            {!isLoading ? (
+              'REGISTER'
+            ) : (
+              <CircularProgress sx={{ color: '#fafafa' }} />
+            )}
+          </Button>
+          {isSucess && (
+            <Alert severity="success">The user was creted sucessfully</Alert>
           )}
-        </Button>
-        {isSucess && (
-          <Alert severity="success">The user was creted sucessfully</Alert>
-        )}
 
-        {error && (
-          <Alert severity="error">
-            Something went wrong with our server— Try again later!
-          </Alert>
-        )}
-      </Stack>
-    </form>
+          {error && (
+            <Alert severity="error">
+              Something went wrong with our server— Try again later!
+            </Alert>
+          )}
+        </Stack>
+      </form>
+    </Container>
   )
 }
 

@@ -1,8 +1,4 @@
-import axios from 'axios'
 import { createContext, useEffect, useReducer, useState } from 'react'
-import { string } from 'yup/lib/locale'
-import { IUser } from '../components/RegisterForm/types'
-import { getUserLocalStorage, LoginRequest } from '../utils/auth/index'
 import { IAuthProvider, IContext, UserProps } from './types'
 
 export const AuthContext = createContext<IContext>({} as IContext)

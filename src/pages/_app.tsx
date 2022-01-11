@@ -10,6 +10,7 @@ import Layout from '../components/Layout'
 import { AuthProvider } from '../context/AuthProvider'
 
 import { Provider } from 'next-auth/client'
+import { NextPageContext } from 'next'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -40,9 +41,9 @@ export default function MyApp(props: MyAppProps) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            {/* <Layout> */}
+            <Component {...pageProps} />
+            {/* </Layout> */}
           </ThemeProvider>
         </AuthProvider>
       </Provider>

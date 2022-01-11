@@ -29,12 +29,6 @@ const UserRole = styled.span`
 `
 
 const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
-  const router = useRouter()
-
-  async function logoutAndRedirect() {
-    router.push('/login')
-  }
-
   return (
     <Dropdown
       title={
