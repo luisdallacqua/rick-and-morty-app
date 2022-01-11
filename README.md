@@ -17,6 +17,7 @@ The main idea is consolidate the knowledgs about:
 - [React-Hook-Form +  YUP](https://react-hook-form.com/)
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - [MongoDb Atlas](https://www.mongodb.com/atlas/database)
+- [Next-Auth](https://next-auth.js.org/)
 
 I choose Nextjs because I think that (how documentation page says) it's "ready for production", the routing file system and the possibility to create api routes with single files, the possibility of create pages server side rendering, so I thought that is the greatest aproach for this project.
 
@@ -25,6 +26,8 @@ Typescript is to guarantee a type safe for the project and a better readibility.
 React hook form was a test to use a library to validate a form, and I think that besides add lots of complexity in a form there are some advantages like do not need to worry about state of form.
 
 MongoDb Atlas is the way I choose to save data in cloud, and when I deploy the aplication the data persists.
+
+Next-auth has been choosen for the been designed to be used with NextJs and serveless, and is flexible and easy to use.
 
 ### Features
 ---
@@ -36,7 +39,7 @@ MongoDb Atlas is the way I choose to save data in cloud, and when I deploy the a
  - [X] Possibility to create an user
  - [X] Possibility to favorite a character and persists in Database
  - [X] List of User with favorite characters
- - [ ] User Session and authenticate
+ - [X] User Session and authenticate
  - [ ] Link the favorite character to user of session
  - [ ] Unit tests
 
@@ -58,6 +61,7 @@ npm run dev
 # or
 yarn dev
 ```
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

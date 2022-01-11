@@ -1,4 +1,5 @@
 export interface CharacterProps {
+  isFavorited: boolean
   id: number
   name: string
   status: string

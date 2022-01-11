@@ -10,14 +10,15 @@ export default async function handler(
   const { method } = req
   const { db } = await connectToDatabase()
   if (method === 'GET') {
-    if (req.body) {
-      const { email } = req.body
+    if (!req.query) {
+      const data = await db.collection('users').find({}).toArray()
+      res.status(200).json(data)
+    } else {
+      const { email } = req.query
       const user = await db.collection('users').findOne({ email })
       res.status(200).json(user)
+      res.end()
     }
-
-    const data = await db.collection('users').find({}).toArray()
-    res.status(200).json(data)
   }
 
   if (method === 'PATCH') {

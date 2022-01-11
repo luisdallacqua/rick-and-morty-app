@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { IUser } from '../components/RegisterForm/types'
 import { Action } from './AuthProvider'
 
@@ -13,8 +13,7 @@ export type UserProps = {
 }
 
 export interface IContext extends UserProps {
-  signIn: (user: UserProps) => void
-  signOut: () => void
+  setUser: Dispatch<SetStateAction<UserProps>>
 }
 
 export interface IAuthProvider {

@@ -58,6 +58,7 @@ const useStyles = makeStyles<Theme, IStatus>((theme) => {
 })
 
 const CharacterCard: FC<CharacterProps> = ({
+  isFavorited,
   id,
   name,
   status,
@@ -67,17 +68,8 @@ const CharacterCard: FC<CharacterProps> = ({
   location,
   origin
 }) => {
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(isFavorited)
   const classes = useStyles({ status })
-
-  useEffect(() => {
-    async function getUser() {
-      const response = await api.get('/user')
-      const user = await response.data[0].favoriteCharacters.includes(id)
-      setIsFavorite(user)
-    }
-    getUser()
-  }, [id])
 
   async function includeInFavorites(id: number) {
     await updateFavoriteChars('add', '61af55241855d497c3e504ff', id)

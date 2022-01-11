@@ -31,22 +31,26 @@ export default function MyApp(props: MyAppProps) {
   }, [])
 
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <title>Rick and Morty app</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <Provider session={pageProps.session}>
-        <AuthProvider>
-          <ThemeProvider theme={theme}>
+    <Provider session={pageProps.session}>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <CacheProvider value={emotionCache}>
+            <Head>
+              <title>Rick and Morty app</title>
+              <meta
+                name="viewport"
+                content="initial-scale=1, width=device-width"
+              />
+            </Head>
+
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             {/* <Layout> */}
             <Component {...pageProps} />
             {/* </Layout> */}
-          </ThemeProvider>
-        </AuthProvider>
-      </Provider>
-    </CacheProvider>
+          </CacheProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </Provider>
   )
 }

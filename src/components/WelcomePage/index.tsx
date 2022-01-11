@@ -1,9 +1,11 @@
 import { Avatar, Typography } from '@mui/material'
 import { signOut } from 'next-auth/client'
 import React from 'react'
+import { useAuth } from '../../hooks/useAuth'
 import { Link } from '../UserDropdown/styles'
 
-function WelcomePage({ auth }: any) {
+function WelcomePage() {
+  const auth = useAuth()
   console.log('welcome page session', auth)
   return (
     <>

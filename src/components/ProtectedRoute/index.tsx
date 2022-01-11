@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React from 'react'
 import Layout from '../Layout'
 
 const authRoute = (Component: React.ComponentType) => {
@@ -9,7 +9,7 @@ const authRoute = (Component: React.ComponentType) => {
     const router = useRouter()
     const [session, loading] = useSession()
 
-    console.log('sessão do protected', session?.user)
+    if (loading) <p>LOADING...</p>
 
     if (!loading && !session) {
       router.replace('/login')
