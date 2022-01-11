@@ -25,6 +25,7 @@ import { Box } from '@mui/system'
 import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
 import MenuIcon from '@mui/icons-material/Menu'
 import GroupIcon from '@mui/icons-material/Group'
+import { useAuth } from '../../hooks/useAuth'
 
 const drawerWidth = 240
 
@@ -83,6 +84,7 @@ const Layout: FC = ({ children }) => {
   const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
   const classes = useStyles()
   const router = useRouter()
+  const auth = useAuth()
 
   const [open, setOpen] = useState(false)
 
@@ -99,7 +101,7 @@ const Layout: FC = ({ children }) => {
     {
       text: 'Create User',
       icon: <AddCircleOutlined color="secondary" />,
-      path: '/user/register'
+      path: '/signup'
     },
     {
       text: 'List of User',
@@ -152,9 +154,9 @@ const Layout: FC = ({ children }) => {
               <MenuIcon fontSize="large" />
             </IconButton>
             <UserDropdown
-              username="Luis Artur"
-              image="https://avatars.githubusercontent.com/u/65989058?v=4"
-              role="Admin"
+              username={auth.name || 'GUEST'}
+              image={auth.picture || ''}
+              role={auth.role || 'GUEST'}
             />
           </Stack>
         </Toolbar>
@@ -179,7 +181,9 @@ const Layout: FC = ({ children }) => {
         {/* list / links */}
         {drawer}
         <Box>
-          <Typography variant="h6">Projeto e etc</Typography>
+          <Typography align="center" variant="body1">
+            Made with ❤️ by Luis Artur
+          </Typography>
         </Box>
       </Drawer>
 

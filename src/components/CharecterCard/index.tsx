@@ -12,6 +12,7 @@ import { CharacterProps } from './types'
 import { formatStringToFillInSpace } from '../../utils/data/formatData'
 import { updateFavoriteChars } from '../../utils/data/reqCharacters'
 import { api } from '../../services/createApi'
+import { useAuth } from '../../hooks/useAuth'
 
 interface IStatus {
   //this is necessary to makeStyles accept status without any kind of error

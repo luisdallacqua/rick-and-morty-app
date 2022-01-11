@@ -18,7 +18,7 @@ The main idea is consolidate the knowledgs about:
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - [MongoDb Atlas](https://www.mongodb.com/atlas/database)
 
-I choose a Nextjs because I think that (how documentation page says) it's "ready for production", the routing file system and the possibility to create api routes with single files, the possibility of create pages server side rendering, so I thought that is the greatest aproach for this project.
+I choose Nextjs because I think that (how documentation page says) it's "ready for production", the routing file system and the possibility to create api routes with single files, the possibility of create pages server side rendering, so I thought that is the greatest aproach for this project.
 
 Typescript is to guarantee a type safe for the project and a better readibility. Material-UI I've chosen because I was curious about a ui library and decide to learn it. Axios is a great library to fetch data, simplifies when compared with natively fetch API.
 

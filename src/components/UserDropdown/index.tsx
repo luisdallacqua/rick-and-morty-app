@@ -5,10 +5,12 @@ import { Avatar } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import styled from '@emotion/styled'
 
 import * as S from './styles'
 
 import { useRouter } from 'next/router'
+import { signOut } from 'next-auth/client'
 
 export type UserDropdownProps = {
   username: string
@@ -16,30 +18,26 @@ export type UserDropdownProps = {
   role?: string
 }
 
+const UserWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+const UserRole = styled.span`
+  font-size: 0.8rem;
+  margin-left: 0.6rem;
+`
+
 const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
-  const router = useRouter()
-
-  async function logoutAndRedirect() {
-    router.push('/login')
-  }
-
   return (
     <Dropdown
       title={
         <>
           <KeyboardArrowDownIcon />
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start'
-            }}
-          >
+          <UserWrapper>
             <S.Username>{username}</S.Username>
-            <span style={{ fontSize: '12px', marginLeft: '0.6rem' }}>
-              {role?.toUpperCase() || 'USER'}
-            </span>
-          </div>
+            <UserRole>{role?.toUpperCase() || 'USER'}</UserRole>
+          </UserWrapper>
 
           {image ? (
             <Avatar
@@ -63,7 +61,12 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
         </Link>
 
         <Link href="/" passHref>
-          <S.Link title="Sign out" onClick={() => logoutAndRedirect()}>
+          <S.Link
+            title="Sign out"
+            onClick={() =>
+              signOut({ callbackUrl: 'http://localhost:3000/login' })
+            }
+          >
             <ExitToAppIcon />
             <span>Sign out</span>
           </S.Link>

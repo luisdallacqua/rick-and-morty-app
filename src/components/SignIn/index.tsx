@@ -1,4 +1,11 @@
-import { Avatar, Container, Grid, TextField, Typography } from '@mui/material'
+import {
+  Alert,
+  Avatar,
+  Container,
+  Grid,
+  TextField,
+  Typography
+} from '@mui/material'
 import Button from '@mui/material/Button'
 import { makeStyles } from '@mui/styles'
 import { useAuth } from '../../hooks/useAuth'
@@ -10,11 +17,15 @@ import { useForm } from 'react-hook-form'
 import { IUser } from '../RegisterForm/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from '../../utils/validation/userValidation'
+import axios from 'axios'
+import { useState } from 'react'
+
+import { signIn, getSession } from 'next-auth/client'
 
 const useStyles = makeStyles({
   link: {
     textDecoration: 'none',
-    color: '#000',
+    color: '#0066c0',
     paddingTop: '1rem'
   }
 })
@@ -22,7 +33,8 @@ const useStyles = makeStyles({
 const SignIn = () => {
   const router = useRouter()
   const classes = useStyles()
-  const auth = useAuth()
+
+  const [message, setMessage] = useState<any>('')
 
   const {
     register,
@@ -32,18 +44,25 @@ const SignIn = () => {
     resolver: yupResolver(loginSchema)
   })
 
-  async function authUser(values: { email: string; password: string }) {
-    try {
-      await auth.authenticate(values.email, values.password)
-      router.push('/char')
-    } catch (error) {
-      console.log('3')
-      console.log(error)
-    }
-  }
+  async function onSubmit(values: { email: string; password: string }) {
+    // const response = await axios({
+    //   method: 'post',
+    //   url: 'http://localhost:3000/api/login',
+    //   data: {
+    //     email: values.email,
+    //     password: values.password
+    //   }
+    // })
 
-  function onSubmit(values: { email: string; password: string }) {
-    authUser(values)
+    const response = await signIn('credentials', {
+      email: values.email,
+      password: values.password,
+      redirect: false
+    })
+
+    if (response?.error) setMessage(response.error)
+
+    if (!response?.error) router.replace(`/`)
   }
 
   return (
@@ -62,6 +81,9 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {message && (
+          <Alert severity="error">Login and Password did not match</Alert>
+        )}
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
           <TextField
             fullWidth
@@ -88,7 +110,7 @@ const SignIn = () => {
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="/user/register">
+              <Link href="/signup">
                 <a className={classes.link}>{'Não possue conta? Crie uma.'}</a>
               </Link>
             </Grid>

@@ -18,6 +18,8 @@ import CharacterCard from '../components/CharecterCard'
 import { CharacterProps } from '../components/CharecterCard/types'
 // import { useRemoteService } from '../hooks/useRemoteService'
 import { api } from '../services/createApi'
+import { useSession } from 'next-auth/client'
+import authRoute from '../components/ProtectedRoute'
 
 const baseURL = 'https://rickandmortyapi.com/api/character/'
 
@@ -57,7 +59,6 @@ const Char = () => {
     fetchData()
   }, [URL, page])
 
-  if (loading) return <CircularProgress />
   if (error)
     return (
       <Alert severity="error">
@@ -100,47 +101,52 @@ const Char = () => {
           <SendIcon />
         </IconButton>
       </Paper>
-
-      <Typography my={5} variant="h5" align="center">
-        List of Characters Rick And Morty
-      </Typography>
-      <Grid
-        container
-        justifyContent="center"
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 12, sm: 12, md: 12 }}
-      >
-        {characters?.map((character: CharacterProps) => {
-          return (
-            <Grid item xs={6} sm={4} md={3} key={character.id}>
-              <CharacterCard
-                id={character.id}
-                name={character.name}
-                status={character.status}
-                species={character.species}
-                gender={character.gender}
-                image={character.image}
-                location={character.location}
-                origin={character.origin}
-              />
-            </Grid>
-          )
-        })}
-      </Grid>
-      <Stack my={3}>
-        <Pagination
-          count={info?.pages ? info.pages : 10}
-          sx={{ margin: '0 auto' }}
-          color="secondary"
-          page={page}
-          onChange={(e: React.ChangeEvent<unknown>, page: number) => {
-            setPage(page)
-            setURL(`${baseURL}?page=${page}`)
-          }}
-        />
-      </Stack>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <Typography my={5} variant="h5" align="center">
+            List of Characters Rick And Morty
+          </Typography>
+          <Grid
+            container
+            justifyContent="center"
+            spacing={{ xs: 2, md: 3 }}
+            columns={{ xs: 12, sm: 12, md: 12 }}
+          >
+            {characters?.map((character: CharacterProps) => {
+              return (
+                <Grid item xs={6} sm={4} md={3} key={character.id}>
+                  <CharacterCard
+                    id={character.id}
+                    name={character.name}
+                    status={character.status}
+                    species={character.species}
+                    gender={character.gender}
+                    image={character.image}
+                    location={character.location}
+                    origin={character.origin}
+                  />
+                </Grid>
+              )
+            })}
+          </Grid>
+          <Stack my={3}>
+            <Pagination
+              count={info?.pages ? info.pages : 10}
+              sx={{ margin: '0 auto' }}
+              color="secondary"
+              page={page}
+              onChange={(e: React.ChangeEvent<unknown>, page: number) => {
+                setPage(page)
+                setURL(`${baseURL}?page=${page}`)
+              }}
+            />
+          </Stack>
+        </>
+      )}
     </>
   )
 }
 
-export default Char
+export default authRoute(Char)

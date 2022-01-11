@@ -1,4 +1,6 @@
+import { useSession } from 'next-auth/client'
 import React, { useEffect, useState } from 'react'
+import authRoute from '../../components/ProtectedRoute'
 import { IUser } from '../../components/RegisterForm/types'
 import UserPage from '../../components/UserPage'
 import { api } from '../../services/createApi'
@@ -18,4 +20,4 @@ const Profile = () => {
   return <UserPage {...user} />
 }
 
-export default Profile
+export default authRoute(Profile)
