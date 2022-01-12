@@ -68,15 +68,16 @@ const CharacterCard: FC<CharacterProps> = ({
   location,
   origin
 }) => {
+  const auth = useAuth()
   const [isFavorite, setIsFavorite] = useState(isFavorited)
   const classes = useStyles({ status })
 
   async function includeInFavorites(id: number) {
-    await updateFavoriteChars('add', '61af55241855d497c3e504ff', id)
+    await updateFavoriteChars('add', id, auth.sub)
   }
 
   async function excludeFromFavorites(id: number) {
-    await updateFavoriteChars('delete', '61af55241855d497c3e504ff', id)
+    await updateFavoriteChars('delete', id, auth.sub)
   }
 
   return (

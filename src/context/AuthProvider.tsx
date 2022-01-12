@@ -11,7 +11,9 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
   useEffect(() => {
     const user: any = session?.user
-    setUser(user)
+    if (user) {
+      setUser(user)
+    }
   }, [session])
 
   return (

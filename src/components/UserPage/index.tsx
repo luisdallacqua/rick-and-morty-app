@@ -1,16 +1,21 @@
 import { Avatar, Stack, Typography } from '@mui/material'
-import Image from 'next/image'
 import React from 'react'
-import { IUser } from '../RegisterForm/types'
 
 import imageDefault from '../../../public/grayUserImage.svg'
-const UserPage = (user: IUser) => {
+import { UserProps } from '../../context/types'
+
+const UserPage = (user: UserProps) => {
   if (Object.keys(user).length === 0) return <div>Loading...</div>
 
   return (
     <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
       <Stack>
-        <Image src={imageDefault} width={200} height={200} />
+        <Avatar
+          src={user.picture || imageDefault}
+          alt={user.name}
+          variant="rounded"
+          sx={{ width: '15rem', height: '15rem' }}
+        />
       </Stack>
       <Stack sx={{ marginLeft: '1rem' }}>
         <Typography variant="h2">{user.name}</Typography>

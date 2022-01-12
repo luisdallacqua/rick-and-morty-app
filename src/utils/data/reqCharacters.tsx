@@ -2,9 +2,10 @@ import { api } from '../../services/createApi'
 
 export const updateFavoriteChars = async (
   action: string,
-  id: string,
-  newCharacter: number
+  newCharacter: number,
+  id?: string
 ) => {
+  if (!id) return
   const response = await api.patch(`http://localhost:3000/api/user`, {
     action,
     _id: id,

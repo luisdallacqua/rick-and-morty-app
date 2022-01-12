@@ -9,16 +9,18 @@ export default async function handler(
 ) {
   const { method } = req
   const { db } = await connectToDatabase()
+  console.log(req.query)
   if (method === 'GET') {
-    if (!req.query) {
+    const { email } = req.query
+
+    if (!email) {
       const data = await db.collection('users').find({}).toArray()
       res.status(200).json(data)
-    } else {
-      const { email } = req.query
-      const user = await db.collection('users').findOne({ email })
-      res.status(200).json(user)
-      res.end()
     }
+
+    const user = await db.collection('users').findOne({ email })
+    res.status(200).json(user)
+    res.end()
   }
 
   if (method === 'PATCH') {
@@ -55,7 +57,7 @@ export default async function handler(
         )
       res
         .status(201)
-        .json(`Personagem ${favoriteCharacterToPush} excluído dos favoritos`)
+        .json(`Character ${favoriteCharacterToPush} was inserted in favorites`)
     }
 
     if (action === 'delete') {
@@ -67,7 +69,7 @@ export default async function handler(
         )
       res
         .status(200)
-        .json(`Personagem ${favoriteCharacterToPush} excluído dos favoritos`)
+        .json(`Character ${favoriteCharacterToPush} was removed from favorites`)
     }
   }
 }

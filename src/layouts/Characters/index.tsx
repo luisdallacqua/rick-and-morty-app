@@ -15,6 +15,7 @@ import { api } from '../../services/createApi'
 import { useSession } from 'next-auth/client'
 import { useAuth } from '../../hooks/useAuth'
 import SearchBar from '../../components/SearchBar'
+import axios from 'axios'
 
 const baseURL = 'https://rickandmortyapi.com/api/character/'
 
@@ -40,32 +41,34 @@ function CharacterPage() {
   const [characters, setCharacters] = useState<CharacterProps[]>([])
   const [search, setSearch] = useState('')
 
-  useEffect(() => {
-    async function getFavoriteCharacters() {
-      const response = await api.get(`/user?email=${auth.email}`)
-      const favoriteCharacters = await response.data.favoriteCharacters
-      await setFavoriteCharacters(favoriteCharacters)
-      //   const user = await response.data[0].favoriteCharacters.includes(id)
-      // setIsFavorite(user)
-    }
-    getFavoriteCharacters()
-  }, [])
+  async function getCharactersAndItsFavorites() {
+    setError(false)
+    setLoading(true)
 
-  useEffect(() => {
-    const getCharacters = async () => {
-      setError(false)
-      setLoading(true)
-      try {
-        const res = await api.get(URL)
+    try {
+      const favoriteChars = async () => {
+        const response = await api.get(`/user?email=${auth.email}`)
+        const favoriteCharacters = await response.data.favoriteCharacters
+        return favoriteCharacters
+      }
+
+      const getChars = async () => {
+        const res = await axios.get(URL)
         setCharacters(res.data.results)
         setInfo(res.data.info)
-      } catch (e) {
-        setError(true)
-      } finally {
-        setLoading(false)
       }
+      const favChar = await favoriteChars()
+      setFavoriteCharacters(favChar)
+      await getChars()
+    } catch (error) {
+      setError(true)
+    } finally {
+      setLoading(false)
     }
-    getCharacters()
+  }
+
+  useEffect(() => {
+    getCharactersAndItsFavorites()
   }, [URL, page])
 
   if (error)
@@ -79,7 +82,7 @@ function CharacterPage() {
         />
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          {'There is an error, try another search'}
+          {'There is an error, try again later'}
         </Alert>
       </>
     )

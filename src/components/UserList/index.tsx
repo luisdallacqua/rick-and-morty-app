@@ -1,10 +1,10 @@
-import * as React from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { api } from '../../services/createApi'
 import { IUser } from '../RegisterForm/types'
 import imageDefault from '../../../public/grayUserImage.svg'
 import { headerColumns, rowsFormatter } from './userData'
-import { CircularProgress } from '@mui/material'
+import { Alert, CircularProgress } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
@@ -31,18 +31,25 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const sizeOfName = 30
 
 export default function BasicTable() {
-  const [users, setUsers] = React.useState<IUser[]>([])
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
-  const [loading, setLoading] = React.useState(false)
+  const [users, setUsers] = useState<IUser[]>([])
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setLoading(true)
     const fetchUsers = async () => {
-      const response = await api.get('/user')
-      const data = await response.data
-      setUsers(data)
-      setLoading(false)
+      try {
+        const response = await api.get('/user')
+        const data = await response.data
+        setUsers(data)
+      } catch (error) {
+        console.log(error)
+        setError(true)
+      } finally {
+        setLoading(false)
+      }
     }
     fetchUsers()
   }, [])
@@ -76,7 +83,10 @@ export default function BasicTable() {
           </TableHead>
 
           <TableBody>
-            {loading ? (
+            {error && (
+              <Alert severity="error">{'There is an error, try again'}</Alert>
+            )}
+            {loading && !error ? (
               <TableCell>
                 <CircularProgress />
               </TableCell>
