@@ -1,9 +1,11 @@
-import { screen, render } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { screen } from '@testing-library/react'
+import React from 'react'
 
 import CharacterCard from '.'
+import { renderWithTheme } from '../../utils/tests/helper'
 
 const props = {
+  isFavorited: false,
   id: 1,
   name: 'Rick',
   status: 'Alive',
@@ -16,7 +18,7 @@ const props = {
 
 describe('<CharacterCard />', () => {
   it('should render correctly', () => {
-    render(<CharacterCard {...props} />)
+    renderWithTheme(<CharacterCard {...props} />)
 
     expect(screen.getByText(props.name)).toBeInTheDocument()
   })

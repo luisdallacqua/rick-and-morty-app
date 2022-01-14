@@ -6,7 +6,7 @@ export const updateFavoriteChars = async (
   id?: string
 ) => {
   if (!id) return
-  const response = await api.patch(`http://localhost:3000/api/user`, {
+  const response = await api.patch(`/user`, {
     action,
     _id: id,
     favoriteCharacters: newCharacter

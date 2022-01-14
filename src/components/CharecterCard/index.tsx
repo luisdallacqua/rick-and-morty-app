@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, memo, useState } from 'react'
 
 import { Card, CardContent, CardMedia, Theme, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -11,7 +11,6 @@ import { makeStyles } from '@mui/styles'
 import { CharacterProps } from './types'
 import { formatStringToFillInSpace } from '../../utils/data/formatData'
 import { updateFavoriteChars } from '../../utils/data/reqCharacters'
-import { api } from '../../services/createApi'
 import { useAuth } from '../../hooks/useAuth'
 
 interface IStatus {
@@ -88,7 +87,10 @@ const CharacterCard: FC<CharacterProps> = ({
           {formatStringToFillInSpace(name, 16)}
         </Typography>
         <Typography variant="subtitle2" component="div">
-          <FiberManualRecordIcon className={classes.icon} />
+          <FiberManualRecordIcon
+            aria-label="Rounded Icon"
+            className={classes.icon}
+          />
           {status} - {species}
         </Typography>
 
@@ -105,7 +107,6 @@ const CharacterCard: FC<CharacterProps> = ({
         <Box
           className={classes.wrapperFavIcon}
           onClick={() => {
-            console.log(id)
             {
               isFavorite ? excludeFromFavorites(id) : includeInFavorites(id)
             }
@@ -123,4 +124,4 @@ const CharacterCard: FC<CharacterProps> = ({
   )
 }
 
-export default CharacterCard
+export default memo(CharacterCard)

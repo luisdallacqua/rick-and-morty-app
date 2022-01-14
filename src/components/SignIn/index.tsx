@@ -8,7 +8,6 @@ import {
 } from '@mui/material'
 import Button from '@mui/material/Button'
 import { makeStyles } from '@mui/styles'
-import { useAuth } from '../../hooks/useAuth'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Box } from '@mui/system'
@@ -17,10 +16,9 @@ import { useForm } from 'react-hook-form'
 import { IUser } from '../RegisterForm/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from '../../utils/validation/userValidation'
-import axios from 'axios'
 import { useState } from 'react'
 
-import { signIn, getSession } from 'next-auth/client'
+import { signIn } from 'next-auth/client'
 
 const useStyles = makeStyles({
   link: {
@@ -45,15 +43,6 @@ const SignIn = () => {
   })
 
   async function onSubmit(values: { email: string; password: string }) {
-    // const response = await axios({
-    //   method: 'post',
-    //   url: 'http://localhost:3000/api/login',
-    //   data: {
-    //     email: values.email,
-    //     password: values.password
-    //   }
-    // })
-
     const response = await signIn('credentials', {
       email: values.email,
       password: values.password,

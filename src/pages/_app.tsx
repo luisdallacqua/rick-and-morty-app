@@ -6,11 +6,9 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from '../styles/theme'
 import createEmotionCache from '../createEmotionCache'
-import Layout from '../components/Layout'
 import { AuthProvider } from '../context/AuthProvider'
 
 import { Provider } from 'next-auth/client'
-import { NextPageContext } from 'next'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()

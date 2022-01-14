@@ -9,7 +9,6 @@ import styled from '@emotion/styled'
 
 import * as S from './styles'
 
-import { useRouter } from 'next/router'
 import { signOut } from 'next-auth/client'
 
 export type UserDropdownProps = {
@@ -64,7 +63,7 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
           <S.Link
             title="Sign out"
             onClick={() =>
-              signOut({ callbackUrl: 'http://localhost:3000/login' })
+              signOut({ callbackUrl: `${process.env.VERCEL_URL}/login` })
             }
           >
             <ExitToAppIcon />

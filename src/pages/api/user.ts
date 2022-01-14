@@ -9,7 +9,6 @@ export default async function handler(
 ) {
   const { method } = req
   const { db } = await connectToDatabase()
-  console.log(req.query)
   if (method === 'GET') {
     const { email } = req.query
 
