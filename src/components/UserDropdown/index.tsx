@@ -63,7 +63,9 @@ const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
           <S.Link
             title="Sign out"
             onClick={() =>
-              signOut({ callbackUrl: `${process.env.VERCEL_URL}/login` })
+              signOut({
+                callbackUrl: `${process.env.NEXT_PUBLIC_VERCEL_URL}/login`
+              })
             }
           >
             <ExitToAppIcon />

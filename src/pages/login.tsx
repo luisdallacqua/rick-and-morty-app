@@ -1,4 +1,5 @@
 import React from 'react'
+import { PublicRoute } from '../components/ProtectedRoute'
 import SignIn from '../components/SignIn'
 
 const Login = () => {
@@ -9,4 +10,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default PublicRoute(Login)

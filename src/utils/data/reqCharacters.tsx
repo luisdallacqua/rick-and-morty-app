@@ -11,7 +11,6 @@ export const updateFavoriteChars = async (
     _id: id,
     favoriteCharacters: newCharacter
   })
-  console.log('response', response)
 
   return response
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { api } from '../services/createApi'
 
 export const useRemoteService = (Initialurl: string) => {
-  const [data, setData] = useState<[]>([])
+  const [data, setData] = useState<any[]>([])
   const [url, setUrl] = useState(Initialurl)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -13,7 +13,13 @@ export const useRemoteService = (Initialurl: string) => {
       setLoading(true)
       try {
         const res = await api.get(url)
-        setData(res.data)
+        const data = await res.data
+        //if a structure is an object return as an array else return as Object
+        if (!Array.isArray(data)) {
+          setData([data])
+          return
+        }
+        setData(data)
       } catch (e) {
         setError(true)
       } finally {

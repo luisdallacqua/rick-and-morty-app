@@ -12,7 +12,6 @@ import CharacterCard from '../../components/CharecterCard'
 import { CharacterProps } from '../../components/CharecterCard/types'
 // import { useRemoteService } from '../hooks/useRemoteService'
 import { api } from '../../services/createApi'
-import { useSession } from 'next-auth/client'
 import { useAuth } from '../../hooks/useAuth'
 import SearchBar from '../../components/SearchBar'
 import axios from 'axios'
@@ -128,20 +127,20 @@ function CharacterPage() {
               )
             })}
           </Grid>
-          <Stack my={3}>
-            <Pagination
-              count={info?.pages ? info.pages : 10}
-              sx={{ margin: '0 auto' }}
-              color="secondary"
-              page={page}
-              onChange={(e: React.ChangeEvent<unknown>, page: number) => {
-                setPage(page)
-                setURL(`${baseURL}?page=${page}`)
-              }}
-            />
-          </Stack>
         </>
       )}
+      <Stack my={3}>
+        <Pagination
+          count={info?.pages ? info.pages : 10}
+          sx={{ margin: '0 auto' }}
+          color="secondary"
+          page={page}
+          onChange={(e: React.ChangeEvent<unknown>, page: number) => {
+            setPage(page)
+            setURL(`${baseURL}?page=${page}`)
+          }}
+        />
+      </Stack>
     </>
   )
 }

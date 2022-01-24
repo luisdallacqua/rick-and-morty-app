@@ -1,55 +1,74 @@
-import { Avatar, Typography } from '@mui/material'
-import { signOut } from 'next-auth/client'
 import React from 'react'
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Typography
+} from '@mui/material'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import Divider from '@mui/material/Divider'
+import ListItemText from '@mui/material/ListItemText'
 import { useAuth } from '../../hooks/useAuth'
-import { Link } from '../UserDropdown/styles'
+
+const featuresOptions = [
+  {
+    title: 'Rick and Morty Characters',
+    content:
+      'You can navigate through the app and choose your favorite Characters of Rick and Morty'
+  },
+  {
+    title: 'Other Users',
+    content: 'You can see to other users and what are their favorite characters'
+  },
+  {
+    title: 'Your Profile',
+    content:
+      'You can see informations of your account and edit your profile, like your name, email, etc'
+  }
+]
 
 function WelcomePage() {
   const auth = useAuth()
-  console.log('welcome page session', auth)
+
   return (
     <>
-      <Typography variant="h5">Welcome {auth.name}</Typography>
-
-      <Typography variant="body1">
-        This is an web app developed by Luis Dallacqua
-      </Typography>
-      <Typography variant="body2">
-        You have the option to see all the characters of Rick and Morty in the
-        page of
-        <Link href="/char">
-          <a>Characters</a>
-        </Link>
-      </Typography>
-      <Typography variant="body2">
-        You have the option to see all the users and their favorite characters
-        in the page of
-        <Link href="/user/list">
-          <a>users</a>
-        </Link>
-      </Typography>
-      <Typography variant="body2">
-        Or you can see the details of your profile in my profile
-        <Link href="/user/profile">
-          <a>page</a>
-        </Link>
-      </Typography>
-      <Typography variant="body2">
-        If you want is possible to navigate with sidebar and top bar. Enjoy it
-      </Typography>
-      <button onClick={() => signOut()}>logout</button>
-      {auth.name && <p>{auth.name}</p>}
-      {auth.name && <p>{auth.role}</p>}
-      {auth.name && <p>{auth.email}</p>}
-      {auth.name && <p>{auth.sub}</p>}
-      {auth.name && (
-        <Avatar
-          src={auth.picture}
-          alt={auth.name}
-          variant="rounded"
-          sx={{ maxHeight: 60 }}
-        />
-      )}
+      <Container maxWidth="lg">
+        <Typography align="center" variant="h5" mt={2}>
+          Welcome {auth.name}, what you can do in this app?
+        </Typography>
+        <Grid container spacing={3} mt={3}>
+          <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+            {featuresOptions.map((feature) => {
+              return (
+                <>
+                  <ListItem alignItems="flex-start" key={feature.title}>
+                    <ListItemText
+                      primary={feature.title}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          >
+                            {feature.content}
+                          </Typography>
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider />
+                </>
+              )
+            })}
+          </List>
+        </Grid>
+      </Container>
     </>
   )
 }

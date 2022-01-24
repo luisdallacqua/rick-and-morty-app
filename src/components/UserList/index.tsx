@@ -28,7 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }
 }))
 
-const sizeOfName = 30
+const sizeOfNameToTrim = 30
 
 export default function BasicTable() {
   const [users, setUsers] = useState<IUser[]>([])
@@ -45,7 +45,6 @@ export default function BasicTable() {
         const data = await response.data
         setUsers(data)
       } catch (error) {
-        console.log(error)
         setError(true)
       } finally {
         setLoading(false)
@@ -115,7 +114,7 @@ export default function BasicTable() {
                       )}
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {formatStringToFillInSpace(row.name, sizeOfName)}
+                      {formatStringToFillInSpace(row.name, sizeOfNameToTrim)}
                     </TableCell>
                     <TableCell align="left">{row.email}</TableCell>
                     <TableCell align="left">{row.role.toUpperCase()}</TableCell>

@@ -1,5 +1,3 @@
-import { useSession } from 'next-auth/client'
-import { useAuth } from '../hooks/useAuth'
 import authRoute from '../components/ProtectedRoute'
 import WelcomePage from '../components/WelcomePage'
 

@@ -181,9 +181,7 @@ const Layout: FC = ({ children }) => {
         {/* list / links */}
         {drawer}
         <Box>
-          <Typography align="center" variant="body1">
-            Made with ❤️ by Luis Artur
-          </Typography>
+          <Typography align="center" variant="body1"></Typography>
         </Box>
       </Drawer>
 

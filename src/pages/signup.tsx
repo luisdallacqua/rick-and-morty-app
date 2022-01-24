@@ -1,6 +1,7 @@
 import { Grid, Theme, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React from 'react'
+import { PublicRoute } from '../components/ProtectedRoute'
 import RegisterForm from '../components/RegisterForm'
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -28,4 +29,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default PublicRoute(Signup)
