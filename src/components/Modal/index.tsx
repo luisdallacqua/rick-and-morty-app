@@ -3,7 +3,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
-import { makeStyles } from '@mui/styles'
 
 export type ModalProps = {
   textButton: React.ReactNode
@@ -11,29 +10,38 @@ export type ModalProps = {
   children: React.ReactNode
   isDeleteOption?: boolean
   disabled?: boolean
+  variant?: 'text' | 'outlined' | 'contained'
+  color?:
+    | 'inherit'
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'error'
+    | 'info'
+    | 'warning'
 }
-
-const useStyles = makeStyles({
-  modal: {
-    overflowY: 'scroll'
-  }
-})
 
 const BasicModal: FC<ModalProps> = ({
   textButton,
   textModalHeader,
   children,
   isDeleteOption = false,
-  disabled = false
+  disabled,
+  color,
+  variant = 'outlined'
 }) => {
-  const classes = useStyles()
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
   return (
     <div>
-      <Button disabled={disabled} onClick={handleOpen}>
+      <Button
+        disabled={disabled}
+        onClick={handleOpen}
+        variant={variant}
+        color={color}
+      >
         {textButton}
       </Button>
       <Modal
@@ -52,13 +60,11 @@ const BasicModal: FC<ModalProps> = ({
             height: '50%',
             bgcolor: 'background.paper',
             boxShadow: 24,
-            p: 4
+            p: 4,
+            overflowY: 'scroll'
           }}
-          className={classes.modal}
         >
-          {isDeleteOption ? (
-            ''
-          ) : (
+          {!isDeleteOption && (
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Favorite characters of {textModalHeader}:
             </Typography>

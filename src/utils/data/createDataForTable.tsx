@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Alert, Button } from '@mui/material'
 import BasicModal from '../../components/Modal'
 import { IUser } from '../../components/RegisterForm/types'
 
-import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { api } from '../../services/createApi'
 import CharacterList from '../../components/CharacterList'
+import { useAuth } from '../../hooks/useAuth'
 
 const handleDelete = async (id: string) => {
   const filteredCharacter = await api.delete(`/users/${id}`)
@@ -14,18 +13,30 @@ const handleDelete = async (id: string) => {
 }
 
 export const ActionsSection = (params: IUser) => {
+  const auth = useAuth()
+  const isAdmin = auth.role?.toLocaleLowerCase() === 'admin'
+
   return (
     <div style={{ display: 'flex' }}>
-      <Button
-        variant="outlined"
-        size="small"
-        onClick={() => console.log(`Edit ${params._id}`)}
+      <BasicModal
+        color="error"
+        isDeleteOption
+        disabled={!isAdmin}
+        textButton={
+          <DeleteIcon sx={{ color: isAdmin ? 'error' : 'gray[500]' }} />
+        }
       >
-        <ModeEditIcon />
-      </Button>
-      <BasicModal isDeleteOption textButton={<DeleteIcon color="error" />}>
-        Você está prestes a deletar um usuário, deseja prosseguir?
-        <button onClick={() => handleDelete(params._id)}>SIM</button>
+        <Alert severity="warning">
+          You are deleting an user, and will not be possible recover any
+          information about this user.
+        </Alert>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => handleDelete(params._id)}
+        >
+          YES
+        </Button>
       </BasicModal>
     </div>
   )
@@ -33,7 +44,11 @@ export const ActionsSection = (params: IUser) => {
 
 export const MoreInfoSection = (params: IUser) => {
   return (
-    <BasicModal textButton="Favorite characters" textModalHeader={params.name}>
+    <BasicModal
+      variant="contained"
+      textButton="Favorite characters"
+      textModalHeader={params.name}
+    >
       {params.favoriteCharacters.length > 0 ? (
         <CharacterList {...params} />
       ) : (

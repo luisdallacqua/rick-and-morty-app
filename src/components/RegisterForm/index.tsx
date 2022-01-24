@@ -64,12 +64,7 @@ const RegisterForm = () => {
     <Container component="main" maxWidth="md">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
-          <TextField
-            fullWidth
-            label="Link to Image"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-          />
+          <UploadFile src={image} onChange={(e) => setImage(e)} />
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField

@@ -1,9 +1,10 @@
-import { TextFieldProps } from '@mui/material'
+import { Alert, TextFieldProps } from '@mui/material'
 import { useEffect, useState } from 'react'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
 import Image from 'next/image'
 import styled from '@emotion/styled'
 import imageDefault from '../../../public/grayUserImage.svg'
+import axios from 'axios'
 
 export const AvatarInput = styled.div`
   width: 100px;
@@ -51,41 +52,42 @@ interface UploadFile extends Omit<TextFieldProps, 'onChange'> {
   onChange?: (image: string) => void
 }
 
-const UploadFile: React.FC<UploadFile> = ({
-  src,
-  alt,
-  readOnly = false,
-  onChange
-}) => {
+const UploadFile: React.FC<UploadFile> = ({ src, alt, onChange }) => {
   const [image, setImage] = useState(src)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     setImage(src)
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    return () => {}
   }, [src])
 
-  const handleImageChange = (e: any) => {
-    const file = e.target.files[0]
-    if (!file) return
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.currentTarget?.files?.[0]
 
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
+    if (file) {
+      if (file.size > 300 * 1024) {
+        setError('This image is too large, please select one until 300Kb')
+        return
+      }
 
-    reader.onloadend = (e) =>
-      onChange && onChange(e.target ? String(e.target.result) : '')
+      const imageURL = await uploadFile(file)
+      if (imageURL) {
+        setError('')
+        onChange && onChange(imageURL)
+      }
+      console.log('SRILL IMAGEURL', imageURL)
+    }
   }
 
   return (
-    <AvatarInput>
-      <Image
-        src={image || imageDefault}
-        alt={alt}
-        width="200px"
-        height="200px"
-      />
+    <>
+      <AvatarInput>
+        <Image
+          src={image || imageDefault}
+          alt={alt}
+          width="200px"
+          height="200px"
+        />
 
-      {!readOnly && (
         <label htmlFor="picture">
           <input
             type="file"
@@ -96,9 +98,23 @@ const UploadFile: React.FC<UploadFile> = ({
           />
           <CameraAltIcon />
         </label>
-      )}
-    </AvatarInput>
+      </AvatarInput>
+      {error && <Alert severity="error"> {error} </Alert>}
+    </>
   )
 }
 
 export default UploadFile
+
+async function uploadFile(file: File) {
+  const url = 'https://api.cloudinary.com/v1_1/dubu28v1i/image/upload'
+  const key = 'my-uploads'
+
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('upload_preset', key)
+
+  const image = await axios.post(url, formData)
+  console.log('image insidee upload', image)
+  return image.data.secure_url
+}
