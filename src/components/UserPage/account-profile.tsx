@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography
-} from '@mui/material'
+import { Avatar, Box, Card, CardContent, Typography } from '@mui/material'
 import { UserProps } from '../../context/types'
 
 const AccountProfile = (user: UserProps) => {
@@ -36,12 +27,6 @@ const AccountProfile = (user: UserProps) => {
           </Typography>
         </Box>
       </CardContent>
-      <Divider />
-      <CardActions>
-        <Button color="primary" fullWidth variant="text">
-          Upload picture
-        </Button>
-      </CardActions>
     </Card>
   )
 }

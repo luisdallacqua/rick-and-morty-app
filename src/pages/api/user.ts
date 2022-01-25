@@ -2,13 +2,20 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { connectToDatabase } from '../../utils/mongodb'
 import { IUser } from '../../components/RegisterForm/types'
 import { ObjectId } from 'mongodb'
+import { getSession } from 'next-auth/client'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const session = await getSession({ req })
+
+  if (!session) {
+    res.status(401).json({ message: 'Unauthorized' })
+  }
   const { method } = req
   const { db } = await connectToDatabase()
+
   if (method === 'GET') {
     const { email } = req.query
 
@@ -25,9 +32,29 @@ export default async function handler(
   if (method === 'PATCH') {
     let userId: ObjectId
 
+    const { name, email, role } = req.body
     const action = req.body.action
     const id = req.body._id
     const favoriteCharacterToPush = req.body.favoriteCharacters
+
+    if (name && email && role) {
+      const user = await db
+        .collection('users')
+        .findOne({ _id: new ObjectId(id) })
+
+      if (!user) {
+        res.status(404).json({ message: 'User not found' })
+        return
+      }
+      user.name = name
+      user.email = email
+      user.role = role
+      await db
+        .collection('users')
+        .updateOne({ _id: new ObjectId(id) }, { $set: user })
+
+      res.status(200).json({ message: 'User updated', user: user })
+    }
 
     if (!action) {
       res.status(400).json({ error: 'You should pass an action in parameters' })

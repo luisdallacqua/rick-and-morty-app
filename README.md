@@ -1,12 +1,6 @@
-# Welcome to rick and morty app
+# Bem vindo ao aplicativo do Rick and Morty
 
-This is a project that has the idea of using an external API(that I use [TheRickAndMortyAPI](https://rickandmortyapi.com/)), and a users session. Basically the idea is that a user need to log in in app to find and pick the favorite characters of rick and morty. Besides that, there' a list of users and their favorite characters to see.
-
-The main idea is consolidate the knowledgs about:
- - How to consume an external API;
- - How create an aplication with sessions and users;
- - How save and persist data in the cloud;
- - How deploy an application;
+Esse projeto tem como ideia colocar em prática vários tópicos que venho estudando há meses, como forma de consolidar e demonstrar o conhecimento adquirido. Basicamente, a ideia dessa aplicação é criar usuários os quais poderão logar no sistema (através de um sistema de autenticação) e navegar pelos personagens de Rick and Morty (para isso eu utilizei uma [API externa](https://rickandmortyapi.com/)) podendo escolher seus usuários favoritos.
 
 ## Tech Stack
 ---
@@ -18,35 +12,55 @@ The main idea is consolidate the knowledgs about:
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - [MongoDb Atlas](https://www.mongodb.com/atlas/database)
 - [Next-Auth](https://next-auth.js.org/)
+- [Cloudinary](https://cloudinary.com/)
 
-I choose Nextjs because I think that (how documentation page says) it's "ready for production", the routing file system and the possibility to create api routes with single files, the possibility of create pages server side rendering, so I thought that is the greatest aproach for this project.
+Escolhi o NextJs pela praticidade (como diz a documentação: "um framework pronto para produção") com sistemas de rotas por aquivos, a possibilidade de criar rotas de apis simplesmente criando um arquivo, além da possibilidade de gerar páginas server side e/ou estáticas, conforme a necessidade. Então, achei uma excelente opção para esse projeto;
 
-Typescript is to guarantee a type safe for the project and a better readibility. Material-UI I've chosen because I was curious about a ui library and decide to learn it. Axios is a great library to fetch data, simplifies when compared with natively fetch API.
+Typescript foi uma escolha por dois motivos: o primeiro para aprender melhor e sedimentar os conhecimentos já adquiridos, e para testar a questão da melhor legibilidade, e para minha supresa eu gostei muito da legibilidade que typescript dá para o projeto, facilitando muito na manutenção e utilização do VSCode (IDE que utilizei para escrever o projeto).
 
-React hook form was a test to use a library to validate a form, and I think that besides add lots of complexity in a form there are some advantages like do not need to worry about state of form.
+Material-UI escolhi por uma questão de curiosidade sobre as bibliotecas de UI e decidi aprender essa biblioteca, e achei muito interessante como várias coisas já vem prontas, economizando bastante tempo.
 
-MongoDb Atlas is the way I choose to save data in cloud, and when I deploy the aplication the data persists.
+React hook form foi por questão de curiosidaded de como uma biblioteca de validação funciona, e eu acho que apesar de acrescentar muita complexidaded a um formulário pequeno (como é o caso do projeto), traz algumas vantagens também como a não necessidade de preocupação com o estado do formulário.
 
-Next-auth has been choosen for the been designed to be used with NextJs and serveless, and is flexible and easy to use.
+MongoDB Atlas foi a forma que escolhi para salvar dados na nuvem, e quando eu fizer o deploy da aplicação os dados persistirem.
+
+Next-auth foi escolhido por ter sido desenhada para ser utilizada com NextJS e é flexível e fácil de utilzar.
+
+Cloudinary foi mais ou menos a mesma ideia do MongoDB Atlas, uma maneira de facilitar o armazenamento de imagens no banco de dados. E achei super fácil de utilizar.
+
 
 ### Features
 ---
 🚧Rick and morty app 🚀 in progress... 🚧
 
- - [X] Page with all the characters of Rick And Morty
- - [X] Search for specific character
- - [X] Pagination of characters
- - [X] Possibility to create an user
- - [X] Possibility to favorite a character and persists in Database
- - [X] List of User with favorite characters
- - [X] User Session and authenticate
- - [ ] Link the favorite character to user of session
- - [ ] Unit tests
+ - [X] Página com todo os personagens de rick and Morty
+ - [X] Paginação dos personagens
+ - [X] Procurar por um personagem específico
+ - [X] Possibilidade de criar um novo usuário com foto
+ - [X] Possibilidade de favoritar um personagem e ele persistir no Banco de dados
+ - [X] Lista de Usuários com os respectivos personagens favoritos
+ - [X] Sessão de usuário e autenticação
+ - [X] Vincular o personagem favorito ao usuário da sessão
+ - [ ] Testes Unitários
 
 
-## How run the project after clone it
+## Como rodar o projeto depois de cloná-lo
 
-First, install the dependencies:
+Neste [artigo](https://www.mongodb.com/developer/how-to/nextjs-with-mongodb/) você consegue saber como conseguir as duas primeiras variáveis de ambiente. E o JWT Secret é apenas a string de codificação do seu token JWT.
+
+Váriavéis de ambiente:
+
+```bash
+Crie um arquivo .env.local com as seguintes variáveis
+
+MONGODB_URI=
+MONGODB_DB=
+JWT_SECRET=
+```
+
+
+
+Primeiro, instalar as dependências:
 
 ```bash
 npm install
@@ -54,15 +68,15 @@ npm install
 yarn
 ```
 
-After, run the development server:
+Após isso, rodar os seguintes comandos:
 
 ```bash
-npm run dev
+npm run build && npm start
 # or
-yarn dev
+yarn build && yarn start
 ```
 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) no seu Browser e veja o resultado
 
 

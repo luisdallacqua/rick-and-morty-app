@@ -7,7 +7,7 @@ export const AuthContext = createContext<IContext>({} as IContext)
 export const AuthProvider = ({ children }: IAuthProvider) => {
   const [user, setUser] = useState<UserProps>({} as UserProps)
 
-  const [session, loading] = useSession()
+  const [session] = useSession()
 
   useEffect(() => {
     const user: any = session?.user

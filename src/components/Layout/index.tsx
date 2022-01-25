@@ -99,11 +99,6 @@ const Layout: FC = ({ children }) => {
       path: '/char'
     },
     {
-      text: 'Create User',
-      icon: <AddCircleOutlined color="secondary" />,
-      path: '/signup'
-    },
-    {
       text: 'List of User',
       icon: <GroupIcon color="secondary" />,
       path: '/user/list'

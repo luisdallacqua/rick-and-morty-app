@@ -28,6 +28,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }
 }))
 
+const maxSizeAvatar = {
+  maxWidth: '60px',
+  maxHeight: '60px'
+}
+
 const sizeOfNameToTrim = 30
 
 export default function BasicTable() {
@@ -102,13 +107,7 @@ export default function BasicTable() {
                   >
                     <TableCell align="center">
                       {row.avatar ? (
-                        <img
-                          src={row.avatar}
-                          style={{
-                            maxWidth: '60px',
-                            maxHeight: '60px'
-                          }}
-                        />
+                        <img src={row.avatar} style={maxSizeAvatar} />
                       ) : (
                         <Image src={imageDefault} width={60} height={60} />
                       )}

@@ -1,15 +1,22 @@
 import { useState } from 'react'
 import {
+  Alert,
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
+  CircularProgress,
   Divider,
   Grid,
   TextField
 } from '@mui/material'
-import { UserProps } from '../../context/types'
+import { useForm } from 'react-hook-form'
+import { userUpdateSchema } from '../../utils/validation/userValidation'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { api } from '../../services/createApi'
+import { ProfileProps } from '../../pages/user/profile'
+import { useAuth } from '../../hooks/useAuth'
 
 const states = [
   {
@@ -22,24 +29,64 @@ const states = [
   }
 ]
 
-const AccountProfileDetails = (user: UserProps) => {
-  const [values, setValues] = useState({
-    name: user.name,
-    email: user.email,
-    state: user.role
-  })
+type FormData = Omit<ProfileProps, 'picture'>
 
-  const isAdmin = user.role === 'admin'
+const AccountProfileDetails = (user: FormData) => {
+  const auth = useAuth()
+  const { _id } = user
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<ProfileProps>({
+    resolver: yupResolver(userUpdateSchema)
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [isSucess, setIsSucess] = useState(false)
+
+  const [role, setRole] = useState(user.role)
 
   const handleChange = (event: any) => {
-    setValues({
+    setRole(event.target.value)
+  }
+
+  const isAdmin = user.role?.toLocaleLowerCase() === 'admin'
+
+  async function updateUserOnDB(values: FormData) {
+    const response = await api.patch('/user', {
       ...values,
-      [event.target.name]: event.target.value
+      _id,
+      role
     })
+    auth.setUser((prev) => ({
+      ...prev,
+      name: response.data.user.name,
+      email: response.data.user.email,
+      role: response.data.user.role
+    }))
+    return response.data
+  }
+
+  async function onSubmit(values: FormData) {
+    setIsLoading(true)
+    setIsSucess(false)
+    setError(false)
+    try {
+      await updateUserOnDB({
+        ...values,
+        role
+      })
+      setIsSucess(true)
+    } catch (error) {
+      setError(true)
+    }
+    setIsLoading(false)
   }
 
   return (
-    <form autoComplete="off" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Card>
         <CardHeader subheader="The information can be edited" title="Profile" />
         <Divider />
@@ -49,22 +96,22 @@ const AccountProfileDetails = (user: UserProps) => {
               <TextField
                 fullWidth
                 label="Name"
-                name="name"
-                onChange={handleChange}
-                required
-                value={values.name}
                 variant="outlined"
+                error={Boolean(errors.name?.message)}
+                helperText={errors.name?.message}
+                defaultValue={user.name}
+                {...register('name')}
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
                 label="Email Address"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
                 variant="outlined"
+                error={Boolean(errors.email?.message)}
+                helperText={errors.email?.message}
+                {...register('email')}
+                defaultValue={user.email}
               />
             </Grid>
 
@@ -74,12 +121,12 @@ const AccountProfileDetails = (user: UserProps) => {
                 helperText={!isAdmin ? 'Only admins can change this' : ''}
                 fullWidth
                 label="Role"
-                name="state"
+                name="role"
+                value={role}
                 onChange={handleChange}
                 required
                 select
                 SelectProps={{ native: true }}
-                value={values.state}
                 variant="outlined"
               >
                 {states.map((option) => (
@@ -99,10 +146,22 @@ const AccountProfileDetails = (user: UserProps) => {
             p: 2
           }}
         >
-          <Button color="primary" variant="contained">
-            Save details
+          <Button color="primary" variant="contained" type="submit">
+            {!isLoading ? (
+              'Save details'
+            ) : (
+              <CircularProgress sx={{ color: '#fff' }} />
+            )}
           </Button>
         </Box>
+        {isSucess && (
+          <Alert severity="success">The user was updated sucessfully</Alert>
+        )}
+        {error && (
+          <Alert severity="error">
+            Something went wrong with our server— Try again later!
+          </Alert>
+        )}
       </Card>
     </form>
   )

@@ -8,6 +8,14 @@ import { useAuth } from '../../hooks/useAuth'
 import { Box, Container, Grid, Typography } from '@mui/material'
 import { api } from '../../services/createApi'
 
+export interface ProfileProps {
+  _id: string
+  email: string
+  name: string
+  role: string
+  picture?: string
+}
+
 const Profile = () => {
   const auth = useAuth()
   const userContext = {
@@ -18,7 +26,7 @@ const Profile = () => {
     picture: auth.picture
   }
 
-  const [user, setUser] = useState<UserProps>(userContext)
+  const [user, setUser] = useState<ProfileProps>(userContext)
 
   return (
     <>
