@@ -14,7 +14,7 @@ export const useRemoteService = (Initialurl: string) => {
       try {
         const res = await api.get(url)
         const data = await res.data
-        //if a structure is an object return as an array else return as Object
+        //if a structure is an object return as an array
         if (!Array.isArray(data)) {
           setData([data])
           return

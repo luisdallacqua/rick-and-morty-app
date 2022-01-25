@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
 import React from 'react'
 import Navbar from '../Navbar'
-import Layout from '../Layout'
+import Dashboard from '../Dashboard'
 
 const authRoute = (Component: React.ComponentType) => {
   return function withProtected(props: any) {
@@ -17,9 +17,9 @@ const authRoute = (Component: React.ComponentType) => {
     }
 
     return (
-      <Layout>
+      <Dashboard>
         <Component {...props} />
-      </Layout>
+      </Dashboard>
     )
   }
 }

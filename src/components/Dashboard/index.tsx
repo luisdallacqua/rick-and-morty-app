@@ -22,7 +22,7 @@ import {
 import { createStyles, makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
 
-import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
+import { SubjectOutlined } from '@mui/icons-material'
 import MenuIcon from '@mui/icons-material/Menu'
 import GroupIcon from '@mui/icons-material/Group'
 import { useAuth } from '../../hooks/useAuth'
@@ -80,7 +80,7 @@ const toolbarStyles = {
   justifyContent: 'flex-end'
 }
 
-const Layout: FC = ({ children }) => {
+const Dashboard: FC = ({ children }) => {
   const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
   const classes = useStyles()
   const router = useRouter()
@@ -188,4 +188,4 @@ const Layout: FC = ({ children }) => {
   )
 }
 
-export default Layout
+export default Dashboard

@@ -3,7 +3,6 @@ import { makeStyles } from '@mui/styles'
 import React from 'react'
 import { PublicRoute } from '../components/ProtectedRoute'
 import RegisterForm from '../components/RegisterForm'
-import FormUploader from '../components/UploadFile/FormUploader'
 
 const useStyles = makeStyles((theme: Theme) => {
   return {

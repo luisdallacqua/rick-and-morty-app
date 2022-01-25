@@ -11,7 +11,11 @@ import { CharacterProps } from '../CharecterCard/types'
 import { useRemoteService } from '../../hooks/useRemoteService'
 import { Alert, AlertTitle, CircularProgress } from '@mui/material'
 
-const CharacterList = ({ favoriteCharacters }: any) => {
+const CharacterList = ({
+  favoriteCharacters
+}: {
+  favoriteCharacters: number[]
+}) => {
   const { data, loading, error } = useRemoteService(
     `https://rickandmortyapi.com/api/character/${favoriteCharacters}`
   )

@@ -16,6 +16,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { formatStringToFillInSpace } from '../../utils/data/formatData'
 import TablePagination from '@mui/material/TablePagination'
+import { useRemoteService } from '../../hooks/useRemoteService'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,27 +37,12 @@ const maxSizeAvatar = {
 const sizeOfNameToTrim = 30
 
 export default function BasicTable() {
-  const [users, setUsers] = useState<IUser[]>([])
+  const { data, loading, error } = useRemoteService(
+    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/user`
+  )
+
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
-
-  useEffect(() => {
-    setLoading(true)
-    const fetchUsers = async () => {
-      try {
-        const response = await api.get('/user')
-        const data = await response.data
-        setUsers(data)
-      } catch (error) {
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchUsers()
-  }, [])
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
@@ -69,7 +55,7 @@ export default function BasicTable() {
     setPage(0)
   }
 
-  const rowsData = rowsFormatter(users)
+  const rowsData = rowsFormatter(data)
 
   return (
     <Paper>

@@ -8,11 +8,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getSession({ req })
-
-  if (!session) {
-    res.status(401).json({ message: 'Unauthorized' })
-  }
   const { method } = req
   const { db } = await connectToDatabase()
 
@@ -97,5 +92,24 @@ export default async function handler(
         .status(200)
         .json(`Character ${favoriteCharacterToPush} was removed from favorites`)
     }
+  }
+
+  if (method === 'DELETE') {
+    const { _id } = req.query
+
+    const user = await db
+      .collection('users')
+      .findOne({ _id: new ObjectId(_id as string) })
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' })
+      return
+    }
+    if (user.role.toLowerCase() === 'admin') {
+      res.status(401).json({ message: 'You can not delete an admin' })
+    }
+
+    await db.collection('users').deleteOne({ _id: new ObjectId(_id as string) })
+    res.status(200).json({ message: 'User deleted' })
   }
 }

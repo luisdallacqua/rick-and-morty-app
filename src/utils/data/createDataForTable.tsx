@@ -8,8 +8,8 @@ import CharacterList from '../../components/CharacterList'
 import { useAuth } from '../../hooks/useAuth'
 
 const handleDelete = async (id: string) => {
-  const filteredCharacter = await api.delete(`/users/${id}`)
-  return filteredCharacter.data
+  const response = await api.delete(`/user`, { data: { _id: id } })
+  console.log(response.data)
 }
 
 export const ActionsSection = (params: IUser) => {
