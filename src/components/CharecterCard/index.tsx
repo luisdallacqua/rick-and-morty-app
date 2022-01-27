@@ -1,60 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { FC, memo, useState } from 'react'
 
-import { Card, CardContent, CardMedia, Theme, Typography } from '@mui/material'
+import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { pink } from '@mui/material/colors'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
-import { makeStyles } from '@mui/styles'
 import { CharacterProps } from './types'
 import { formatStringToFillInSpace } from '../../utils/data/formatData'
-import { updateFavoriteChars } from '../../utils/data/reqCharacters'
+import { updateFavoriteChars } from '../../utils/data/updateFavoriteCharacters'
 import { useAuth } from '../../hooks/useAuth'
-
-interface IStatus {
-  //this is necessary to makeStyles accept status without any kind of error
-  status: string
-}
-
-const useStyles = makeStyles<Theme, IStatus>((theme) => {
-  return {
-    card: {
-      maxWidth: '100%',
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white
-    },
-    media: {
-      height: '100%'
-    },
-    icon: {
-      fontSize: 10,
-      color: ({ status }) => {
-        if (status === 'Alive') {
-          return theme.palette.secondary.main
-        }
-        if (status === 'Dead') {
-          return theme.palette.error.main
-        } else {
-          return theme.palette.grey[500]
-        }
-      }
-    },
-    favoriteIcon: {
-      fontSize: 20,
-      color: pink[500],
-      cursor: 'pointer',
-      marginRight: '0.5rem'
-    },
-    wrapperFavIcon: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      marginTop: '1rem'
-    }
-  }
-})
+import { useStyles } from './styles'
 
 const CharacterCard: FC<CharacterProps> = ({
   isFavorited,

@@ -18,6 +18,17 @@ export const Username = styled.span`
   `}
 `
 
+export const UserWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+
+export const UserRole = styled.span`
+  font-size: 0.8rem;
+  margin-left: 0.6rem;
+`
+
 export const Link = styled.a`
   ${() => css`
     display: flex;

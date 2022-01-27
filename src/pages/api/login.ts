@@ -32,11 +32,6 @@ export default async function handler(
           avatar: user.avatar
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        // const jwt = sign(payload, process.env.JWT_SECRET!, {
-        //   expiresIn: '1h'
-        // })
-
         res.status(200).json(payload)
       } else {
         res.status(401).json({ error: 'Wrong password or User' })

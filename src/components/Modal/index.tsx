@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 
-export type ModalProps = {
+export interface ModalProps {
   textButton: React.ReactNode
   textModalHeader?: string
   children: React.ReactNode

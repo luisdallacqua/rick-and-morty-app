@@ -19,66 +19,26 @@ import {
   IconButton,
   useMediaQuery
 } from '@mui/material'
-import { createStyles, makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
 
 import { SubjectOutlined } from '@mui/icons-material'
 import MenuIcon from '@mui/icons-material/Menu'
 import GroupIcon from '@mui/icons-material/Group'
 import { useAuth } from '../../hooks/useAuth'
+import { useStyles } from './styles'
 
-const drawerWidth = 240
-
-const useStyles = makeStyles<Theme>((theme) =>
-  createStyles({
-    root: {
-      display: 'flex'
-    },
-    appbar: {
-      backgroundColor: theme.palette.grey[300],
-      width: `calc(100% - ${drawerWidth}px)`,
-      [theme.breakpoints.down('md')]: {
-        width: '100vw'
-      }
-    },
-    page: {
-      width: '100%',
-      minHeight: '100vh'
-    },
-    drawer: {
-      flexShrink: 0,
-      width: drawerWidth
-    },
-    drawerPaper: {
-      width: drawerWidth,
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between'
-    },
-    active: {
-      background: theme.palette.common.white,
-      color: theme.palette.secondary.main,
-      borderLeft: `.5rem solid ${theme.palette.secondary.main}`
-    },
-    toolbar: {
-      ...theme.mixins.toolbar
-    },
-    menuButton: {
-      color: '#000',
-      marginRight: theme.spacing(2),
-      [theme.breakpoints.up('md')]: {
-        display: 'none'
-      }
-    }
-  })
-)
-
-const toolbarStyles = {
-  display: 'flex',
-  justifyContent: 'flex-end'
-}
+const menuItems = [
+  {
+    text: 'My characters',
+    icon: <SubjectOutlined color="secondary" />,
+    path: '/characters'
+  },
+  {
+    text: 'List of User',
+    icon: <GroupIcon color="secondary" />,
+    path: '/user/list'
+  }
+]
 
 const Dashboard: FC = ({ children }) => {
   const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
@@ -91,19 +51,6 @@ const Dashboard: FC = ({ children }) => {
   const handleDrawerOpen = () => {
     setOpen(!open)
   }
-
-  const menuItems = [
-    {
-      text: 'My characters',
-      icon: <SubjectOutlined color="secondary" />,
-      path: '/char'
-    },
-    {
-      text: 'List of User',
-      icon: <GroupIcon color="secondary" />,
-      path: '/user/list'
-    }
-  ]
 
   const drawer = (
     <List>
@@ -125,7 +72,7 @@ const Dashboard: FC = ({ children }) => {
     <div className={classes.root}>
       {/* app bar */}
       <AppBar className={classes.appbar} elevation={0} position="fixed">
-        <Toolbar sx={toolbarStyles}>
+        <Toolbar className={classes.toolbarStyles}>
           <Stack
             width="100%"
             direction="row"
@@ -149,9 +96,9 @@ const Dashboard: FC = ({ children }) => {
               <MenuIcon fontSize="large" />
             </IconButton>
             <UserDropdown
-              username={auth.name || 'GUEST'}
+              username={auth.name}
               image={auth.picture || ''}
-              role={auth.role || 'GUEST'}
+              role={auth.role}
             />
           </Stack>
         </Toolbar>

@@ -34,14 +34,14 @@ function WelcomePage() {
         </Typography>
         <Grid container spacing={3} mt={3}>
           <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            {featuresOptions.map((feature) => {
+            {featuresOptions.map((feature, idx) => {
               return (
                 <>
                   <ListItem alignItems="flex-start" key={feature.title}>
                     <ListItemText
                       primary={feature.title}
                       secondary={
-                        <React.Fragment>
+                        <React.Fragment key={idx}>
                           <Typography
                             sx={{ display: 'inline' }}
                             component="span"

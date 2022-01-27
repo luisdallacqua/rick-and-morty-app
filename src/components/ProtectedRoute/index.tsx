@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import Navbar from '../Navbar'
 import Dashboard from '../Dashboard'
+import { CircularProgress } from '@mui/material'
 
 const authRoute = (Component: React.ComponentType) => {
   return function withProtected(props: any) {
@@ -31,7 +32,7 @@ export const PublicRoute = (Component: React.ComponentType) => {
     const router = useRouter()
     const [session, loading] = useSession()
 
-    if (loading) <p>LOADING...</p>
+    if (loading) <CircularProgress />
 
     if (!loading && session) {
       router.replace('/')

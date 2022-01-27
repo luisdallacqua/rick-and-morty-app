@@ -2,54 +2,14 @@ import { Alert, TextFieldProps } from '@mui/material'
 import { useEffect, useState } from 'react'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
 import Image from 'next/image'
-import styled from '@emotion/styled'
 import imageDefault from '../../../public/grayUserImage.svg'
 import axios from 'axios'
-
-export const AvatarInput = styled.div`
-  width: 100px;
-  height: 100px;
-  position: relative;
-  align-self: center;
-  border-radius: 8px;
-  img {
-    width: 100%;
-    height: 100%;
-    border-radius: 1rem;
-    object-fit: cover;
-  }
-  label {
-    position: absolute;
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    background-color: #1db954;
-    right: -6px;
-    bottom: -6px;
-    transition: background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    svg {
-      width: 15px;
-      height: 15px;
-      color: #fafafa;
-    }
-    &:hover {
-      background: #1ec064;
-    }
-    input {
-      display: none;
-    }
-  }
-`
+import * as S from './styles'
 
 interface UploadFile extends Omit<TextFieldProps, 'onChange'> {
-  src: any
+  src: string
   alt?: string
-  readOnly?: HTMLInputElement
-  onChange?: (image: string) => void
+  onChange: (image: string) => void
 }
 
 const UploadFile: React.FC<UploadFile> = ({ src, alt, onChange }) => {
@@ -72,15 +32,14 @@ const UploadFile: React.FC<UploadFile> = ({ src, alt, onChange }) => {
       const imageURL = await uploadFile(file)
       if (imageURL) {
         setError('')
-        onChange && onChange(imageURL)
+        onChange(imageURL)
       }
-      console.log('SRILL IMAGEURL', imageURL)
     }
   }
 
   return (
     <>
-      <AvatarInput>
+      <S.AvatarInput>
         <Image
           src={image || imageDefault}
           alt={alt}
@@ -98,13 +57,15 @@ const UploadFile: React.FC<UploadFile> = ({ src, alt, onChange }) => {
           />
           <CameraAltIcon />
         </label>
-      </AvatarInput>
+      </S.AvatarInput>
       {error && <Alert severity="error"> {error} </Alert>}
     </>
   )
 }
 
 export default UploadFile
+
+//uploading file to cloudinary and returning a link to store in DB
 
 async function uploadFile(file: File) {
   const url = 'https://api.cloudinary.com/v1_1/dubu28v1i/image/upload'

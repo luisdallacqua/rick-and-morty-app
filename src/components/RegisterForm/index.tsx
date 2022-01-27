@@ -54,6 +54,7 @@ const RegisterForm = () => {
         avatar: image
       })
       setIsSucess(true)
+      setImage('')
       reset()
     } catch (error) {
       setError(true)
@@ -107,7 +108,7 @@ const RegisterForm = () => {
 
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             type="submit"
             disabled={isLoading}
           >

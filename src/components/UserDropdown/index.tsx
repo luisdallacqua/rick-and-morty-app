@@ -5,7 +5,6 @@ import { Avatar } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
-import styled from '@emotion/styled'
 
 import * as S from './styles'
 
@@ -17,26 +16,16 @@ export type UserDropdownProps = {
   role?: string
 }
 
-const UserWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`
-const UserRole = styled.span`
-  font-size: 0.8rem;
-  margin-left: 0.6rem;
-`
-
 const UserDropdown = ({ username, image, role }: UserDropdownProps) => {
   return (
     <Dropdown
       title={
         <>
           <KeyboardArrowDownIcon />
-          <UserWrapper>
+          <S.UserWrapper>
             <S.Username>{username}</S.Username>
-            <UserRole>{role?.toUpperCase() || 'USER'}</UserRole>
-          </UserWrapper>
+            <S.UserRole>{role?.toUpperCase() || 'USER'}</S.UserRole>
+          </S.UserWrapper>
 
           {image ? (
             <Avatar

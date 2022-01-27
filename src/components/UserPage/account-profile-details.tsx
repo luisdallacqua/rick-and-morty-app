@@ -13,6 +13,8 @@ import { useForm } from 'react-hook-form'
 import { userUpdateSchema } from '../../utils/validation/userValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ProfileProps } from '../../pages/user/profile'
+import { api } from '../../services/createApi'
+import { useSession } from 'next-auth/client'
 
 const states = [
   {
@@ -28,6 +30,7 @@ const states = [
 type FormData = Omit<ProfileProps, 'picture'>
 
 const AccountProfileDetails = (user: FormData) => {
+  const [session] = useSession()
   const {
     register,
     handleSubmit,
@@ -45,8 +48,16 @@ const AccountProfileDetails = (user: FormData) => {
   const isAdmin = user.role?.toLocaleLowerCase() === 'admin'
 
   async function onSubmit(values: FormData) {
-    //verify next-auth how update session before update user
-    console.log(values)
+    try {
+      const response = await api.patch('/user', {
+        _id: user._id,
+        name: values.name,
+        email: values.email,
+        role
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -58,7 +69,6 @@ const AccountProfileDetails = (user: FormData) => {
           <Grid container spacing={3}>
             <Grid item md={12} xs={12}>
               <TextField
-                disabled
                 fullWidth
                 label="Name"
                 variant="outlined"
@@ -70,7 +80,6 @@ const AccountProfileDetails = (user: FormData) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                disabled
                 fullWidth
                 label="Email Address"
                 variant="outlined"
@@ -104,6 +113,18 @@ const AccountProfileDetails = (user: FormData) => {
             </Grid>
           </Grid>
         </CardContent>
+        <Divider />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            p: 2
+          }}
+        >
+          <Button color="primary" variant="contained" type="submit">
+            Save details
+          </Button>
+        </Box>
       </Card>
     </form>
   )

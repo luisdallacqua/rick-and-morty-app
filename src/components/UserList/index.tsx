@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { api } from '../../services/createApi'
 import { IUser } from '../RegisterForm/types'
 import imageDefault from '../../../public/grayUserImage.svg'
-import { headerColumns, rowsFormatter } from './userData'
+import { headerColumns, rowsFormatter } from './userFormatData'
 import { Alert, CircularProgress } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
@@ -18,7 +18,7 @@ import { formatStringToFillInSpace } from '../../utils/data/formatData'
 import TablePagination from '@mui/material/TablePagination'
 import { useRemoteService } from '../../hooks/useRemoteService'
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableHeaderCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.grey[800],
     color: theme.palette.common.white,
@@ -26,6 +26,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14
+  }
+}))
+
+const StyledTableRowCell = styled(TableRow)(({ theme }) => ({
+  ['&:last-child td, &:last-child th']: {
+    border: 0
+  },
+  ['&:nth-child(even)']: {
+    backgroundColor: theme.palette.grey[200]
   }
 }))
 
@@ -67,7 +76,9 @@ export default function BasicTable() {
           <TableHead>
             <TableRow hover={true}>
               {headerColumns.map((column) => (
-                <StyledTableCell key={column}>{column}</StyledTableCell>
+                <StyledTableHeaderCell key={column}>
+                  {column}
+                </StyledTableHeaderCell>
               ))}
             </TableRow>
           </TableHead>
@@ -84,19 +95,13 @@ export default function BasicTable() {
               rowsData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
-                  <TableRow
-                    key={row._id}
-                    sx={{
-                      '&:last-child td, &:last-child th': { border: 0 },
-                      '&:nth-child(even)': { backgroundColor: '#eee' }
-                    }}
-                  >
+                  <StyledTableRowCell key={row._id}>
                     <TableCell align="center">
-                      {row.avatar ? (
-                        <img src={row.avatar} style={maxSizeAvatar} />
-                      ) : (
-                        <Image src={imageDefault} width={60} height={60} />
-                      )}
+                      <Image
+                        src={row.avatar ? row.avatar : imageDefault}
+                        width={60}
+                        height={60}
+                      />
                     </TableCell>
                     <TableCell component="th" scope="row">
                       {formatStringToFillInSpace(row.name, sizeOfNameToTrim)}
@@ -105,7 +110,7 @@ export default function BasicTable() {
                     <TableCell align="left">{row.role.toUpperCase()}</TableCell>
                     <TableCell align="left">{row.actions}</TableCell>
                     <TableCell align="left">{row.moreInfo}</TableCell>
-                  </TableRow>
+                  </StyledTableRowCell>
                 ))
             )}
           </TableBody>
