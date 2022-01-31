@@ -1,121 +1,136 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { connectToDatabase } from '../../utils/mongodb'
-import { IUser } from '../../components/RegisterForm/types'
-import { ObjectId } from 'mongodb'
-import { getSession } from 'next-auth/client'
-import { copyFile } from 'fs'
+import { userRepository } from './UserRepository'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { method } = req
-  const { db } = await connectToDatabase()
-
-  if (method === 'GET') {
-    const { email } = req.query
-
-    if (!email) {
-      const data = await db.collection('users').find({}).toArray()
-      res.status(200).json(data)
+  try {
+    if (method === 'GET') {
+      await getUsers(req, res)
     }
 
-    const user = await db.collection('users').findOne({ email })
-    res.status(200).json(user)
-    res.end()
-  }
-
-  if (method === 'PATCH') {
-    let userId: ObjectId
-
-    const { name, email, role } = req.body
-    const action = req.body.action
-    const id = req.body._id
-    const favoriteCharacterToPush = req.body.favoriteCharacters
-
-    if (name && email && role) {
-      const user = await db
-        .collection('users')
-        .findOne({ _id: new ObjectId(id) })
-
-      if (!user) {
-        res.status(404).json({ message: 'User not found' })
-        return
-      }
-      user.name = name
-      user.email = email
-      user.role = role
-      try {
-        await db
-          .collection('users')
-          .updateOne({ _id: new ObjectId(id) }, { $set: user })
-
-        res.status(200).json({ message: 'User updated', user: user })
-      } catch (error) {
-        res.status(500).json({ message: 'Error updating user' })
-      }
+    if (method === 'PATCH') {
+      await updateUser(req, res)
     }
 
-    if (!action) {
-      res.status(400).json({ error: 'You should pass an action in parameters' })
+    if (method === 'DELETE') {
+      await deleteUser(req, res)
     }
-
-    if (!favoriteCharacterToPush) {
-      res
-        .status(400)
-        .json({ error: 'Invalid id, it is not possible to add the character' })
-      return
-    }
-
-    try {
-      userId = new ObjectId(id)
-    } catch {
-      res.status(400).json({ error: 'Invalid id' })
-      return
-    }
-
-    if (action === 'add') {
-      await db
-        .collection('users')
-        .updateOne(
-          { _id: userId },
-          { $push: { favoriteCharacters: favoriteCharacterToPush } }
-        )
-      res
-        .status(201)
-        .json(`Character ${favoriteCharacterToPush} was inserted in favorites`)
-    }
-
-    if (action === 'delete') {
-      await db
-        .collection('users')
-        .updateOne(
-          { _id: userId },
-          { $pull: { favoriteCharacters: favoriteCharacterToPush } }
-        )
-      res
-        .status(200)
-        .json(`Character ${favoriteCharacterToPush} was removed from favorites`)
+  } catch (error) {
+    if (error instanceof ErrorAplication) {
+      res.status(error.statusHTTP).json({ error: error.message })
     }
   }
+}
 
-  if (method === 'DELETE') {
-    const { _id } = req.body
+async function getUsers(req: NextApiRequest, res: NextApiResponse) {
+  const { email } = req.query
 
-    const user = await db
-      .collection('users')
-      .findOne({ _id: new ObjectId(_id) })
+  if (!email) {
+    const users = await userRepository().findAll()
+    res.status(200).json(users)
+  }
 
-    if (!user) {
-      res.status(404).json({ message: 'User not found' })
-      return
-    }
-    if (user.role.toLowerCase() === 'admin') {
-      res.status(401).json({ message: 'You can not delete an admin' })
-      return
-    }
+  const user = await userRepository().findOneByEmail(email as string)
+  res.status(200).json(user)
+  res.end()
+}
 
-    await db.collection('users').deleteOne({ _id: new ObjectId(_id) })
-    res.status(200).json({ message: 'User deleted' })
+async function deleteUser(req: NextApiRequest, res: NextApiResponse) {
+  const { _id } = req.body
+
+  const user = await userRepository().findOneById(_id)
+
+  if (!user) {
+    res.status(404).json({ message: 'User not found' })
+    return
+  }
+  if (user.role.toLowerCase() === 'admin') {
+    res.status(401).json({ message: 'You can not delete an admin' })
+    return
+  }
+
+  await userRepository().deleteOne(_id)
+  res.status(200).json({ message: 'User deleted' })
+}
+
+async function updateUser(req: NextApiRequest, res: NextApiResponse) {
+  const { name, email, role } = req.body
+  if (name && email && role) {
+    updateUserData(req.body._id, name, email, role, res)
+  }
+
+  if (!req.body.action) {
+    throw new ErrorAplication('You should pass an action in parameters', 400)
+  }
+
+  if (!req.body.favoriteCharacters) {
+    throw new ErrorAplication(
+      'Invalid id, it is not possible to add the character',
+      400
+    )
+  }
+
+  if (req.body.action === 'add') {
+    await addFavoriteCharacter(req.body._id, req.body.favoriteCharacters, res)
+  }
+
+  if (req.body.action === 'delete') {
+    removeFavoriteCharacter(req.body._id, req.body.favoriteCharacters, res)
+  }
+}
+
+async function updateUserData(
+  id: string,
+  name: string,
+  email: string,
+  role: string,
+  res: NextApiResponse
+) {
+  const user = await userRepository().findOneById(id)
+
+  if (!user) {
+    throw new ErrorAplication('User not found', 404)
+  }
+  user.name = name
+  user.email = email
+  user.role = role
+
+  await userRepository().updateOne(user)
+  res.status(200).json({ message: 'User updated', user: user })
+}
+
+async function addFavoriteCharacter(
+  id: string,
+  favoriteCharacter: number,
+  res: NextApiResponse
+) {
+  await userRepository().addFavoriteCharacter(id, favoriteCharacter)
+
+  res
+    .status(201)
+    .json(`Character ${favoriteCharacter} was inserted in favorites`)
+}
+
+async function removeFavoriteCharacter(
+  id: string,
+  favoriteCharacter: number,
+  res: NextApiResponse
+) {
+  await userRepository().removeFavoriteCharacter(id, favoriteCharacter)
+  res
+    .status(200)
+    .json(`Character ${favoriteCharacter} was removed from favorites`)
+}
+
+class ErrorAplication {
+  message: string
+  statusHTTP: number
+
+  constructor(message: string, statusHTTP: number) {
+    this.message = message
+    this.statusHTTP = statusHTTP
   }
 }

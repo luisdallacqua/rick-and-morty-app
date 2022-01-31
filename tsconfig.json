@@ -25,6 +25,5 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/utils/mongodb.ts", "src/pages/api/auth/[...auth].js"  ]
+    "**/*.tsx", "src/utils/mongodb.ts", "src/pages/api/auth/[...auth].ts"  ]
 }

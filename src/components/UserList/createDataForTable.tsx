@@ -1,10 +1,10 @@
 import { Alert, Button } from '@mui/material'
-import BasicModal from '../../components/Modal'
-import { IUser } from '../../components/RegisterForm/types'
+import BasicModal from '../Modal'
+import { IUser } from '../RegisterForm/types'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import { api } from '../../services/createApi'
-import CharacterList from '../../components/CharacterList'
+import CharacterList from '../CharacterList'
 import { useAuth } from '../../hooks/useAuth'
 
 export const ActionsSection = (params: IUser) => {

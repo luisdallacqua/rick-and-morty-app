@@ -1,7 +1,4 @@
-import {
-  ActionsSection,
-  MoreInfoSection
-} from '../../utils/data/createDataForTable'
+import { ActionsSection, MoreInfoSection } from './createDataForTable'
 import { IUser } from '../RegisterForm/types'
 
 export const rowsFormatter = (users: IUser[]) =>

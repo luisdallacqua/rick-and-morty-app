@@ -9,8 +9,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
   const [session] = useSession()
 
-  console.log('session', session)
-
   useEffect(() => {
     const user: any = session?.user
     if (user) {

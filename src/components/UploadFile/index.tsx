@@ -76,6 +76,5 @@ async function uploadFile(file: File) {
   formData.append('upload_preset', key)
 
   const image = await axios.post(url, formData)
-  console.log('image insidee upload', image)
   return image.data.secure_url
 }

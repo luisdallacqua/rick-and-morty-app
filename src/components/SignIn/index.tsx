@@ -53,7 +53,6 @@ const SignIn = () => {
     })
 
     if (response?.error) {
-      console.log('erro', response)
       setMessage(response.error)
       setIsLoading(false)
     }

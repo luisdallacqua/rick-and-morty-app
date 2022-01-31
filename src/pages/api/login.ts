@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { connectToDatabase } from '../../utils/mongodb'
 import { IUser } from '../../components/RegisterForm/types'
-import { sign } from 'jsonwebtoken'
 import { compare } from 'bcrypt'
+import { userRepository } from './UserRepository'
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,29 +12,25 @@ export default async function handler(
 
   const { email, password } = req.body as Pick<IUser, 'email' | 'password'>
 
-  const { db } = await connectToDatabase()
-  const user = await db.collection('users').findOne({ email })
+  const user = await userRepository().findOneByEmail(email)
 
   if (!user) {
     return res.status(401).json({ error: 'There is no user' })
   }
 
-  if (user) {
-    //comparing password with the hashed password
-    compare(password, user.password, function (err, result) {
-      if (!err && result) {
-        const payload = {
-          sub: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          avatar: user.avatar
-        }
+  //comparing password with the hashed password
+  compare(password, user.password, function (err, result) {
+    if (err || !result) {
+      res.status(401).json({ error: 'Wrong password or User' })
+      return
+    }
 
-        res.status(200).json(payload)
-      } else {
-        res.status(401).json({ error: 'Wrong password or User' })
-      }
+    res.status(200).json({
+      sub: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      avatar: user.avatar
     })
-  }
+  })
 }

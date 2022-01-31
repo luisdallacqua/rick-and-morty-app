@@ -27,10 +27,16 @@ export async function connectToDatabase() {
 
   const client = await MongoClient.connect(uri, options)
 
-  const db = await client.db(dbName)
+  const db = client.db(dbName)
 
   cachedClient = client
   cachedDb = db
 
   return { client, db }
+}
+
+export async function getConnection(): Promise<Db> {
+  const { db } = await connectToDatabase()
+
+  return db
 }
