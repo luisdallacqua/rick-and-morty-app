@@ -28,6 +28,7 @@
     "@mui/icons-material": "^5.1.0",
     "@mui/material": "^5.1.0",
     "@mui/styles": "^5.1.0",
+    "@shelf/jest-mongodb": "^2.2.0",
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "jsonwebtoken": "^8.5.1",

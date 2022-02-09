@@ -1,40 +1,43 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const mockFindOneByEmail = jest.fn()
+
+var mockFindOneByEmail = jest.fn()
+
+jest.mock('mongodb')
 
 jest.mock('../UserRepository', () => {
   const actualModule = jest.requireActual('../UserRepository')
 
   return {
     ...actualModule,
-    findOneByEmail: mockFindOneByEmail
+    userRepository: () => {
+      // @ts-ignore
+      return new actualModule.UserRepository({
+        // @ts-ignore
+        collection: (arg: string) => ({ findOne: mockFindOneByEmail })
+      })
+    }
   }
 })
 
-jest.mock('mongodb')
-jest.mock('../../../utils/mongodb')
-
-import { UserRepository } from '../UserRepository'
-import { Db } from 'mongodb'
-import { TextEncoder } from 'util'
+import { userRepository } from '../UserRepository'
 
 const defaultErrorMessage = 'There is no user'
 
 describe('UserRepository', () => {
-  beforeAll(() => {
-    global.TextEncoder = TextEncoder
+  afterAll(() => {
     jest.clearAllMocks()
   })
 
-  it("doesn't find a user", () => {
+  it("doesn't find a user", async () => {
     mockFindOneByEmail.mockResolvedValueOnce({ error: defaultErrorMessage })
 
-    const classMock = new UserRepository(Promise.resolve({} as Db))
-
-    classMock.findOneByEmail('foo@email.com')
+    const classMock = userRepository()
+    
+    await classMock.findOneByEmail('foo@email.com')
 
     expect(mockFindOneByEmail).toHaveBeenCalledTimes(1)
-    expect(mockFindOneByEmail.mock.results[0]).toEqual({
+    expect(await classMock.findOneByEmail('foo@email.com')).resolves.toEqual({
       error: defaultErrorMessage
     })
   })
