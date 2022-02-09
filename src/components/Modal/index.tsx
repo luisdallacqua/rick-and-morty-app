@@ -25,7 +25,6 @@ const BasicModal: FC<ModalProps> = ({
   textButton,
   textModalHeader,
   children,
-  isDeleteOption = false,
   disabled,
   color,
   variant = 'outlined'
@@ -35,7 +34,7 @@ const BasicModal: FC<ModalProps> = ({
   const handleClose = () => setOpen(false)
 
   return (
-    <div>
+    <>
       <Button
         disabled={disabled}
         onClick={handleOpen}
@@ -64,18 +63,20 @@ const BasicModal: FC<ModalProps> = ({
             overflowY: 'scroll'
           }}
         >
-          {!isDeleteOption && (
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Favorite characters of {textModalHeader}:
-            </Typography>
-          )}
-
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            align="center"
+          >
+            {textModalHeader}
+          </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {children}
           </Typography>
         </Box>
       </Modal>
-    </div>
+    </>
   )
 }
 

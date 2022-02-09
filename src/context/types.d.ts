@@ -14,6 +14,7 @@ export type UserProps = {
 
 export interface IContext extends UserProps {
   setUser: Dispatch<SetStateAction<UserProps>>
+  isAdmin: boolean
 }
 
 export interface IAuthProvider {

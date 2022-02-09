@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import { api } from '../../services/createApi'
-import { IUser } from '../RegisterForm/types'
 import imageDefault from '../../../public/grayUserImage.svg'
 import { headerColumns, rowsFormatter } from './userFormatData'
 import { Alert, CircularProgress } from '@mui/material'
